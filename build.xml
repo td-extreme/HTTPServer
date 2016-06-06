@@ -1,7 +1,7 @@
 <project name="HTTPServer" basedir="." default="main">
 
   <property name="src.dir"     value="src"/>
-  <property name="test.dir"    value="tests"/>
+  <property name="test.dir"    value="${src.dir}/test/java"/>
   <property name="build.dir"   value="build"/>
   <property name="classes.dir" value="${build.dir}/classes"/>
   <property name="jar.dir"     value="${build.dir}/jar"/>
@@ -53,11 +53,9 @@
         <path refid="application"/>
       </classpath>
 
-      <classpath location="lib/junit-4.11.jar" />
-      <classpath location="lib/hamcrest-core-1.3.jar" />
       <formatter type="plain" usefile="false" />
       <batchtest fork="yes">
-        <fileset dir="${src.dir}/test/java">
+        <fileset dir="${test.dir}">
           <include name="*Test.java"/>
         </fileset>
       </batchtest>
