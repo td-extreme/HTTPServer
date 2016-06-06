@@ -46,7 +46,7 @@
     </java>
   </target>
 
-  <target name="junit" depends="jar">
+  <target name="test" depends="jar">
     <junit>
       <classpath>
         <path refid="classpath"/>
