@@ -1,4 +1,6 @@
-public class RequestVerifier {
+package com.td.HTTPServer;
+
+public class RequestVerifier implements HTTPVerifierInterface {
 
   public boolean isValidHTTP(String request) {
     String request_array[] = request.split(" ");

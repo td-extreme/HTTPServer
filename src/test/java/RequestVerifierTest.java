@@ -1,3 +1,5 @@
+import com.td.HTTPServer.*;
+
 public class RequestVerifierTest extends junit.framework.TestCase {
 
   RequestVerifier  checker;
