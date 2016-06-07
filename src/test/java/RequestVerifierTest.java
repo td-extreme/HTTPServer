@@ -19,6 +19,11 @@ public class RequestVerifierTest extends junit.framework.TestCase {
     assertFalse(checker.isValidHTTP("GET \\ HTTP/1.1"));
   }
 
+  // Test that a route can appear after the /
+  public void testRoute() {
+    assertTrue(checker.isValidHTTP("GET /route HTTP/1.1"));
+  }
+
   // Testing for each valid request type
   public void testForGetRequest() {
     assertTrue(checker.isValidHTTP("GET / HTTP/1.1"));
