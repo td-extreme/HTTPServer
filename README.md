@@ -4,7 +4,14 @@ An HTTP Server written in Java.
 [![Build Status](https://travis-ci.org/td-extreme/HTTPServer.svg?branch=master)](https://travis-ci.org/td-extreme/HTTPServer)
 ----
 
-Terminal command to build and run  : `ant`
+If you have gradle installed on your machine:
 
-Terminal command to build and test : `ant test`
+To run tests :  gradle test
 
+To run the program: gradle run
+
+If you do not already have gradle installed on your machine:
+
+To run tests: gradlew test
+
+To run the program: gradlew run
