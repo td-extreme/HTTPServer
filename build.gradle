@@ -1,0 +1,25 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'com.td.HTTPServer.HTTPServer'
+
+repositories {
+  mavenCentral()
+}
+
+jar {
+  baseName = 'HTTPServer'
+  version = '0.1.1'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+  compile "joda-time:joda-time:2.2"
+  testCompile "junit:junit:4.11"
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.3'
+}
