@@ -1,23 +1,25 @@
 import com.td.HTTPServer.*;
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
+
+class MockVerifier implements HTTPVerifierInterface {
+  public boolean isValidHTTP(String request) {
+    return request.equals("valid");
+  }
+}
 
 public class RequestHandlerTest extends junit.framework.TestCase {
     RequestHandler handler;
-    HTTPVerifierInterface verifier;
+    MockVerifier verifier;
 
   protected void setUp() {
-    verifier = mock(HTTPVerifierInterface.class);
+    verifier = new MockVerifier();
     handler = new RequestHandler(verifier);
   }
 
   public void testValidRequest() {
-    when(verifier.isValidHTTP(anyString())).thenReturn(true);
-    assertEquals("200", handler.processRequest("GET / HTTP/1.1"));
+    assertEquals("200", handler.processRequest("valid"));
   }
 
   public void testInvalidRequest() {
-    when(verifier.isValidHTTP(anyString())).thenReturn(false);
-    assertEquals("400", handler.processRequest("jkljd"));
+    assertEquals("400", handler.processRequest("invalid"));
   }
 }
