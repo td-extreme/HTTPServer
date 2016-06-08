@@ -3,7 +3,7 @@ package com.td.HTTPServer;
 public class RequestVerifier implements HTTPVerifierInterface {
 
   public boolean isValidHTTP(String request) {
-    String request_array[] = request.split(" ");
+    String request_array[] = request.split("\\s+");
     return isFirstParamaterValid(request_array[0]) &&
            isSecondParamaterValid(request_array[1]) &&
            isThirdParameterValid(request_array[2]);

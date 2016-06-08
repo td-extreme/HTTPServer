@@ -26,6 +26,11 @@ public class RequestVerifierTest extends junit.framework.TestCase {
     assertTrue(checker.isValidHTTP("GET /route HTTP/1.1"));
   }
 
+  public void testRoute2() {
+    assertTrue(checker.isValidHTTP("GET /favicon.ico HTTP/1.1\nSome more stuff"));
+  }
+
+
   // Testing for each valid request type
   public void testForGetRequest() {
     assertTrue(checker.isValidHTTP("GET / HTTP/1.1"));
