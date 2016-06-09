@@ -1,13 +1,12 @@
-package com.td.HTTPServer;
+package com.td.HttpServer;
 import java.io.IOException;
 
-public class HTTPServerRunner {
+public class HttpServerRunner {
 
-  RequestVerifier verifier;
   RequestHandler handler;
-  ServerPort server;
+  ClientConnection server;
 
-  public HTTPServerRunner(ServerPort serverPort, RequestHandler requestHandler) {
+  public HttpServerRunner(ClientConnection serverPort, RequestHandler requestHandler) {
     server = serverPort;
     handler = requestHandler;
   }

@@ -1,14 +1,14 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = 'com.td.HTTPServer.HTTPServer'
+mainClassName = 'com.td.Http.HttpServer'
 
 repositories {
   mavenCentral()
 }
 
 jar {
-  baseName = 'HTTPServer'
+  baseName = 'HttpServer'
   version = '0.1.1'
 }
 

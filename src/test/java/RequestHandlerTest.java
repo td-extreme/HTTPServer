@@ -1,7 +1,7 @@
-import com.td.HTTPServer.*;
+import com.td.HttpServer.*;
 
-class MockVerifier implements HTTPVerifierInterface {
-  public boolean isValidHTTP(String request) {
+class MockVerifier implements Validator {
+  public boolean isValid(String request) {
     return request.equals("valid");
   }
 }

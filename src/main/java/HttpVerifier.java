@@ -1,8 +1,8 @@
-package com.td.HTTPServer;
+package com.td.HttpServer;
 
-public class RequestVerifier implements HTTPVerifierInterface {
+public class HttpVerifier implements Validator {
 
-  public boolean isValidHTTP(String request) {
+  public boolean isValid(String request) {
     String request_array[] = request.split("\\s+");
     return isFirstParamaterValid(request_array[0]) &&
            isSecondParamaterValid(request_array[1]) &&

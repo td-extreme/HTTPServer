@@ -1,15 +1,15 @@
-package com.td.HTTPServer;
+package com.td.HttpServer;
 
 public class RequestHandler {
 
-  HTTPVerifierInterface httpVerifier;
+  Validator httpVerifier;
 
-  public RequestHandler(HTTPVerifierInterface verifier) {
+  public RequestHandler(Validator verifier) {
     httpVerifier = verifier;
   }
 
   public String processRequest(String request) {
-    if (httpVerifier.isValidHTTP(request) == true ) {
+    if (httpVerifier.isValid(request) == true ) {
       return "200";
     } else {
       return "400";

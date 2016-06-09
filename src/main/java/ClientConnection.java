@@ -1,4 +1,4 @@
-package com.td.HTTPServer;
+package com.td.HttpServer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,12 +7,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 
-public class ServerPort {
+public class ClientConnection {
 
   ServerSocket server;
   Socket clientSocket;
 
-  public ServerPort(int portNumber) throws IOException {
+  public ClientConnection(int portNumber) throws IOException {
     server = new ServerSocket(portNumber);
   }
 
