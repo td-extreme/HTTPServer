@@ -16,7 +16,7 @@ public class ClientConnection {
     server = new ServerSocket(portNumber);
   }
 
-  public String getRequest() throws IOException {
+  public String receiveRequest() throws IOException {
     StringBuilder request = new StringBuilder();
     clientSocket = server.accept();
     InputStreamReader isr = new InputStreamReader(clientSocket.getInputStream());

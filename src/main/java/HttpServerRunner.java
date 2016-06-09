@@ -15,7 +15,7 @@ public class HttpServerRunner {
     String request;
     String response;
     while(true) {
-      request = server.getRequest();
+      request = server.receiveRequest();
       System.out.print(request);
       response = handler.processRequest(request);
       server.sendResponse(response);
