@@ -4,67 +4,155 @@ public class HttpVerifierTest extends junit.framework.TestCase {
 
   HttpVerifier checker;
 
+  class InvalidMethodRequest implements HttpProtocal {
+    public String method() { return "XXXXX"; }
+    public String path() { return "/"; }
+    public String version() { return "HTTP/1.1"; }
+    public String requestLine() { return " "; }
+  }
+
+  class InvalidPathRequest implements HttpProtocal {
+    public String method() { return "GET"; }
+    public String path() { return "^#"; }
+    public String version() { return "HTTP/1.1"; }
+    public String requestLine() { return " "; }
+  }
+
+  class InvalidVersionRequest implements HttpProtocal {
+    public String method() { return "GET"; }
+    public String path() { return "/"; }
+    public String version() { return "FTP/1.1"; }
+    public String requestLine() { return " "; }
+  }
+
+  class ValidGetRequest implements HttpProtocal {
+    public String method() { return "GET"; }
+    public String path() { return "/"; }
+    public String version() { return "HTTP/1.1"; }
+    public String requestLine() { return " "; }
+  }
+
+  class ValidHeadRequest implements HttpProtocal {
+    public String method() { return "HEAD"; }
+    public String path() { return "/"; }
+    public String version() { return "HTTP/1.1"; }
+    public String requestLine() { return " "; }
+  }
+
+  class ValidPostRequest implements HttpProtocal {
+    public String method() { return "POST"; }
+    public String path() { return "/"; }
+    public String version() { return "HTTP/1.1"; }
+    public String requestLine() { return " "; }
+  }
+
+  class ValidPutRequest implements HttpProtocal {
+    public String method() { return "PUT"; }
+    public String path() { return "/"; }
+    public String version() { return "HTTP/1.1"; }
+    public String requestLine() { return " "; }
+  }
+
+  class ValidDeleteRequest implements HttpProtocal {
+    public String method() { return "DELETE"; }
+    public String path() { return "/"; }
+    public String version() { return "HTTP/1.1"; }
+    public String requestLine() { return " "; }
+  }
+
+  class ValidTraceRequest implements HttpProtocal {
+    public String method() { return "TRACE"; }
+    public String path() { return "/"; }
+    public String version() { return "HTTP/1.1"; }
+    public String requestLine() { return " "; }
+  }
+
+  class ValidOptionsRequest implements HttpProtocal {
+    public String method() { return "OPTIONS"; }
+    public String path() { return "/"; }
+    public String version() { return "HTTP/1.1"; }
+    public String requestLine() { return " "; }
+  }
+
+  class ValidConnectRequest implements HttpProtocal {
+    public String method() { return "CONNECT"; }
+    public String path() { return "/"; }
+    public String version() { return "HTTP/1.1"; }
+    public String requestLine() { return " "; }
+  }
+
+  class ValidPatchRequest implements HttpProtocal {
+    public String method() { return "PATCH"; }
+    public String path() { return "/"; }
+    public String version() { return "HTTP/1.1"; }
+    public String requestLine() { return " "; }
+  }
+
   protected void setUp() {
     checker = new HttpVerifier();
   }
 
   // Tesing invalid requests
   public void testInvalidRequestType() {
-    assertFalse(checker.isValid("DANCE / HTTP/1.1"));
+    InvalidMethodRequest request = new InvalidMethodRequest();
+    assertFalse(checker.isValid(request));
   }
 
-  public void testInvalidHTTPType() {
-    assertFalse(checker.isValid("GET / http/1.1"));
+  public void testInvalidVersion() {
+    InvalidVersionRequest request = new InvalidVersionRequest();
+    assertFalse(checker.isValid(request));
   }
 
   public void testInvalidPath() {
-    assertFalse(checker.isValid("GET \\ HTTP/1.1"));
+    InvalidPathRequest request = new InvalidPathRequest();
+    assertFalse(checker.isValid(request));
   }
-
-  // Test that a route can appear after the /
-  public void testRoute() {
-    assertTrue(checker.isValid("GET /route HTTP/1.1"));
-  }
-
-  public void testRoute2() {
-    assertTrue(checker.isValid("GET /favicon.ico HTTP/1.1\nSome more stuff"));
-  }
-
 
   // Testing for each valid request type
   public void testForGetRequest() {
-    assertTrue(checker.isValid("GET / HTTP/1.1"));
+    ValidGetRequest request = new ValidGetRequest();
+    assertTrue(checker.isValid(request));
   }
 
   public void testForHeadRequest() {
-    assertTrue(checker.isValid("HEAD / HTTP/1.1"));
+    ValidHeadRequest request = new ValidHeadRequest();
+    assertTrue(checker.isValid(request));
   }
 
   public void testForPostRequest() {
-    assertTrue(checker.isValid("POST / HTTP/1.1"));
+    ValidPostRequest request = new ValidPostRequest();
+    assertTrue(checker.isValid(request));
   }
 
   public void testForPutRequest() {
-    assertTrue(checker.isValid("PUT / HTTP/1.1"));
+    ValidPutRequest request = new ValidPutRequest();
+    assertTrue(checker.isValid(request));
   }
 
   public void testForDeleteRequest() {
-    assertTrue(checker.isValid("DELETE / HTTP/1.1"));
+    ValidDeleteRequest request = new ValidDeleteRequest();
+    assertTrue(checker.isValid(request));
   }
 
   public void testForTraceRequest() {
-    assertTrue(checker.isValid("TRACE / HTTP/1.1"));
+    ValidTraceRequest request = new ValidTraceRequest();
+    assertTrue(checker.isValid(request));
   }
 
   public void testForOptionsRequest() {
-    assertTrue(checker.isValid("OPTIONS / HTTP/1.1"));
+    ValidOptionsRequest request = new ValidOptionsRequest();
+    assertTrue(checker.isValid(request));
+
   }
 
   public void testForConnectRequest() {
-    assertTrue(checker.isValid("CONNECT / HTTP/1.1"));
+    ValidConnectRequest request = new ValidConnectRequest();
+    assertTrue(checker.isValid(request));
+
   }
 
   public void testForPatchRequest() {
-    assertTrue(checker.isValid("PATCH / HTTP/1.1"));
+    ValidPatchRequest request = new ValidPatchRequest();
+    assertTrue(checker.isValid(request));
   }
 }

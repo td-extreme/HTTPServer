@@ -4,21 +4,23 @@ import java.io.IOException;
 public class HttpServerRunner {
 
   RequestHandler handler;
-  ClientConnection server;
+  ClientConnection clientConnection;
 
-  public HttpServerRunner(ClientConnection serverPort, RequestHandler requestHandler) {
-    server = serverPort;
+  public HttpServerRunner(ClientConnection connection, RequestHandler requestHandler) {
+    clientConnection = connection;
     handler = requestHandler;
   }
 
   public void runServer() throws IOException {
     String request;
     String response;
+    HttpRequest httpRequest;
     while(true) {
-      request = server.receiveRequest();
+      request = clientConnection.receiveRequest();
+      httpRequest = new HttpRequest(request);
       System.out.print(request);
-      response = handler.processRequest(request);
-      server.sendResponse(response);
+      response = handler.processRequest(httpRequest);
+      clientConnection.sendResponse(response);
     }
   }
 }

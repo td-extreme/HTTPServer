@@ -1,6 +1,6 @@
 package com.td.HttpServer;
 
-public class HttpRequest {
+public class HttpRequest implements HttpProtocal {
 
   private String method;
   private String path;
