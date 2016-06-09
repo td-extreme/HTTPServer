@@ -4,155 +4,86 @@ public class HttpVerifierTest extends junit.framework.TestCase {
 
   HttpVerifier checker;
 
-  class InvalidMethodRequest implements HttpProtocal {
-    public String method() { return "XXXXX"; }
-    public String path() { return "/"; }
-    public String version() { return "HTTP/1.1"; }
+  class MockHttpRequest implements HttpProtocal {
+    private String method;
+    private String path;
+    private String version;
+
+    public MockHttpRequest(String method_, String path_, String version_) {
+      method = method_;
+      path = path_;
+      version = version_;
+    }
+
+    public String method() { return method; }
+    public String path() { return path; }
+    public String version() { return version; }
     public String requestLine() { return " "; }
   }
 
-  class InvalidPathRequest implements HttpProtocal {
-    public String method() { return "GET"; }
-    public String path() { return "^#"; }
-    public String version() { return "HTTP/1.1"; }
-    public String requestLine() { return " "; }
-  }
 
-  class InvalidVersionRequest implements HttpProtocal {
-    public String method() { return "GET"; }
-    public String path() { return "/"; }
-    public String version() { return "FTP/1.1"; }
-    public String requestLine() { return " "; }
-  }
-
-  class ValidGetRequest implements HttpProtocal {
-    public String method() { return "GET"; }
-    public String path() { return "/"; }
-    public String version() { return "HTTP/1.1"; }
-    public String requestLine() { return " "; }
-  }
-
-  class ValidHeadRequest implements HttpProtocal {
-    public String method() { return "HEAD"; }
-    public String path() { return "/"; }
-    public String version() { return "HTTP/1.1"; }
-    public String requestLine() { return " "; }
-  }
-
-  class ValidPostRequest implements HttpProtocal {
-    public String method() { return "POST"; }
-    public String path() { return "/"; }
-    public String version() { return "HTTP/1.1"; }
-    public String requestLine() { return " "; }
-  }
-
-  class ValidPutRequest implements HttpProtocal {
-    public String method() { return "PUT"; }
-    public String path() { return "/"; }
-    public String version() { return "HTTP/1.1"; }
-    public String requestLine() { return " "; }
-  }
-
-  class ValidDeleteRequest implements HttpProtocal {
-    public String method() { return "DELETE"; }
-    public String path() { return "/"; }
-    public String version() { return "HTTP/1.1"; }
-    public String requestLine() { return " "; }
-  }
-
-  class ValidTraceRequest implements HttpProtocal {
-    public String method() { return "TRACE"; }
-    public String path() { return "/"; }
-    public String version() { return "HTTP/1.1"; }
-    public String requestLine() { return " "; }
-  }
-
-  class ValidOptionsRequest implements HttpProtocal {
-    public String method() { return "OPTIONS"; }
-    public String path() { return "/"; }
-    public String version() { return "HTTP/1.1"; }
-    public String requestLine() { return " "; }
-  }
-
-  class ValidConnectRequest implements HttpProtocal {
-    public String method() { return "CONNECT"; }
-    public String path() { return "/"; }
-    public String version() { return "HTTP/1.1"; }
-    public String requestLine() { return " "; }
-  }
-
-  class ValidPatchRequest implements HttpProtocal {
-    public String method() { return "PATCH"; }
-    public String path() { return "/"; }
-    public String version() { return "HTTP/1.1"; }
-    public String requestLine() { return " "; }
-  }
-
-  protected void setUp() {
+protected void setUp() {
     checker = new HttpVerifier();
   }
 
   // Tesing invalid requests
   public void testInvalidRequestType() {
-    InvalidMethodRequest request = new InvalidMethodRequest();
+    MockHttpRequest request = new MockHttpRequest("NOT", "/", "HTTP/1.1");
     assertFalse(checker.isValid(request));
   }
 
   public void testInvalidVersion() {
-    InvalidVersionRequest request = new InvalidVersionRequest();
+    MockHttpRequest request = new MockHttpRequest("GET", "/", "FTP/1.1");
     assertFalse(checker.isValid(request));
   }
-
   public void testInvalidPath() {
-    InvalidPathRequest request = new InvalidPathRequest();
+    MockHttpRequest request = new MockHttpRequest("GET", "G", "HTTP/1.1");
     assertFalse(checker.isValid(request));
   }
 
   // Testing for each valid request type
   public void testForGetRequest() {
-    ValidGetRequest request = new ValidGetRequest();
+    MockHttpRequest request = new MockHttpRequest("GET", "/", "HTTP/1.1");
     assertTrue(checker.isValid(request));
   }
 
   public void testForHeadRequest() {
-    ValidHeadRequest request = new ValidHeadRequest();
+    MockHttpRequest request = new MockHttpRequest("HEAD", "/", "HTTP/1.1");
     assertTrue(checker.isValid(request));
   }
 
   public void testForPostRequest() {
-    ValidPostRequest request = new ValidPostRequest();
+    MockHttpRequest request = new MockHttpRequest("POST", "/", "HTTP/1.1");
     assertTrue(checker.isValid(request));
   }
 
   public void testForPutRequest() {
-    ValidPutRequest request = new ValidPutRequest();
+    MockHttpRequest request = new MockHttpRequest("PUT", "/", "HTTP/1.1");
     assertTrue(checker.isValid(request));
   }
 
   public void testForDeleteRequest() {
-    ValidDeleteRequest request = new ValidDeleteRequest();
+    MockHttpRequest request = new MockHttpRequest("DELETE", "/", "HTTP/1.1");
     assertTrue(checker.isValid(request));
   }
 
   public void testForTraceRequest() {
-    ValidTraceRequest request = new ValidTraceRequest();
+    MockHttpRequest request = new MockHttpRequest("TRACE", "/", "HTTP/1.1");
     assertTrue(checker.isValid(request));
   }
 
   public void testForOptionsRequest() {
-    ValidOptionsRequest request = new ValidOptionsRequest();
+    MockHttpRequest request = new MockHttpRequest("OPTIONS", "/", "HTTP/1.1");
     assertTrue(checker.isValid(request));
-
   }
 
   public void testForConnectRequest() {
-    ValidConnectRequest request = new ValidConnectRequest();
+    MockHttpRequest request = new MockHttpRequest("CONNECT", "/", "HTTP/1.1");
     assertTrue(checker.isValid(request));
-
   }
 
   public void testForPatchRequest() {
-    ValidPatchRequest request = new ValidPatchRequest();
+    MockHttpRequest request = new MockHttpRequest("PATCH", "/", "HTTP/1.1");
     assertTrue(checker.isValid(request));
   }
 }
