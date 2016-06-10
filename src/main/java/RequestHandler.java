@@ -8,7 +8,7 @@ public class RequestHandler {
     httpVerifier = verifier;
   }
 
-  public String processRequest(String request) {
+  public String processRequest(HttpProtocal request) {
     if (httpVerifier.isValid(request) == true ) {
       return "200";
     } else {

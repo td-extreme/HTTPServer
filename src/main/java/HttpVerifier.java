@@ -2,66 +2,66 @@ package com.td.HttpServer;
 
 public class HttpVerifier implements Validator {
 
-  public boolean isValid(String request) {
-    String request_array[] = request.split("\\s+");
-    return isFirstParamaterValid(request_array[0]) &&
-           isSecondParamaterValid(request_array[1]) &&
-           isThirdParameterValid(request_array[2]);
+  public boolean isValid(HttpProtocal request) {
+
+    return isMethodValid(request.method()) &&
+           isPathValid(request.path()) &&
+           isVersionValid(request.version());
   }
 
-  private boolean isFirstParamaterValid(String first) {
-    return isRequestGet(first) ||
-           isRequestHead(first) ||
-           isRequestPost(first) ||
-           isRequestPut(first) ||
-           isRequestDelete(first) ||
-           isRequestTrace(first) ||
-           isRequestOptions(first) ||
-           isRequestConnect(first) ||
-           isRequestPatch(first);
+  private boolean isMethodValid(String method) {
+    return isRequestGet(method) ||
+           isRequestHead(method) ||
+           isRequestPost(method) ||
+           isRequestPut(method) ||
+           isRequestDelete(method) ||
+           isRequestTrace(method) ||
+           isRequestOptions(method) ||
+           isRequestConnect(method) ||
+           isRequestPatch(method);
   }
 
-  private boolean isSecondParamaterValid(String second) {
-    return second.substring(0, 1).equals("/");
+  private boolean isPathValid(String path) {
+    return path.substring(0, 1).equals("/");
   }
 
-  private boolean isThirdParameterValid(String third) {
-    return third.equals("HTTP/1.1");
+  private boolean isVersionValid(String version) {
+    return version.equals("HTTP/1.1");
   }
 
-  private boolean isRequestGet(String request) {
-    return request.equals("GET");
+  private boolean isRequestGet(String method) {
+    return method.equals("GET");
   }
 
-  private boolean isRequestHead(String request) {
-    return request.equals("HEAD");
+  private boolean isRequestHead(String method) {
+    return method.equals("HEAD");
   }
 
-  private boolean isRequestPost(String request) {
-    return request.equals("POST");
+  private boolean isRequestPost(String method) {
+    return method.equals("POST");
   }
 
-  private boolean isRequestPut(String request) {
-    return request.equals("PUT");
+  private boolean isRequestPut(String method) {
+    return method.equals("PUT");
   }
 
-  private boolean isRequestDelete(String request) {
-    return request.equals("DELETE");
+  private boolean isRequestDelete(String method) {
+    return method.equals("DELETE");
   }
 
-  private boolean isRequestTrace(String request) {
-    return request.equals("TRACE");
+  private boolean isRequestTrace(String method) {
+    return method.equals("TRACE");
   }
 
-  private boolean isRequestOptions(String request) {
-    return request.equals("OPTIONS");
+  private boolean isRequestOptions(String method) {
+    return method.equals("OPTIONS");
   }
 
-  private boolean isRequestConnect(String request) {
-    return request.equals("CONNECT");
+  private boolean isRequestConnect(String method) {
+    return method.equals("CONNECT");
   }
 
-  private boolean isRequestPatch(String request) {
-    return request.equals("PATCH");
+  private boolean isRequestPatch(String method) {
+    return method.equals("PATCH");
   }
 }

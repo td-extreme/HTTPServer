@@ -2,6 +2,6 @@ package com.td.HttpServer;
 
 public interface Validator {
 
-  public boolean isValid(String request);
+  public boolean isValid(HttpProtocal request);
 
 }

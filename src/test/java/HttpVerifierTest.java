@@ -4,67 +4,86 @@ public class HttpVerifierTest extends junit.framework.TestCase {
 
   HttpVerifier checker;
 
-  protected void setUp() {
+  class MockHttpRequest implements HttpProtocal {
+    private String method;
+    private String path;
+    private String version;
+
+    public MockHttpRequest(String method_, String path_, String version_) {
+      method = method_;
+      path = path_;
+      version = version_;
+    }
+
+    public String method() { return method; }
+    public String path() { return path; }
+    public String version() { return version; }
+    public String requestLine() { return " "; }
+  }
+
+
+protected void setUp() {
     checker = new HttpVerifier();
   }
 
   // Tesing invalid requests
   public void testInvalidRequestType() {
-    assertFalse(checker.isValid("DANCE / HTTP/1.1"));
+    MockHttpRequest request = new MockHttpRequest("NOT", "/", "HTTP/1.1");
+    assertFalse(checker.isValid(request));
   }
 
-  public void testInvalidHTTPType() {
-    assertFalse(checker.isValid("GET / http/1.1"));
+  public void testInvalidVersion() {
+    MockHttpRequest request = new MockHttpRequest("GET", "/", "FTP/1.1");
+    assertFalse(checker.isValid(request));
   }
-
   public void testInvalidPath() {
-    assertFalse(checker.isValid("GET \\ HTTP/1.1"));
+    MockHttpRequest request = new MockHttpRequest("GET", "G", "HTTP/1.1");
+    assertFalse(checker.isValid(request));
   }
-
-  // Test that a route can appear after the /
-  public void testRoute() {
-    assertTrue(checker.isValid("GET /route HTTP/1.1"));
-  }
-
-  public void testRoute2() {
-    assertTrue(checker.isValid("GET /favicon.ico HTTP/1.1\nSome more stuff"));
-  }
-
 
   // Testing for each valid request type
   public void testForGetRequest() {
-    assertTrue(checker.isValid("GET / HTTP/1.1"));
+    MockHttpRequest request = new MockHttpRequest("GET", "/", "HTTP/1.1");
+    assertTrue(checker.isValid(request));
   }
 
   public void testForHeadRequest() {
-    assertTrue(checker.isValid("HEAD / HTTP/1.1"));
+    MockHttpRequest request = new MockHttpRequest("HEAD", "/", "HTTP/1.1");
+    assertTrue(checker.isValid(request));
   }
 
   public void testForPostRequest() {
-    assertTrue(checker.isValid("POST / HTTP/1.1"));
+    MockHttpRequest request = new MockHttpRequest("POST", "/", "HTTP/1.1");
+    assertTrue(checker.isValid(request));
   }
 
   public void testForPutRequest() {
-    assertTrue(checker.isValid("PUT / HTTP/1.1"));
+    MockHttpRequest request = new MockHttpRequest("PUT", "/", "HTTP/1.1");
+    assertTrue(checker.isValid(request));
   }
 
   public void testForDeleteRequest() {
-    assertTrue(checker.isValid("DELETE / HTTP/1.1"));
+    MockHttpRequest request = new MockHttpRequest("DELETE", "/", "HTTP/1.1");
+    assertTrue(checker.isValid(request));
   }
 
   public void testForTraceRequest() {
-    assertTrue(checker.isValid("TRACE / HTTP/1.1"));
+    MockHttpRequest request = new MockHttpRequest("TRACE", "/", "HTTP/1.1");
+    assertTrue(checker.isValid(request));
   }
 
   public void testForOptionsRequest() {
-    assertTrue(checker.isValid("OPTIONS / HTTP/1.1"));
+    MockHttpRequest request = new MockHttpRequest("OPTIONS", "/", "HTTP/1.1");
+    assertTrue(checker.isValid(request));
   }
 
   public void testForConnectRequest() {
-    assertTrue(checker.isValid("CONNECT / HTTP/1.1"));
+    MockHttpRequest request = new MockHttpRequest("CONNECT", "/", "HTTP/1.1");
+    assertTrue(checker.isValid(request));
   }
 
   public void testForPatchRequest() {
-    assertTrue(checker.isValid("PATCH / HTTP/1.1"));
+    MockHttpRequest request = new MockHttpRequest("PATCH", "/", "HTTP/1.1");
+    assertTrue(checker.isValid(request));
   }
 }
