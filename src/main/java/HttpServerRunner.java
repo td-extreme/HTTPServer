@@ -12,14 +12,12 @@ public class HttpServerRunner {
   }
 
   public void runServer() throws IOException {
-    String request;
+    String[] request;
     String response;
     HttpRequest httpRequest;
     while(true) {
       request = clientConnection.receiveRequest();
-      httpRequest = new HttpRequest(request);
-      System.out.print(request);
-      response = handler.processRequest(httpRequest);
+      response = handler.processRequest(request);
       clientConnection.sendResponse(response);
     }
   }

@@ -1,12 +1,12 @@
 package com.td.HttpServer;
 
-public class HttpVerifier implements Validator {
+public class HttpVerifier implements IValidator {
 
-  public boolean isValid(HttpProtocal request) {
+  public boolean isValid(String[] request) {
 
-    return isMethodValid(request.method()) &&
-           isPathValid(request.path()) &&
-           isVersionValid(request.version());
+    return isMethodValid(request[0]) &&
+           isPathValid(request[1]) &&
+           isVersionValid(request[2]);
   }
 
   private boolean isMethodValid(String method) {

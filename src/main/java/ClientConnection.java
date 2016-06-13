@@ -16,7 +16,7 @@ public class ClientConnection {
     server = new ServerSocket(portNumber);
   }
 
-  public String receiveRequest() throws IOException {
+  public String[] receiveRequest() throws IOException {
     StringBuilder request = new StringBuilder();
     clientSocket = server.accept();
     InputStreamReader isr = new InputStreamReader(clientSocket.getInputStream());
@@ -27,7 +27,7 @@ public class ClientConnection {
       request.append("\n");
       line = reader.readLine();
     }
-    return request.toString();
+    return request.toString().split("\\s+");
   }
 
   public void sendResponse(String response) throws IOException {
