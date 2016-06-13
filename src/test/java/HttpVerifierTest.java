@@ -23,6 +23,16 @@ public class HttpVerifierTest extends junit.framework.TestCase {
     assertFalse(checker.isValid(request));
   }
 
+  public void testOnlyOneItemInRequestArray() {
+    String[] request = { "GET" };
+    assertFalse(checker.isValid(request));
+  }
+
+  public void testEmptyRequestArray() {
+    String[] request = { };
+    assertFalse(checker.isValid(request));
+  }
+
   // Testing for each valid request type
   public void testForGetRequest() {
     String[] request = { "GET", "/", "HTTP/1.1" };

@@ -27,11 +27,13 @@ public class RequestHandlerTest extends junit.framework.TestCase {
 
   public void testValidRequest() {
     handler = new RequestHandler(valid);
-    assertEquals("200", handler.processRequest(request));
+    String response = handler.processRequest(request);
+    assert(response.contains("200"));
   }
 
   public void testInvalidRequest() {
     handler = new RequestHandler(invalid);
-    assertEquals("400", handler.processRequest(request));
+    String response = handler.processRequest(request);
+    assert(response.contains("400"));
   }
 }

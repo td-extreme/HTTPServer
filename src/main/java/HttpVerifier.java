@@ -3,10 +3,14 @@ package com.td.HttpServer;
 public class HttpVerifier implements IValidator {
 
   public boolean isValid(String[] request) {
-
-    return isMethodValid(request[0]) &&
-           isPathValid(request[1]) &&
-           isVersionValid(request[2]);
+    try {
+      return isMethodValid(request[0]) &&
+        isPathValid(request[1]) &&
+        isVersionValid(request[2]);
+    }
+    catch (IndexOutOfBoundsException e) {
+      return false;
+    }
   }
 
   private boolean isMethodValid(String method) {
