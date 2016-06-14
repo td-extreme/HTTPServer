@@ -12,7 +12,7 @@ public class RequestHandler {
     if (httpVerifier.isValid(request) == true ) {
       return "HTTP/1.1 200 OK\r\n\r\nValid Http Request";
     } else {
-      return "HTTP/1.0 400 Bad Request";
+      return "HTTP/1.1 400 Bad Request";
     }
   }
 }
