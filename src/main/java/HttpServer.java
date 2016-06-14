@@ -8,7 +8,8 @@ public class HttpServer{
     HttpVerifier verifier = new HttpVerifier();
     RequestHandler handler = new RequestHandler(verifier);
     ClientConnection server = new ClientConnection(8080);
-    HttpServerRunner runner = new HttpServerRunner(server, handler);
+    ParseString parser = new ParseString();
+    HttpServerRunner runner = new HttpServerRunner(server, handler, parser);
     runner.runServer();
   }
 }
