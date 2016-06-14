@@ -2,7 +2,7 @@ import com.td.HttpServer.*;
 
 public class ParseStringTest extends junit.framework.TestCase {
 
-  String testString = "This is a test String";
+  String testString = "This\nis\ra\ttest String";
   String results[] = null;
   ParseString parser;
 
