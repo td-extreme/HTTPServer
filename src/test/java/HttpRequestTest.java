@@ -5,7 +5,8 @@ public class HttpRequestTest extends junit.framework.TestCase {
   HttpRequest request;
 
   protected void setUp() {
-    request = new HttpRequest("GET / HTTP/1.1\nMore Stuff");
+    String messageArray[] = { "GET", "/", "HTTP/1.1", "More Stuff" };
+    request = new HttpRequest(messageArray);
   }
 
   public void testMethodIsSetToGet() {

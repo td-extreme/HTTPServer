@@ -1,24 +1,33 @@
 package com.td.HttpServer;
+import java.util.*;
 
-public class HttpVerifier implements Validator {
+public class HttpVerifier implements IValidator {
 
-  public boolean isValid(HttpProtocal request) {
+  List<String> validMethods;
 
-    return isMethodValid(request.method()) &&
-           isPathValid(request.path()) &&
-           isVersionValid(request.version());
+  public HttpVerifier() {
+    validMethods = new ArrayList<String>();
+    validMethods.add("GET");
+    validMethods.add("HEAD");
+    validMethods.add("POST");
+    validMethods.add("PUT");
+    validMethods.add("DELETE");
+    validMethods.add("TRACE");
+    validMethods.add("OPTIONS");
+    validMethods.add("CONNECT");
+    validMethods.add("PATCH");
+  }
+
+  public boolean isValid(String[] request) {
+    if ( request.length < 3 ) return false;
+
+    return isMethodValid(request[0]) &&
+      isPathValid(request[1]) &&
+      isVersionValid(request[2]);
   }
 
   private boolean isMethodValid(String method) {
-    return isRequestGet(method) ||
-           isRequestHead(method) ||
-           isRequestPost(method) ||
-           isRequestPut(method) ||
-           isRequestDelete(method) ||
-           isRequestTrace(method) ||
-           isRequestOptions(method) ||
-           isRequestConnect(method) ||
-           isRequestPatch(method);
+    return validMethods.contains(method);
   }
 
   private boolean isPathValid(String path) {
@@ -27,41 +36,5 @@ public class HttpVerifier implements Validator {
 
   private boolean isVersionValid(String version) {
     return version.equals("HTTP/1.1");
-  }
-
-  private boolean isRequestGet(String method) {
-    return method.equals("GET");
-  }
-
-  private boolean isRequestHead(String method) {
-    return method.equals("HEAD");
-  }
-
-  private boolean isRequestPost(String method) {
-    return method.equals("POST");
-  }
-
-  private boolean isRequestPut(String method) {
-    return method.equals("PUT");
-  }
-
-  private boolean isRequestDelete(String method) {
-    return method.equals("DELETE");
-  }
-
-  private boolean isRequestTrace(String method) {
-    return method.equals("TRACE");
-  }
-
-  private boolean isRequestOptions(String method) {
-    return method.equals("OPTIONS");
-  }
-
-  private boolean isRequestConnect(String method) {
-    return method.equals("CONNECT");
-  }
-
-  private boolean isRequestPatch(String method) {
-    return method.equals("PATCH");
   }
 }

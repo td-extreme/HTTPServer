@@ -1,16 +1,15 @@
 package com.td.HttpServer;
 
-public class HttpRequest implements HttpProtocal {
+public class HttpRequest implements IHttpRequest {
 
   private String method;
   private String path;
   private String version;
 
-  public HttpRequest(String request) {
-    String request_array[] = request.split("\\s+");
-    method = request_array[0];
-    path = request_array[1];
-    version = request_array[2];
+  public HttpRequest(String[] request) {
+    method = request[0];
+    path = request[1];
+    version = request[2];
 
     // TODO:: add logic to store Request Header Fields and optional message body
   }

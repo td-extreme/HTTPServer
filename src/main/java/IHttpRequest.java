@@ -1,6 +1,6 @@
 package com.td.HttpServer;
 
-public interface HttpProtocal {
+public interface IHttpRequest {
   public String requestLine();
   public String method();
   public String path();
