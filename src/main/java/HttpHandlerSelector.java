@@ -28,7 +28,7 @@ public class HttpHandlerSelector {
     String contents = fileIO.getFileContents(request.path());
     StringBuilder strBuilder = new StringBuilder();
     if (contents.contains("Error")) {
-      strBuilder.append("HTTP/1.1 404 File or Directory not found\n\r\n\r");
+      strBuilder.append("HTTP/1.1 404 Not Found\n\r\n\r");
     } else {
       strBuilder.append("HTTP/1.1 200 OK\n\r\n\r");
     }

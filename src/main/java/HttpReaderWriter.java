@@ -5,7 +5,7 @@ public class HttpReaderWriter {
 
   IMessageIO socketIO;
   IValidator httpValidator;
-  private final String badRequest = "HTTP/1.1 400";
+  private final String badRequest = "HTTP/1.1 400 Bad Request";
 
   public HttpReaderWriter(IMessageIO messageIO, IValidator validator) {
     socketIO = messageIO;
