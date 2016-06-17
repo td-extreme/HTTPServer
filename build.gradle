@@ -7,6 +7,12 @@ repositories {
   mavenCentral()
 }
 
+run {
+  if (project.hasProperty('args')) {
+    args project.args.split('\\s+')
+  }
+}
+
 jar {
   baseName = 'HttpServer'
   version = '0.1.1'
