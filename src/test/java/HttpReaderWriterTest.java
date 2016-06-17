@@ -22,7 +22,7 @@ class TestSocketInvalid implements IMessageIO {
     receivedMessage = message;
   }
   public boolean receivedBadConnection() {
-    return (receivedMessage == "HTTP/1.1 400");
+    return (receivedMessage.contains("400"));
   }
 }
 
