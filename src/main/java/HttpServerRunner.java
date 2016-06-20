@@ -16,6 +16,7 @@ public class HttpServerRunner {
     HttpResponse response;
     while (true) {
       request = httpReaderWriter.getHttpRequest();
+      System.out.println(request);
       response = httpHandlerSelector.generateResponse(request);
       httpReaderWriter.sendHttpResponse(response);
     }

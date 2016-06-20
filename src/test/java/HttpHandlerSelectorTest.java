@@ -5,11 +5,13 @@ public class HttpHandlerSelectorTest extends junit.framework.TestCase {
   HttpHandlerSelector handler;
   HttpRequest request;
   HttpResponse response;
+  HttpRequestBuilder builder;
 
   protected void setUp() {
     handler = new HttpHandlerSelector();
-    String strArray[] = { "GET", "/", "HTTP/1.1" };
-    request = new HttpRequest(strArray);
+    String rawStrRequest = "GET / HTTP/1.1";
+    builder = new HttpRequestBuilder();
+    request = builder.createRequest(rawStrRequest);
   }
 
   public void testGenerateOkResponse() {

@@ -18,12 +18,13 @@ public class HttpVerifier implements IValidator {
     validMethods.add("PATCH");
   }
 
-  public boolean isValid(String[] request) {
-    if ( request.length < 3 ) return false;
+  public boolean isValid(String request) {
+    String[] requestArray = request.split("\\s+");
+    if ( requestArray.length < 3 ) return false;
 
-    return isMethodValid(request[0]) &&
-      isPathValid(request[1]) &&
-      isVersionValid(request[2]);
+    return isMethodValid(requestArray[0]) &&
+      isPathValid(requestArray[1]) &&
+      isVersionValid(requestArray[2]);
   }
 
   private boolean isMethodValid(String method) {

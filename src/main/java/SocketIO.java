@@ -27,6 +27,9 @@ public class SocketIO implements IMessageIO {
       request.append("\n");
       line = reader.readLine();
     }
+    // Delete this line below
+      System.out.println(request.toString());
+    // Delete the line above
     return request.toString();
   }
 

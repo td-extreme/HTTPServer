@@ -1,37 +1,29 @@
 package com.td.HttpServer;
 
+import java.util.*;
+
 public class HttpRequest implements IHttpRequest {
 
-  private String method;
-  private String path;
-  private String version;
+  String requestLine;
+  HashMap<String, String> headers;
 
-  public HttpRequest(String[] request) {
-    method = request[0];
-    path = request[1];
-    version = request[2];
-
-    // TODO:: add logic to store Request Header Fields and optional message body
+  public HttpRequest(String requestLine, HashMap<String, String> headers) {
+    this.requestLine = requestLine;
+    this.headers = headers;
   }
 
   public String requestLine() {
-    StringBuilder requestLine = new StringBuilder();
-    requestLine.append(method());
-    requestLine.append(" ");
-    requestLine.append(path());
-    requestLine.append(" ");
-    requestLine.append(version());
-    return requestLine.toString();
+    return requestLine;
   }
 
   public String method() {
-    return method;
+    return requestLine().split(" ")[0];
   }
 
   public String path() {
-    return path;
+    return requestLine().split(" ")[1];
   }
   public String version() {
-    return version;
+    return requestLine().split(" ")[2];
   }
 }
