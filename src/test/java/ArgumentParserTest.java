@@ -8,7 +8,7 @@ public class ArgumentParserTest extends junit.framework.TestCase {
   String[] noArgs;
 
   protected void setUp() {
-    args = new String[] { "-pn", "1234" };
+    args = new String[] { "-p", "1234" };
     arguments = new ArgumentParser(args);
     noArgs = new String[] {};
     noArguments = new ArgumentParser(noArgs);
