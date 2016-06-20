@@ -1,44 +1,39 @@
 import com.td.HttpServer.*;
 
-class MockRequest implements HttpProtocal {
-  public String method() { return " "; }
-  public String path() { return " "; }
-  public String version() { return " "; }
-  public String requestLine() { return " "; }
-}
-
-class MockVerifierValid implements Validator {
-  public boolean isValid(HttpProtocal request) {
+class MockVerifierValid implements IValidator {
+  public boolean isValid(String[] request) {
     return true;
   }
 }
 
-class MockVerifierInvalid implements Validator {
-  public boolean isValid(HttpProtocal request) {
+class MockVerifierInvalid implements IValidator {
+  public boolean isValid(String[] request) {
     return false;
   }
 }
-
 public class RequestHandlerTest extends junit.framework.TestCase {
-    RequestHandler handlerValid;
-    RequestHandler handlerInvalid;
-    MockVerifierValid valid;
-    MockVerifierInvalid invalid;
-    MockRequest request;
+
+
+  RequestHandler handler;
+  MockVerifierValid valid;
+  MockVerifierInvalid invalid;
+  String[] request = { "Dummy" };
+
 
   protected void setUp() {
     valid = new MockVerifierValid();
     invalid = new MockVerifierInvalid();
-    handlerValid = new RequestHandler(valid);
-    handlerInvalid = new RequestHandler(invalid);
-    request = new MockRequest();
   }
 
   public void testValidRequest() {
-    assertEquals("200", handlerValid.processRequest(request));
+    handler = new RequestHandler(valid);
+    String response = handler.processRequest(request);
+    assert(response.contains("200"));
   }
 
   public void testInvalidRequest() {
-    assertEquals("400", handlerInvalid.processRequest(request));
+    handler = new RequestHandler(invalid);
+    String response = handler.processRequest(request);
+    assert(response.contains("400"));
   }
 }

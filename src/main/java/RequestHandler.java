@@ -2,17 +2,17 @@ package com.td.HttpServer;
 
 public class RequestHandler {
 
-  Validator httpVerifier;
+  IValidator httpVerifier;
 
-  public RequestHandler(Validator verifier) {
+  public RequestHandler(IValidator verifier) {
     httpVerifier = verifier;
   }
 
-  public String processRequest(HttpProtocal request) {
+  public String processRequest(String[] request) {
     if (httpVerifier.isValid(request) == true ) {
-      return "200";
+      return "HTTP/1.1 200 OK\r\n\r\nValid Http Request";
     } else {
-      return "400";
+      return "HTTP/1.1 400 Bad Request";
     }
   }
 }
