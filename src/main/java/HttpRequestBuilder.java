@@ -4,10 +4,19 @@ import java.util.*;
 
 public class HttpRequestBuilder implements IRequestBuilder {
 
-  public HttpRequest createRequest(String rawRequest) {
+  private IValidator requestVerifier;
+  public HttpRequestBuilder(IValidator requestVerifier) {
+    this.requestVerifier = requestVerifier;
+  }
+
+  public HttpRequest createRequest(String rawRequest) throws InvalidHttpRequestException {
+    // TODO clean this up!
     String rawRequestArray[] = rawRequest.split("\n", 2);
     String rawHeader;
     String requestLine = rawRequest.split("\n")[0];
+    if (!requestVerifier.isValid(requestLine)) {
+       throw new InvalidHttpRequestException();
+    }
     HashMap<String, String> headers;
     if (rawRequestArray.length < 2) {
       headers = new HashMap<String, String>();

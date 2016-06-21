@@ -4,22 +4,22 @@ import java.io.IOException;
 public class HttpReaderWriter {
 
   IMessageIO socketIO;
-  IValidator httpValidator;
   IRequestBuilder builder;
+  // TODO after creating a HttpResponseBuilder class change badRequest from a string to a HttpResponse object
   private final String badRequest = "HTTP/1.1 400 Bad Request";
 
-  public HttpReaderWriter(IMessageIO messageIO, IRequestBuilder builder, IValidator httpValidator) {
+  public HttpReaderWriter(IMessageIO messageIO, IRequestBuilder builder ) {
     this.socketIO = messageIO;
-    this.httpValidator = httpValidator;
     this.builder = builder;
   }
 
   public HttpRequest getHttpRequest() throws IOException {
     while(true) {
       String message = getMessage();
-      if (httpValidator.isValid(message)) {
+      try {
         return builder.createRequest(message);
-      } else {
+      }
+      catch (InvalidHttpRequestException e) {
         sendMessage(badRequest);
       }
     }

@@ -10,8 +10,13 @@ public class HttpHandlerSelectorTest extends junit.framework.TestCase {
   protected void setUp() {
     handler = new HttpHandlerSelector();
     String rawStrRequest = "GET / HTTP/1.1";
-    builder = new HttpRequestBuilder();
-    request = builder.createRequest(rawStrRequest);
+    builder = new HttpRequestBuilder(new HttpVerifier());
+    try {
+      request = builder.createRequest(rawStrRequest);
+    }
+    catch (InvalidHttpRequestException e) {
+
+    }
   }
 
   public void testGenerateOkResponse() {

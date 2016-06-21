@@ -1,5 +1,5 @@
 package com.td.HttpServer;
 
 public interface IRequestBuilder {
-  public HttpRequest createRequest(String rawRequest);
+  public HttpRequest createRequest(String rawRequest) throws InvalidHttpRequestException;
 }

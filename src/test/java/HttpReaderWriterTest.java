@@ -36,14 +36,14 @@ public class HttpReaderWriterTest extends junit.framework.TestCase{
   }
 
   public void testGetValidHttpRequest() throws IOException {
-    httpReaderWriter = new HttpReaderWriter(new TestSocketValid(), new HttpRequestBuilder(), httpValidator);
+    httpReaderWriter = new HttpReaderWriter(new TestSocketValid(), new HttpRequestBuilder(httpValidator));
     HttpRequest request = httpReaderWriter.getHttpRequest();
     assertEquals("GET / HTTP/1.1", request.requestLine());
   }
 
   public void testGetInvalidHttpRequest() throws IOException {
     TestSocketInvalid testSocket = new TestSocketInvalid();
-    httpReaderWriter = new HttpReaderWriter(testSocket,new HttpRequestBuilder(), httpValidator);
+    httpReaderWriter = new HttpReaderWriter(testSocket,new HttpRequestBuilder(httpValidator));
     HttpRequest request = httpReaderWriter.getHttpRequest();
     assertTrue(testSocket.receivedBadConnection());
   }
