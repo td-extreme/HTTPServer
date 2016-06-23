@@ -4,15 +4,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
 
 public class FileIO implements IFileIO {
 
   private String workingDirectory;
-  private File dir;
-
-  public FileIO() {
-    workingDirectory = "./";
-  }
 
   public FileIO(String directory) {
     workingDirectory = directory;
@@ -22,27 +20,15 @@ public class FileIO implements IFileIO {
     return workingDirectory;
   }
 
-  public String getFileContents(String fileName) {
-    try {
-      StringBuilder fileToOpen = new StringBuilder();
-      fileToOpen.append(workingDirectory);
-      fileToOpen.append(fileName);
-      File file = new File(fileToOpen.toString());
-      BufferedReader reader = new BufferedReader(new FileReader(file));
-      StringBuilder rtnString = new StringBuilder();
-      String inputLine = null;
-      while((inputLine = reader.readLine()) != null) {
-        rtnString.append(inputLine);
-        rtnString.append("\n");
-      }
-      return rtnString.toString();
+  public byte[] getContent(String fileName) throws IOException {
+      Path path = Paths.get(getPath(fileName));
+      return Files.readAllBytes(path);
+  }
 
-    }
-    catch (IOException e) {
-      return "Error: File Not Found";
-    }
-
+  private String getPath(String fileName) {
+    StringBuilder fileToOpen = new StringBuilder();
+    fileToOpen.append(workingDirectory);
+    fileToOpen.append(fileName);
+    return fileToOpen.toString();
   }
 }
-
-

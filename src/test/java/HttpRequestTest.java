@@ -6,12 +6,7 @@ public class HttpRequestTest extends junit.framework.TestCase {
   HttpRequestBuilder requestBuilder;
   protected void setUp() {
     String message = "GET / HTTP/1.1";
-    requestBuilder = new HttpRequestBuilder(new HttpVerifier());
-    try {
-      request = requestBuilder.createRequest(message);
-    }
-    catch (InvalidHttpRequestException e) {
-    }
+    request = new HttpRequest(message);
   }
 
   public void testMethodIsSetToGet() {

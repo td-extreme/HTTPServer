@@ -1,15 +1,11 @@
 package com.td.HttpServer;
 
-import java.util.*;
-
 public class HttpRequest implements IHttpRequest {
 
   String requestLine;
-  HashMap<String, String> headers;
 
-  public HttpRequest(String requestLine, HashMap<String, String> headers) {
+  public HttpRequest(String requestLine) {
     this.requestLine = requestLine;
-    this.headers = headers;
   }
 
   public String requestLine() {

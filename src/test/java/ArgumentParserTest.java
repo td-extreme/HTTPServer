@@ -8,7 +8,7 @@ public class ArgumentParserTest extends junit.framework.TestCase {
   String[] noArgs;
 
   protected void setUp() {
-    args = new String[] { "-p", "1234" };
+    args = new String[] { "-p", "1234", "-d", "./path" };
     arguments = new ArgumentParser(args);
     noArgs = new String[] {};
     noArguments = new ArgumentParser(noArgs);
@@ -20,5 +20,13 @@ public class ArgumentParserTest extends junit.framework.TestCase {
 
   public void testDefaultPortNumberArgument() {
     assertEquals(noArguments.getPortNumber(), 8080);
+  }
+
+  public void testCustomDirectoryPath() {
+    assertEquals(arguments.getDirectory(), "./path");
+  }
+
+  public void testDefaultDirectoryPath() {
+    assertEquals(noArguments.getDirectory(), "./");
   }
 }

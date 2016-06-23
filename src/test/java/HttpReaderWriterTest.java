@@ -3,9 +3,12 @@ import java.io.IOException;
 
 class TestSocketValid implements IMessageIO {
   public String getMessage() {
-    return "GET / HTTP/1.1";
+    return "GET / HTTP/1.1\r\n\r\n";
   }
   public void sendMessage(String dummy) { }
+  public void sendBytes(byte[] bytes) { }
+  public void closeClientConnection() { }
+  public void openClientConnection() { }
 }
 
 class TestSocketInvalid implements IMessageIO {
@@ -16,7 +19,7 @@ class TestSocketInvalid implements IMessageIO {
       count++;
       return "NOT valid";
     }
-      return "GET / HTTP/1.1";
+      return "GET / HTTP/1.1\r\n\r\n";
   }
   public void sendMessage(String message) {
     receivedMessage = message;
@@ -24,6 +27,9 @@ class TestSocketInvalid implements IMessageIO {
   public boolean receivedBadConnection() {
     return (receivedMessage.contains("400"));
   }
+  public void closeClientConnection() { }
+  public void openClientConnection() { }
+  public void sendBytes(byte[] bytes) { }
 }
 
 public class HttpReaderWriterTest extends junit.framework.TestCase{
@@ -47,5 +53,4 @@ public class HttpReaderWriterTest extends junit.framework.TestCase{
     HttpRequest request = httpReaderWriter.getHttpRequest();
     assertTrue(testSocket.receivedBadConnection());
   }
-  // TODO write test to check that Response is sent
 }

@@ -18,7 +18,6 @@ public class SocketIO implements IMessageIO {
 
   public String getMessage() throws IOException {
     StringBuilder request = new StringBuilder();
-    clientSocket = server.accept();
     InputStreamReader isr = new InputStreamReader(clientSocket.getInputStream());
     BufferedReader reader = new BufferedReader(isr);
     String line = reader.readLine();
@@ -27,14 +26,22 @@ public class SocketIO implements IMessageIO {
       request.append("\n");
       line = reader.readLine();
     }
-    // Delete this line below
-      System.out.println(request.toString());
-    // Delete the line above
     return request.toString();
   }
 
   public void sendMessage(String message) throws IOException {
     clientSocket.getOutputStream().write(message.getBytes("UTF-8"));
+  }
+
+  public void openClientConnection() throws IOException {
+    clientSocket = server.accept();
+  }
+
+  public void closeClientConnection() throws IOException {
     clientSocket.close();
+  }
+
+  public void sendBytes(byte[] message) throws IOException {
+    clientSocket.getOutputStream().write(message);
   }
 }

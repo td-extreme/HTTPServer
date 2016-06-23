@@ -14,25 +14,36 @@ public class HttpReaderWriter {
   }
 
   public HttpRequest getHttpRequest() throws IOException {
+    socketIO.openClientConnection();
     while(true) {
       String message = getMessage();
       try {
         return builder.createRequest(message);
       }
       catch (InvalidHttpRequestException e) {
+        //TODO change this so that it creates a HttpResposne and sends that to output.
         sendMessage(badRequest);
+        socketIO.closeClientConnection();
       }
     }
   }
 
   public void sendHttpResponse(HttpResponse response)throws IOException {
-    sendMessage(response.toString());
+    sendMessage(response.responseLine());
+    sendMessage("\n");
+    sendMessage(response.headers());
+    sendMessage("\r\n\r\n");
+    sendMessage(response.body());
+    socketIO.closeClientConnection();
   }
 
   private String getMessage() throws IOException {
     return socketIO.getMessage();
   }
 
+  private void sendMessage(byte[] message) throws IOException {
+    socketIO.sendBytes(message);
+  }
   private void sendMessage(String message) throws IOException {
     socketIO.sendMessage(message);
   }
