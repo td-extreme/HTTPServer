@@ -108,7 +108,7 @@ public class HttpHandlerSelector {
     } else if (fileName.endsWith(".pdf")) {
       return "application/pdf";
     } else {
-      return "test/html";
+      return "text/html";
     }
   }
 }
