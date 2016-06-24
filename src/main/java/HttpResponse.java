@@ -24,7 +24,7 @@ public class HttpResponse {
 
   public String headers() {
     StringBuilder builder = new StringBuilder();
-    headers.forEach((key, value)-> builder.append(key + ": " + value));
+    headers.forEach((key, value)-> builder.append(key + ": " + value + "\r\n"));
     return builder.toString();
   }
 }

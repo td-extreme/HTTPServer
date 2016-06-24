@@ -23,7 +23,6 @@ public class HttpReaderWriter {
       catch (InvalidHttpRequestException e) {
         //TODO change this so that it creates a HttpResposne and sends that to output.
         sendMessage(badRequest);
-        socketIO.closeClientConnection();
       }
     }
   }
@@ -32,7 +31,7 @@ public class HttpReaderWriter {
     sendMessage(response.responseLine());
     sendMessage("\n");
     sendMessage(response.headers());
-    sendMessage("\r\n\r\n");
+    sendMessage("\r\n");
     sendMessage(response.body());
     socketIO.closeClientConnection();
   }
