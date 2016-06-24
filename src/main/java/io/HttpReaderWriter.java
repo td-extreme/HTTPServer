@@ -28,11 +28,7 @@ public class HttpReaderWriter {
   }
 
   public void sendHttpResponse(HttpResponse response)throws IOException {
-    sendMessage(response.responseLine());
-    sendMessage("\n");
-    sendMessage(response.headers());
-    sendMessage("\r\n");
-    sendMessage(response.body());
+    sendMessage(response.responseBytes());
     socketIO.closeClientConnection();
   }
 
