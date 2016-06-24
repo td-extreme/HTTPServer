@@ -7,18 +7,17 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 
-public class ClientConnection {
+public class SocketIO implements IMessageIO {
 
   ServerSocket server;
   Socket clientSocket;
 
-  public ClientConnection(int portNumber) throws IOException {
+  public SocketIO(int portNumber) throws IOException {
     server = new ServerSocket(portNumber);
   }
 
-  public String receiveRequest() throws IOException {
+  public String getMessage() throws IOException {
     StringBuilder request = new StringBuilder();
-    clientSocket = server.accept();
     InputStreamReader isr = new InputStreamReader(clientSocket.getInputStream());
     BufferedReader reader = new BufferedReader(isr);
     String line = reader.readLine();
@@ -30,8 +29,19 @@ public class ClientConnection {
     return request.toString();
   }
 
-  public void sendResponse(String response) throws IOException {
-    clientSocket.getOutputStream().write(response.getBytes("UTF-8"));
+  public void sendMessage(String message) throws IOException {
+    clientSocket.getOutputStream().write(message.getBytes("UTF-8"));
+  }
+
+  public void openClientConnection() throws IOException {
+    clientSocket = server.accept();
+  }
+
+  public void closeClientConnection() throws IOException {
     clientSocket.close();
+  }
+
+  public void sendBytes(byte[] message) throws IOException {
+    clientSocket.getOutputStream().write(message);
   }
 }

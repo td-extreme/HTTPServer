@@ -3,9 +3,10 @@ import com.td.HttpServer.*;
 public class HttpRequestTest extends junit.framework.TestCase {
 
   HttpRequest request;
-
+  HttpRequestBuilder requestBuilder;
   protected void setUp() {
-    request = new HttpRequest("GET / HTTP/1.1\nMore Stuff");
+    String message = "GET / HTTP/1.1";
+    request = new HttpRequest(message);
   }
 
   public void testMethodIsSetToGet() {

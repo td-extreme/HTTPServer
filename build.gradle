@@ -7,6 +7,12 @@ repositories {
   mavenCentral()
 }
 
+run {
+  if (project.hasProperty('args')) {
+    args project.args.split('\\s+')
+  }
+}
+
 jar {
   baseName = 'HttpServer'
   version = '0.1.1'
@@ -17,6 +23,12 @@ targetCompatibility = 1.8
 
 dependencies {
   testCompile "junit:junit:4.11"
+}
+
+test {
+  testLogging {
+    events 'passed'
+  }
 }
 
 task wrapper(type: Wrapper) {

@@ -3,26 +3,21 @@ import java.io.IOException;
 
 public class HttpServerRunner {
 
-  RequestHandler handler;
-  ClientConnection clientConnection;
-  IParser parser;
+  HttpReaderWriter httpReaderWriter;
+  HttpHandlerSelector httpHandlerSelector;
 
-  public HttpServerRunner(ClientConnection connection, RequestHandler requestHandler, IParser parseString) {
-    clientConnection = connection;
-    handler = requestHandler;
-    parser = parseString;
+  public HttpServerRunner(HttpReaderWriter readerWriter, HttpHandlerSelector handlerSelector) {
+    httpReaderWriter = readerWriter;
+    httpHandlerSelector = handlerSelector;
   }
 
   public void runServer() throws IOException {
-    String request;
-    String request_array[];
-    String response;
-    HttpRequest httpRequest;
-    while(true) {
-      request = clientConnection.receiveRequest();
-      request_array = parser.parse(request);
-      response = handler.processRequest(request_array);
-      clientConnection.sendResponse(response);
-    }
+    HttpRequest request;
+    HttpResponse response;
+    while (true) {
+      request = httpReaderWriter.getHttpRequest();
+      response = httpHandlerSelector.generateResponse(request);
+      httpReaderWriter.sendHttpResponse(response);
+   }
   }
 }

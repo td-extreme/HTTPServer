@@ -1,7 +1,5 @@
 package com.td.HttpServer;
 
 public interface IValidator {
-
-  public boolean isValid(String[] request);
-
+  public boolean isValid(String message);
 }
