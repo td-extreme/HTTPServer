@@ -25,7 +25,7 @@ public class HttpVerifier implements IValidator {
     return isMethodValid(requestArray[0]) &&
       isPathValid(requestArray[1]) &&
       isVersionValid(requestArray[2]);
-  }
+ }
 
   private boolean isMethodValid(String method) {
     return validMethods.contains(method);

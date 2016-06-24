@@ -4,8 +4,7 @@ public class HttpVerifierTest extends junit.framework.TestCase {
 
   HttpVerifier checker;
 
-
-protected void setUp() {
+  protected void setUp() {
     checker = new HttpVerifier();
   }
 

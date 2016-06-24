@@ -18,6 +18,6 @@ public class HttpServerRunner {
       request = httpReaderWriter.getHttpRequest();
       response = httpHandlerSelector.generateResponse(request);
       httpReaderWriter.sendHttpResponse(response);
-    }
+   }
   }
 }
