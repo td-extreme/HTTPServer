@@ -21,6 +21,11 @@ public class FileIO implements IFileIO {
     return workingDirectory;
   }
 
+  public boolean isPathFile(String path) throws IOException {
+    File checkFile = new File(getPath(path));
+    return checkFile.isFile();
+  }
+
   public byte[] getContent(String fileName) throws IOException {
     Path path = Paths.get(getPath(fileName));
     return Files.readAllBytes(path);
@@ -28,14 +33,10 @@ public class FileIO implements IFileIO {
 
   public ArrayList<String> getFiles(String directory) throws IOException {
     File dir = new File(getPath(directory));
-    ArrayList<String> list;
-    try {
-      list =  new ArrayList<String>(Arrays.asList(dir.list()));
-    }
-    catch (NullPointerException e) {
+    if (!dir.isDirectory()) {
       throw new IOException();
     }
-
+    ArrayList<String> list =  new ArrayList<String>(Arrays.asList(dir.list()));
     return list;
   }
 

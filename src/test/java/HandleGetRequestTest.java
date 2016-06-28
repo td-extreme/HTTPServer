@@ -11,6 +11,7 @@ public class HandleGetRequestTest extends junit.framework.TestCase {
 
   public class MockFileIO implements IFileIO {
     public String workingDirectory() { return "./"; }
+    public boolean isPathFile(String path) { return true; }
     public byte[] getContent(String fileName) throws IOException {
       if (fileName.equals("/throwIOException")) { throw new IOException(); }
       return new byte[1];
