@@ -21,7 +21,7 @@ public class SocketIO implements IMessageIO {
     InputStreamReader isr = new InputStreamReader(clientSocket.getInputStream());
     BufferedReader reader = new BufferedReader(isr);
     String line = reader.readLine();
-    while (!line.isEmpty()) {
+    while ( line != null && !line.isEmpty()) {
       request.append(line);
       request.append("\n");
       line = reader.readLine();
