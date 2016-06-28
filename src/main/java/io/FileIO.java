@@ -26,9 +26,6 @@ public class FileIO implements IFileIO {
   }
 
   private String getPath(String fileName) {
-    StringBuilder fileToOpen = new StringBuilder();
-    fileToOpen.append(workingDirectory);
-    fileToOpen.append(fileName);
-    return fileToOpen.toString();
+    return workingDirectory + fileName;
   }
 }
