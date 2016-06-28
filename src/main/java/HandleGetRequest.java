@@ -19,7 +19,6 @@ public class HandleGetRequest extends HttpHandleRequest {
     byte[] body;
     HashMap<String, String> headers;
     try {
-      System.out.println(fileIO.isPathFile(path));
       if (fileIO.isPathFile(path)) {
         body = fileIO.getContent(path);
         headers = buildHeaders(body, path);
