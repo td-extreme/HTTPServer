@@ -6,24 +6,32 @@ import java.io.IOException;
 public class HandleGetRequest extends HttpHandleRequest {
 
   private IFileIO fileIO;
+  private DirListHtml dirListHtml;
 
-  public HandleGetRequest(IFileIO fileIO) {
+  public HandleGetRequest(IFileIO fileIO, DirListHtml dirListHtml) {
     super();
     this.fileIO = fileIO;
+    this.dirListHtml = dirListHtml;
   }
 
   public HttpResponse generateResponse(HttpRequest request) {
     String path = request.path();
-    if (path.equals("/")) {
-      return defaultResponse();
-    }
+    byte[] body;
+    HashMap<String, String> headers;
     try {
-      byte[] body = fileIO.getContent(path);
-      HashMap<String, String> headers = buildHeaders(body, path);
+      body = fileIO.getContent(path);
+      headers = buildHeaders(body, path);
       return new HttpResponse(CODE_200, body, headers);
     }
     catch (IOException e) {
-      return notFound(request);
+      try {
+        body = dirListHtml.buildHtmlPage(path, fileIO.getFiles(path));
+        headers = buildHeaders(body, ".html");
+        return new HttpResponse(CODE_200, body, headers);
+      }
+      catch (IOException e2) {
+        return notFound(request);
+      }
     }
   }
 

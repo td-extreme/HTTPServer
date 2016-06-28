@@ -7,6 +7,7 @@ public class HandleGetRequestTest extends junit.framework.TestCase {
   HandleGetRequest getRequest;
   HttpRequest request;
   HttpResponse response;
+  DirListHtml dirListHtml;
 
   public class MockFileIO implements IFileIO {
     public String workingDirectory() { return "./"; }
@@ -14,11 +15,16 @@ public class HandleGetRequestTest extends junit.framework.TestCase {
       if (fileName.equals("/throwIOException")) { throw new IOException(); }
       return new byte[1];
     }
+    public ArrayList<String> getFiles(String directory) throws IOException {
+      if (directory.equals("/throwIOException")) { throw new IOException(); }
+      return new ArrayList<String>();
+    }
   }
 
   protected void setUp() {
     MockFileIO mockFileIO = new MockFileIO();
-    getRequest = new HandleGetRequest(mockFileIO);
+    DirListHtml dirListHtml = new DirListHtml();
+    getRequest = new HandleGetRequest(mockFileIO, dirListHtml);
   }
 
   public void testGenerateOkResponseDefaultPath() {
