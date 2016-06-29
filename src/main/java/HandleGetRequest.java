@@ -7,11 +7,25 @@ public class HandleGetRequest extends HttpHandleRequest {
 
   private IFileIO fileIO;
   private DirListHtml dirListHtml;
+  private HashMap<String, String> contentTypeMap;
 
   public HandleGetRequest(IFileIO fileIO, DirListHtml dirListHtml) {
     super();
     this.fileIO = fileIO;
     this.dirListHtml = dirListHtml;
+    buildContentTypeMap();
+  }
+
+  private void buildContentTypeMap() {
+    contentTypeMap = new HashMap<String, String>();
+    contentTypeMap.put(".htm", "text/html");
+    contentTypeMap.put(".html", "text/html");
+    contentTypeMap.put(".txt", "text/html");
+    contentTypeMap.put("/", "text/html");
+    contentTypeMap.put(".jpg", "image/jpeg");
+    contentTypeMap.put(".jpeg", "image/jpeg");
+    contentTypeMap.put(".gif", "image/gif");
+    contentTypeMap.put(".pdf", "application/pdf");
   }
 
   public HttpResponse generateResponse(HttpRequest request) {
@@ -25,16 +39,15 @@ public class HandleGetRequest extends HttpHandleRequest {
         return new HttpResponse(CODE_200, body, headers);
       }
     }
-    catch (IOException e2) {
+    catch (IOException e) {
       return notFound(request);
     }
-
     try {
       body = dirListHtml.buildHtmlPage(path, fileIO.getFiles(path));
       headers = buildHeaders(body, ".html");
       return new HttpResponse(CODE_200, body, headers);
     }
-    catch (IOException e2) {
+    catch (IOException e) {
       return notFound(request);
     }
   }
@@ -70,17 +83,14 @@ public class HandleGetRequest extends HttpHandleRequest {
   }
 
   private String contentType(String fileName) {
-    if (fileName.endsWith(".htm") || fileName.endsWith(".html")
-        || fileName.endsWith(".txt")) {
-      return "text/html";
-    } else if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
-      return "image/jpeg";
-    } else if (fileName.endsWith(".gif")) {
-      return "image/gif";
-    } else if (fileName.endsWith(".pdf")) {
-      return "application/pdf";
-    } else {
-      return "application/force-download";
+   return contentTypeMap.getOrDefault(getFileExtension(fileName), "application/force-download");
+  }
+
+  private String getFileExtension(String fileName) {
+    int extensionPosition = fileName.lastIndexOf('.');
+    if (extensionPosition == -1) {
+      return "/";
     }
+    return fileName.substring(extensionPosition);
   }
 }
