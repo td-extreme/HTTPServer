@@ -31,13 +31,12 @@ public class FileIO implements IFileIO {
     return Files.readAllBytes(path);
   }
 
-  public ArrayList<String> getFiles(String directory) throws IOException {
+  public String[]  getFiles(String directory) throws IOException {
     File dir = new File(getPath(directory));
     if (!dir.isDirectory()) {
       throw new IOException();
     }
-    ArrayList<String> list =  new ArrayList<String>(Arrays.asList(dir.list()));
-    return list;
+    return dir.list();
   }
 
   private String getPath(String fileName) {

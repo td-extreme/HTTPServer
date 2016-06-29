@@ -16,9 +16,9 @@ public class HandleGetRequestTest extends junit.framework.TestCase {
       if (fileName.equals("/throwIOException")) { throw new IOException(); }
       return new byte[1];
     }
-    public ArrayList<String> getFiles(String directory) throws IOException {
+    public String[] getFiles(String directory) throws IOException {
       if (directory.equals("/throwIOException")) { throw new IOException(); }
-      return new ArrayList<String>();
+      return new String[0];
     }
   }
 
