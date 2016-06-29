@@ -37,14 +37,14 @@ public class HandleGetRequest extends HttpHandleRequest {
   private HttpResponse responseWithFileContents(String path) {
     byte[] body;
     HashMap<String, String> headers;
-     try {
-        body = fileIO.getContent(path);
-      }
-      catch (IOException e) {
-        return notFound();
-      }
-      headers = buildHeaders(body, path);
-      return new HttpResponse(CODE_200, body, headers);
+    try {
+      body = fileIO.getContent(path);
+    }
+    catch (IOException e) {
+      return notFound();
+    }
+    headers = buildHeaders(body, path);
+    return new HttpResponse(CODE_200, body, headers);
   }
 
   private HttpResponse responseWithDirContents(String path) {

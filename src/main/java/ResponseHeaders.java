@@ -35,12 +35,12 @@ public class ResponseHeaders {
     return rtnMap;
   }
 
- private String contentLength(byte[] body) {
+  private String contentLength(byte[] body) {
     return Integer.toString(body.length);
   }
 
   private String contentType(String fileName) {
-   return contentTypeMap.getOrDefault(getFileExtension(fileName), "application/force-download");
+    return contentTypeMap.getOrDefault(getFileExtension(fileName), "application/force-download");
   }
 
   private String getFileExtension(String fileName) {

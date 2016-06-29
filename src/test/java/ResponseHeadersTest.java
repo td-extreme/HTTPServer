@@ -19,48 +19,48 @@ public class ResponseHeadersTest extends junit.framework.TestCase {
   }
 
   public void testContentTypeIsTextHtmlForHtmFile() {
-   String contentType = getContentType(".htm");
-   assertEquals(contentType, "text/html");
+    String contentType = getContentType(".htm");
+    assertEquals(contentType, "text/html");
   }
 
   public void testContentTypeIsTextHtmlForHtmlFile() {
-   String contentType = getContentType(".html");
-   assertEquals(contentType, "text/html");
+    String contentType = getContentType(".html");
+    assertEquals(contentType, "text/html");
   }
 
   public void testContentTypeIsTextHtmlForTextFile() {
-   String contentType = getContentType(".txt");
-   assertEquals(contentType, "text/html");
+    String contentType = getContentType(".txt");
+    assertEquals(contentType, "text/html");
   }
 
   public void testContentTypeIsTextHtmlForRootPath() {
-   String contentType = getContentType("/");
-   assertEquals(contentType, "text/html");
+    String contentType = getContentType("/");
+    assertEquals(contentType, "text/html");
   }
 
   public void testContentTypeIsImageJpegforJpg() {
-   String contentType = getContentType(".jpg");
-   assertEquals(contentType, "image/jpeg");
+    String contentType = getContentType(".jpg");
+    assertEquals(contentType, "image/jpeg");
   }
 
   public void testContentTypeIsImageJpegforJpeg() {
-   String contentType = getContentType(".jpeg");
-   assertEquals(contentType, "image/jpeg");
+    String contentType = getContentType(".jpeg");
+    assertEquals(contentType, "image/jpeg");
   }
 
   public void testContentTypeIsImageGifForGif() {
-   String contentType = getContentType(".gif");
-   assertEquals(contentType, "image/gif");
+    String contentType = getContentType(".gif");
+    assertEquals(contentType, "image/gif");
   }
 
   public void testContentTypeIsApplicationPdfForPdf() {
-   String contentType = getContentType(".pdf");
-   assertEquals(contentType, "application/pdf");
+    String contentType = getContentType(".pdf");
+    assertEquals(contentType, "application/pdf");
   }
 
   public void testContentTypeIsApplicationForceDownloadForOther() {
-   String contentType = getContentType(".zip");
-   assertEquals(contentType, "application/force-download");
+    String contentType = getContentType(".zip");
+    assertEquals(contentType, "application/force-download");
   }
 
   private String getContentType(String path) {
