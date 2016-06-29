@@ -6,8 +6,7 @@ import java.util.*;
 public class DirListHtml {
 
   public byte[] buildHtmlPage(String path, String[] dirContents) {
-    String rtnString = htmlHeader() + linksToFiles(path, dirContents) + htmlFooter();
-    return rtnString.getBytes();
+    return (htmlHeader() + linksToFiles(path, dirContents) + htmlFooter()).getBytes();
   }
 
   private String linksToFiles(String path, String[] dirContents) {
@@ -23,15 +22,14 @@ public class DirListHtml {
     if (!path.endsWith("/")) {
       pathSlash = "/";
     }
-    String rtnString = "<a href=\"" + path + pathSlash + file + "\">" + file + "</a><br>";
-    return rtnString;
+    return "<a href=\"" + path + pathSlash + file + "\">" + file + "</a><br>";
   }
 
   private String htmlHeader() {
-    return "<!DOCTYPE html>\n\t<html>\n\t<body>\n";
+    return "<!DOCTYPE html><html><body>";
   }
 
   private String htmlFooter() {
-    return "\n</body>\n</html>";
+    return "</body></html>";
   }
 }
