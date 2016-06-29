@@ -12,7 +12,8 @@ public class ResponseHeaders {
 
   public HashMap<String, String> buildHeadersFromGetRequest(byte[] body, String path) {
     HashMap<String, String> rtnMap = new HashMap<String, String>();
-    rtnMap.putAll(contentHeaders(body, path));
+    rtnMap.put("Content-Type", contentType(path));
+    rtnMap.put("Content-Length", contentLength(body));
     return rtnMap;
   }
 
@@ -26,13 +27,6 @@ public class ResponseHeaders {
     contentTypeMap.put(".jpeg", "image/jpeg");
     contentTypeMap.put(".gif", "image/gif");
     contentTypeMap.put(".pdf", "application/pdf");
-  }
-
-  private HashMap<String, String> contentHeaders(byte[] body, String path) {
-    HashMap<String, String> rtnMap = new HashMap<String, String>();
-    rtnMap.put("Content-Type", contentType(path));
-    rtnMap.put("Content-Length", contentLength(body));
-    return rtnMap;
   }
 
   private String contentLength(byte[] body) {
