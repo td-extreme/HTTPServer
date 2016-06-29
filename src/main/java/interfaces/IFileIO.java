@@ -7,4 +7,5 @@ public interface IFileIO {
   public byte[] getContent(String fileName) throws IOException;
   public String[] getFiles (String directory) throws IOException;
   public boolean isPathFile(String path) throws IOException;
+  public boolean exists(String path);
 }

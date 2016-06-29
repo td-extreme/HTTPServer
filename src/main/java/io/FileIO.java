@@ -21,6 +21,11 @@ public class FileIO implements IFileIO {
     return workingDirectory;
   }
 
+  public boolean exists(String path) {
+    File checkFile = new File(getPath(path));
+    return checkFile.exists();
+  }
+
   public boolean isPathFile(String path) throws IOException {
     File checkFile = new File(getPath(path));
     return checkFile.isFile();

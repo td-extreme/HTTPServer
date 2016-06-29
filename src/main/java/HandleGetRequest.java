@@ -18,10 +18,27 @@ public class HandleGetRequest extends HttpHandleRequest {
 
   public HttpResponse generateResponse(HttpRequest request) {
     String path = request.path();
-    if (isPathFile(path)) {
-      return responseWithFileContents(path);
+    if (fileIO.exists(path)) {
+      return responseWithContents(path);
     } else {
-      return responseWithDirContents(path);
+      return notFound();
+    }
+  }
+
+  private HttpResponse responseWithContents(String path) {
+    byte[] body;
+    try {
+      if (isPathFile(path)) {
+        body = fileIO.getContent(path);
+      } else {
+        body = dirListHtml.buildHtmlPage(path, fileIO.getFiles(path));
+        path = "/";
+      }
+      HashMap<String, String> headers = buildHeaders(body, path);
+      return new HttpResponse(CODE_200, body, headers);
+    }
+    catch (IOException e) {
+      return notFound();
     }
   }
 
@@ -33,33 +50,6 @@ public class HandleGetRequest extends HttpHandleRequest {
       return false;
     }
   }
-
-  private HttpResponse responseWithFileContents(String path) {
-    byte[] body;
-    HashMap<String, String> headers;
-    try {
-      body = fileIO.getContent(path);
-    }
-    catch (IOException e) {
-      return notFound();
-    }
-    headers = buildHeaders(body, path);
-    return new HttpResponse(CODE_200, body, headers);
-  }
-
-  private HttpResponse responseWithDirContents(String path) {
-    byte[] body;
-    HashMap<String, String> headers;
-    try {
-      body = dirListHtml.buildHtmlPage(path, fileIO.getFiles(path));
-    }
-    catch (IOException e) {
-      return notFound();
-    }
-    headers = buildHeaders(body, "/");
-    return new HttpResponse(CODE_200, body, headers);
-  }
-
   private HttpResponse notFound() {
     byte[] body = "File not Found".getBytes();
     HashMap<String, String> headers = buildHeaders(body, "/");

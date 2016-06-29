@@ -11,14 +11,23 @@ public class HandleGetRequestTest extends junit.framework.TestCase {
 
   public class MockFileIO implements IFileIO {
     public String workingDirectory() { return "./"; }
-    public boolean isPathFile(String path) { return true; }
+    public boolean exists(String path) { return true; }
+    public boolean isPathFile(String path) {
+      if (path.equals("/")) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
     public byte[] getContent(String fileName) throws IOException {
       if (fileName.equals("/throwIOException")) { throw new IOException(); }
-      return new byte[1];
+      return new byte[0];
     }
+
     public String[] getFiles(String directory) throws IOException {
       if (directory.equals("/throwIOException")) { throw new IOException(); }
-      return new String[0];
+      return new String[] { "file01", "file02" };
     }
   }
 
@@ -26,6 +35,13 @@ public class HandleGetRequestTest extends junit.framework.TestCase {
     MockFileIO mockFileIO = new MockFileIO();
     DirListHtml dirListHtml = new DirListHtml();
     getRequest = new HandleGetRequest(mockFileIO, dirListHtml);
+  }
+
+  public void testRequestForDirectoryReturnsDirListHtmlPage() {
+    request = new HttpRequest("GET / HTTP/1.1");
+    response = getRequest.generateResponse(request);
+    String body = new String(response.body());
+    assert(body.contains("file01"));
   }
 
   public void testGenerateOkResponseDefaultPath() {
