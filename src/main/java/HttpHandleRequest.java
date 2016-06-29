@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 
 public abstract class HttpHandleRequest {
 
-  private HashMap<String, String> standardHeaders;
 
   protected final String CODE_200 = "HTTP/1.1 200 OK";
   protected final String CODE_404 = "HTTP/1.1 404 Not Found";
@@ -14,13 +13,9 @@ public abstract class HttpHandleRequest {
 
   public abstract HttpResponse generateResponse(HttpRequest request);
 
-  public HttpHandleRequest() {
-    standardHeaders = new HashMap<String, String>();
-    standardHeaders.put("Server", "Simple Http Server written in Java");
-  }
-
   protected HashMap<String, String> standardHeaders () {
-    HashMap<String, String> rtnHeaders = standardHeaders;
+    HashMap<String, String> rtnHeaders = new HashMap<String, String>();
+    rtnHeaders.put("Server", "Simple Http Server written in Java");
     rtnHeaders.put("Date", getDateTime());
     return rtnHeaders;
   }

@@ -4,21 +4,20 @@ import java.util.*;
 
 public class HttpHandlerSelector {
 
-  HttpHandleRequest getRequest;
+  HashMap<String, HttpHandleRequest> requestTypeMap;
 
-  public HttpHandlerSelector(HttpHandleRequest getRequest) {
-    this.getRequest = getRequest;
+  // Right now there is only one type of request the Server handles
+  // After the handle a POST request story the constuctor will take another
+  // HttpHandleRequest postRequest and will add that to the requestTypeMap
+  // TODO :: Delete this comment after completing the POST request story.
+
+  public HttpHandlerSelector(HandleGetRequest handleGetRequest) {
+    requestTypeMap = new HashMap<String, HttpHandleRequest>();
+    requestTypeMap.put("GET", handleGetRequest);
   }
 
   public HttpResponse generateResponse(HttpRequest request) {
-    if (request.method().equals("GET")) {
-      return getRequest.generateResponse(request);
-    }
-
-    // TODO :: Remove this after adding classes to handle other types of request methods
-    String responseMessage = "This server currenlty doesn't support request type " + request.method() + "\r\n";
-    byte[] body = responseMessage.getBytes();
-    HashMap<String, String> headers = new HashMap<String, String>();
-    return new HttpResponse("HTTP/1.1 200 OK", body, headers);
+    HttpHandleRequest httpHandleRequest = requestTypeMap.get(request.method());
+    return httpHandleRequest.generateResponse(request);
   }
 }
