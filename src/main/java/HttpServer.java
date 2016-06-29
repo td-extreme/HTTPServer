@@ -12,7 +12,7 @@ public class HttpServer{
     HttpReaderWriter httpReaderWriter = new HttpReaderWriter(socket, builder);
     DirListHtml dirListHtml = new DirListHtml();
     FileIO fileIO = new FileIO(arguments.getDirectory());
-    HttpHandleRequest getRequest = new HandleGetRequest(fileIO, dirListHtml);
+    HandleGetRequest getRequest = new HandleGetRequest(fileIO, dirListHtml);
     HttpHandlerSelector handler = new HttpHandlerSelector(getRequest);
     HttpServerRunner httpServerRunner = new HttpServerRunner(httpReaderWriter, handler);
     System.out.println("HTTP Server running on localhost port " + arguments.getPortNumber() +"!");
