@@ -23,7 +23,7 @@ public class HttpResponseTest extends junit.framework.TestCase {
     assertEquals(response.responseLine(), "HTTP/1.1 404 Not Found");
   }
 
-  public void testHeadersFormatesCorrectly() {
+  public void testHeadersFormatsCorrectly() {
     response.addHeader("Server", "java server");
     response.addHeader("Test", "This");
     assertTrue(response.headers().contains("Server: java server\r\nTest: This"));
