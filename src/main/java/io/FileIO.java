@@ -22,12 +22,22 @@ public class FileIO implements IFileIO {
   }
 
   public boolean isFile(String path) {
-      File checkFile = new File(getPath(path));
-      return checkFile.isFile();
+    File checkFile = new File(getPath(path));
+    return checkFile.isFile();
+  }
+
+  public boolean isDirectory(String path) {
+    File checkFile = new File(getPath(path));
+    return checkFile.isDirectory();
   }
 
   public String workingDirectory() {
     return workingDirectory;
+  }
+
+  public String[] getFiles(String directory) throws IOException {
+    File dir = new File(getPath(directory));
+    return dir.list();
   }
 
   public byte[] getContent(String fileName) throws IOException {
