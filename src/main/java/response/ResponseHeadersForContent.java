@@ -21,8 +21,7 @@ public class ResponseHeadersForContent {
     contentTypeMap = new HashMap<String, String>();
     contentTypeMap.put(".htm", "text/html");
     contentTypeMap.put(".html", "text/html");
-    contentTypeMap.put(".txt", "text/html");
-    contentTypeMap.put("/", "text/html");
+    contentTypeMap.put(".txt", "text/plain");
     contentTypeMap.put(".jpg", "image/jpeg");
     contentTypeMap.put(".jpeg", "image/jpeg");
     contentTypeMap.put(".gif", "image/gif");

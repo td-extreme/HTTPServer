@@ -46,7 +46,7 @@ public class HandlerGetFileContentsTest extends junit.framework.TestCase {
   public void testContentTypeIsTextHtmlForTxtFile() {
     request = new HttpRequest("GET /something.txt HTTP/1.1");
     response = handler.generateResponse(request);
-    assertTrue(response.headers().contains("text/html"));
+    assertTrue(response.headers().contains("text/plain"));
   }
 
   public void testContentTypeIsImageJpegForJpg() {
