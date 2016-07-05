@@ -16,6 +16,16 @@ public class FileIO implements IFileIO {
     workingDirectory = directory;
   }
 
+  public boolean exists(String path) {
+    File checkFile = new File(getPath(path));
+    return checkFile.exists();
+  }
+
+  public boolean isFile(String path) {
+      File checkFile = new File(getPath(path));
+      return checkFile.isFile();
+  }
+
   public String workingDirectory() {
     return workingDirectory;
   }

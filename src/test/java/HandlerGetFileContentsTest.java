@@ -2,14 +2,17 @@ import com.td.HttpServer.*;
 import java.util.*;
 import java.io.IOException;
 
-public class HttpHandlerSelectorTest extends junit.framework.TestCase {
+public class HandlerGetFileContentsTest extends junit.framework.TestCase {
 
-  HttpHandlerSelector handler;
+  HandlerGetFileContents handler;
+  ResponseHeadersForContent responseHeadersForContent;
   HttpRequest request;
   HttpResponse response;
 
   public class MockFileIO implements IFileIO {
     public String workingDirectory() { return "./"; }
+    public boolean exists(String path) { return true; }
+    public boolean isFile(String path) { return true; }
     public byte[] getContent(String fileName) throws IOException {
       if (fileName.equals("/throwIOException")) { throw new IOException(); }
       return new byte[1];
@@ -18,7 +21,8 @@ public class HttpHandlerSelectorTest extends junit.framework.TestCase {
 
   protected void setUp() {
     MockFileIO mockFileIO = new MockFileIO();
-    handler = new HttpHandlerSelector(mockFileIO);
+    responseHeadersForContent = new ResponseHeadersForContent();
+    handler = new HandlerGetFileContents(mockFileIO, responseHeadersForContent);
   }
 
   public void testGenerateOkResponseDefaultPath() {
@@ -42,7 +46,7 @@ public class HttpHandlerSelectorTest extends junit.framework.TestCase {
   public void testContentTypeIsTextHtmlForTxtFile() {
     request = new HttpRequest("GET /something.txt HTTP/1.1");
     response = handler.generateResponse(request);
-    assertTrue(response.headers().contains("text/html"));
+    assertTrue(response.headers().contains("text/plain"));
   }
 
   public void testContentTypeIsImageJpegForJpg() {
