@@ -11,7 +11,6 @@ public class HttpResponseTest extends junit.framework.TestCase {
 
   protected void setUp() {
     responseLine = "HTTP/1.1 200 OK";
-    responseCode = 200;
     body = "This".getBytes();
     headers = new HashMap<String, String>();
     response = new HttpResponse();
