@@ -3,30 +3,38 @@ import java.util.*;
 
 public class HttpResponseTest extends junit.framework.TestCase {
 
-  private String responseLine;
-  private int responseCode;
-  private byte[] body;
-  private HashMap<String, String> headers;
   private HttpResponse response;
 
   protected void setUp() {
-    responseLine = "HTTP/1.1 200 OK";
-    body = "This".getBytes();
-    headers = new HashMap<String, String>();
     response = new HttpResponse();
   }
 
-  public void testResponseLine() {
-    assertEquals(responseLine, response.responseLine());
+  public void testDefaultResponseLine() {
+    assertEquals(response.responseLine(), "HTTP/1.1 200 OK");
   }
 
-  public void testBody() {
-    response.setBody(body);
-    assertEquals(body, response.body());
+  public void testBadRequestResponseLine() {
+    response.setCode(400);
+    assertEquals(response.responseLine(), "HTTP/1.1 400 Bad Request");
   }
 
-  public void testHeaders() {
+  public void testNotFoundResponseLine() {
+    response.setCode(404);
+    assertEquals(response.responseLine(), "HTTP/1.1 404 Not Found");
+  }
+
+  public void testHeadersFormatesCorrectly() {
     response.addHeader("Server", "java server");
-    assertTrue(response.headers().contains("Server:"));
+    response.addHeader("Test", "This");
+    assertTrue(response.headers().contains("Server: java server\r\nTest: This"));
+  }
+
+  public void testGenerateResponseForSendingOutToSocket() {
+    response.setBody("This is the response body");
+    response.addHeader("Test/Header", "test value");
+    response.addHeader("Test/Header2", "test value2");
+    String responseShouldBe = "HTTP/1.1 200 OK\r\nTest/Header: test value\r\nTest/Header2: test value2\r\n\r\nThis is the response body";
+    String responseGenerated = new String(response.responseBytes());
+    assertEquals(responseGenerated, responseShouldBe);
   }
 }
