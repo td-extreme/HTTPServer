@@ -5,15 +5,37 @@ import java.io.*;
 
 public class HttpResponse {
 
-  private String responseLine;
+  private int responseCode;
   private byte[] body;
   private HashMap<String, String> headers;
   private final byte[] NEWLINE = "\r\n".getBytes();
+  private HashMap<Integer, String> responseLines;
 
-  public HttpResponse(String responseLine, byte[] body, HashMap<String, String> headers) {
-    this.responseLine = responseLine;
+  public HttpResponse() {
+    buildResponseLineMap();
+    this.responseCode = 200;
+    this.body = NEWLINE;
+    this.headers = new HashMap<String, String>();
+  }
+
+  public void setCode(int code) {
+    this.responseCode = code;
+  }
+
+  public void setBody(byte[] body) {
     this.body = body;
-    this.headers = headers;
+  }
+
+  public void setBody(String body) {
+    this.body = body.getBytes();
+  }
+
+  public void addHeader(String key, String value) {
+    headers.put(key, value);
+  }
+
+  public void addHeaders(HashMap<String, String> headers) {
+    this.headers.putAll(headers);
   }
 
   public byte[] responseBytes() {
@@ -35,17 +57,24 @@ public class HttpResponse {
     os.write(bytesToWrite, 0, bytesToWrite.length);
   }
 
-  public byte[] body() {
-    return body;
+  public String responseLine() {
+    return responseLines.get(responseCode);
   }
 
-  public String responseLine() {
-    return responseLine;
+  public byte[] body() {
+    return body;
   }
 
   public String headers() {
     StringBuilder builder = new StringBuilder();
     headers.forEach((key, value)-> builder.append(key + ": " + value + "\r\n"));
     return builder.toString();
+  }
+
+  private void buildResponseLineMap() {
+    responseLines = new HashMap<Integer, String>();
+    responseLines.put(200, "HTTP/1.1 200 OK");
+    responseLines.put(400, "HTTP/1.1 400 Bad Request");
+    responseLines.put(404, "HTTP/1.1 404 Not Found");
   }
 }

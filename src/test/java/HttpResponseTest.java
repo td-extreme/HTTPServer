@@ -4,27 +4,30 @@ import java.util.*;
 public class HttpResponseTest extends junit.framework.TestCase {
 
   private String responseLine;
+  private int responseCode;
   private byte[] body;
   private HashMap<String, String> headers;
   private HttpResponse response;
 
   protected void setUp() {
-    responseLine = "HTTP/1.1 OK 200";
+    responseLine = "HTTP/1.1 200 OK";
+    responseCode = 200;
     body = "This".getBytes();
     headers = new HashMap<String, String>();
-    headers.put("testKey", "testValue");
-    response = new HttpResponse(responseLine, body, headers);
+    response = new HttpResponse();
   }
 
-  public void testResponseCode() {
+  public void testResponseLine() {
     assertEquals(responseLine, response.responseLine());
   }
 
   public void testBody() {
+    response.setBody(body);
     assertEquals(body, response.body());
   }
 
   public void testHeaders() {
-    assertTrue(response.headers().contains("testKey: testValue"));
+    response.addHeader("Server", "java server");
+    assertTrue(response.headers().contains("Server:"));
   }
 }
