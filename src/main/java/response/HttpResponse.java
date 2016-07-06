@@ -22,6 +22,10 @@ public class HttpResponse {
     this.responseCode = code;
   }
 
+  public int getResponseCode() {
+    return responseCode;
+  }
+
   public void setBody(byte[] body) {
     this.body = body;
   }
