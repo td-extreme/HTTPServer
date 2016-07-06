@@ -15,7 +15,6 @@ public class DirListHtmlTest extends junit.framework.TestCase {
     path = "myPath";
     mockFiles = new String[] { "File01.txt", "directory01" };
     builtHtmlPage = new String(dirListHtml.buildHtmlPage(path, mockFiles));
-    builtHtmlPageRootDirForPath = new String(dirListHtml.buildHtmlPage(pathRoot, mockFiles));
   }
 
   public void testPageHasDocTypeTag() {
@@ -43,6 +42,7 @@ public class DirListHtmlTest extends junit.framework.TestCase {
   }
 
   public void testWhenPathIsRootDirectory() {
+    builtHtmlPageRootDirForPath = new String(dirListHtml.buildHtmlPage(pathRoot, mockFiles));
     assert(builtHtmlPageRootDirForPath.contains("<a href=\"/File01.txt\">File01.txt</a>"));
   }
 }

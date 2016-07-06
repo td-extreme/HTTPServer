@@ -21,7 +21,7 @@ public class HandlerGetDirectoryContents implements Ihandler {
     catch (IOException e) {
       e.printStackTrace();
       rtnResponse.setBody("IOException");
-      rtnResponse.setCode(400);
+      rtnResponse.setCode(404);
     }
     return rtnResponse;
   }

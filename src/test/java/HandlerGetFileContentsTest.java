@@ -1,4 +1,5 @@
 import com.td.HttpServer.*;
+import com.td.Mocks.*;
 import java.util.*;
 import java.io.IOException;
 
@@ -9,24 +10,12 @@ public class HandlerGetFileContentsTest extends junit.framework.TestCase {
   HttpRequest request;
   HttpResponse response;
 
-  public class MockFileIO implements IFileIO {
-    public String workingDirectory() { return "./"; }
-    public boolean exists(String path) { return true; }
-    public boolean isFile(String path) { return true; }
-    public boolean isDirectory(String path) { return false; }
-    public String[] getFiles(String directory) throws IOException {
-      return new String[0];
-    }
-    public byte[] getContent(String fileName) throws IOException {
-      if (fileName.equals("/throwIOException")) { throw new IOException(); }
-      return new byte[0];
-    }
-  }
-
   protected void setUp() {
     MockFileIO mockFileIO = new MockFileIO();
     responseHeadersForContent = new ResponseHeadersForContent();
     handler = new HandlerGetFileContents(mockFileIO, responseHeadersForContent);
+    mockFileIO.setIsFileTrue();
+    mockFileIO.setIsDirectoryFalse();
   }
 
   public void testGenerateOkResponseDefaultPath() {
