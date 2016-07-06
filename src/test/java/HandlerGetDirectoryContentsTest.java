@@ -31,12 +31,12 @@ public class HandlerGetDirectoryContentsTest extends junit.framework.TestCase {
   public void testGenerateOkCode() {
     request = new HttpRequest("GET / HTTP/1.1");
     response = handler.generateResponse(request);
-    assertEquals(200, response.getResponseCode());
+    assertEquals(200, response.responseCode());
   }
 
   public void testGenerateNotFoundCodeForIOException() {
     request = new HttpRequest("GET /throwIOException HTTP/1.1");
     response = handler.generateResponse(request);
-    assertEquals(404, response.getResponseCode());
+    assertEquals(404, response.responseCode());
   }
 }

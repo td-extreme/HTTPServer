@@ -9,7 +9,8 @@ public class HttpServer{
     arguments = new ArgumentParser(args);
     HttpRequestBuilder builder = new HttpRequestBuilder(new HttpVerifier());
     SocketIO socket = new SocketIO(arguments.getPortNumber());
-    HttpReaderWriter httpReaderWriter = new HttpReaderWriter(socket, builder);
+    HttpResponseFormatter httpResponseFormatter = new HttpResponseFormatter();
+    HttpReaderWriter httpReaderWriter = new HttpReaderWriter(socket, builder, httpResponseFormatter);
     FileIO fileIO = new FileIO(arguments.getDirectory());
     HandlerRouter handlerRouter = new HandlerRouter(fileIO);
     HttpHandlerSelector handler = new HttpHandlerSelector(handlerRouter);

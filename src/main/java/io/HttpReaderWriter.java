@@ -5,12 +5,15 @@ public class HttpReaderWriter {
 
   IMessageIO socketIO;
   IRequestBuilder builder;
+  HttpResponseFormatter httpResponseFormatter;
+
   // TODO after creating a HttpResponseBuilder class change badRequest from a string to a HttpResponse object
   private final String badRequest = "HTTP/1.1 400 Bad Request";
 
-  public HttpReaderWriter(IMessageIO messageIO, IRequestBuilder builder ) {
+  public HttpReaderWriter(IMessageIO messageIO, IRequestBuilder builder, HttpResponseFormatter httpResponseFormatter) {
     this.socketIO = messageIO;
     this.builder = builder;
+    this.httpResponseFormatter = httpResponseFormatter;
   }
 
   public HttpRequest getHttpRequest() throws IOException {
@@ -28,7 +31,8 @@ public class HttpReaderWriter {
   }
 
   public void sendHttpResponse(HttpResponse response)throws IOException {
-    sendMessage(response.responseBytes());
+    byte[] responseBytes = httpResponseFormatter.responseAsBytes(response);
+    sendMessage(responseBytes);
     socketIO.closeClientConnection();
   }
 
