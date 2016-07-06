@@ -6,9 +6,11 @@ public class HandlerRouter {
 
   private IFileIO fileIO;
   private ResponseHeadersForContent responseHeadersForContent;
+  private DirListHtml dirListHtml;
 
   public HandlerRouter(IFileIO fileIO) {
     responseHeadersForContent = new ResponseHeadersForContent();
+    this.dirListHtml = new DirListHtml();
     this.fileIO = fileIO;
   }
 
@@ -21,6 +23,8 @@ public class HandlerRouter {
   private Ihandler selectGetHandler(String path) {
     if (fileIO.isFile(path)) {
       return new HandlerGetFileContents(fileIO, responseHeadersForContent);
+    } else if (fileIO.isDirectory(path)) {
+      return new HandlerGetDirectoryContents(fileIO, dirListHtml);
     } else {
       return new HandlerFileNotFound();
     }
