@@ -10,7 +10,7 @@ public class HandlerRouter {
 
   public HandlerRouter(IFileIO fileIO) {
     responseHeadersForContent = new ResponseHeadersForContent();
-    dirListHtml = new DirListHtml();
+    this.dirListHtml = new DirListHtml();
     this.fileIO = fileIO;
   }
 
