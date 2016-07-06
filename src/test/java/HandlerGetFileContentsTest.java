@@ -28,42 +28,42 @@ public class HandlerGetFileContentsTest extends junit.framework.TestCase {
   public void testGenerateOkResponseDefaultPath() {
     request = new HttpRequest("GET / HTTP/1.1");
     response = handler.generateResponse(request);
-    assertEquals("HTTP/1.1 200 OK", response.responseLine());
+    assertEquals(response.responseCode(), 200);
   }
 
   public void testGenerateOkResponseValidFile() {
     request = new HttpRequest("GET /something.txt HTTP/1.1");
     response = handler.generateResponse(request);
-    assertEquals("HTTP/1.1 200 OK", response.responseLine());
+    assertEquals(response.responseCode(), 200);
   }
 
   public void testGenerateNotFoundResponseforInvalidFile() {
     request = new HttpRequest("GET /throwIOException HTTP/1.1");
     response = handler.generateResponse(request);
-    assertEquals("HTTP/1.1 404 Not Found", response.responseLine());
+    assertEquals(response.responseCode(), 404);
   }
 
   public void testContentTypeIsTextHtmlForTxtFile() {
     request = new HttpRequest("GET /something.txt HTTP/1.1");
     response = handler.generateResponse(request);
-    assertTrue(response.headers().contains("text/plain"));
+    assertEquals(response.headers().get("Content-Type"), "text/plain");
   }
 
   public void testContentTypeIsImageJpegForJpg() {
     request = new HttpRequest("GET /something.jpg HTTP/1.1");
     response = handler.generateResponse(request);
-    assertTrue(response.headers().contains("image/jpeg"));
+    assertEquals(response.headers().get("Content-Type"), "image/jpeg");
   }
 
   public void testContentTypeIsImageGifForGif() {
     request = new HttpRequest("GET /something.gif HTTP/1.1");
     response = handler.generateResponse(request);
-    assertTrue(response.headers().contains("image/gif"));
+    assertEquals(response.headers().get("Content-Type"), "image/gif");
   }
 
   public void testContentTypeIsPdfForPdf() {
     request = new HttpRequest("GET /something.pdf HTTP/1.1");
     response = handler.generateResponse(request);
-    assertTrue(response.headers().contains("application/pdf"));
+    assertEquals(response.headers().get("Content-Type"), "application/pdf");
   }
 }
