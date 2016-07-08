@@ -19,6 +19,7 @@ public class HandlerGetDirectoryContents implements Ihandler {
       String[] fileList = fileIO.getFiles(path);
       byte[] body = dirListHtml.buildHtmlPage(path, fileList);
       rtnResponse.setBody(body);
+      addHeaders(rtnResponse, body);
     }
     catch (IOException e) {
       e.printStackTrace();
@@ -26,5 +27,11 @@ public class HandlerGetDirectoryContents implements Ihandler {
       rtnResponse.setResponseCode(404);
     }
     return rtnResponse;
+  }
+
+  public void addHeaders(HttpResponse response, byte[] body) {
+    response.addHeader("Content-Type", "text/html");
+    String contentLength = Integer.toString(body.length);
+    response.addHeader("Content-Length", contentLength);
   }
 }
