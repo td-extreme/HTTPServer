@@ -40,4 +40,11 @@ public class HandlerGetDirectoryContentsTest extends junit.framework.TestCase {
     response = handler.generateResponse();
     assertEquals(404, response.responseCode());
   }
+
+  public void testContentType() {
+    String path = "/";
+    handler = new HandlerGetDirectoryContents(path, mockFileIO, dirListHtml);
+    response = handler.generateResponse();
+    assertEquals("text/html", response.getValueForHeader("Content-Type"));
+  }
 }
