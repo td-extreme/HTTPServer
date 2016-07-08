@@ -37,6 +37,9 @@ public class MockFileIO implements IFileIO {
     return new byte[0];
   }
 
+  public void writeContent(String filename, String body) { }
+  public void writeContent(String filename, byte[] body) { }
+
   public void setDirectoryContents(String[] contents) {
     this.dirContents = contents;
   }
