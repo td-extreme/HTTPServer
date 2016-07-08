@@ -9,10 +9,11 @@ public class HttpServer{
     arguments = new ArgumentParser(args);
     HttpRequestBuilder builder = new HttpRequestBuilder(new HttpVerifier());
     SocketIO socket = new SocketIO(arguments.getPortNumber());
-    HttpReaderWriter httpReaderWriter = new HttpReaderWriter(socket, builder);
+    HttpResponseFormatter httpResponseFormatter = new HttpResponseFormatter();
+    HttpReaderWriter httpReaderWriter = new HttpReaderWriter(socket, builder, httpResponseFormatter);
     FileIO fileIO = new FileIO(arguments.getDirectory());
-    HttpHandlerSelector handler = new HttpHandlerSelector(fileIO);
-    HttpServerRunner httpServerRunner = new HttpServerRunner(httpReaderWriter, handler);
+    HandlerRouter handlerRouter = new HandlerRouter(fileIO);
+    HttpServerRunner httpServerRunner = new HttpServerRunner(httpReaderWriter, handlerRouter);
     System.out.println("HTTP Server running on localhost port " + arguments.getPortNumber() +"!");
     System.out.println("Using directory : " + fileIO.workingDirectory());
     httpServerRunner.runServer();

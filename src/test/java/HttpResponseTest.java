@@ -3,28 +3,31 @@ import java.util.*;
 
 public class HttpResponseTest extends junit.framework.TestCase {
 
-  private String responseLine;
-  private byte[] body;
-  private HashMap<String, String> headers;
   private HttpResponse response;
+  private HashMap<String, String> testMap;
 
   protected void setUp() {
-    responseLine = "HTTP/1.1 OK 200";
-    body = "This".getBytes();
-    headers = new HashMap<String, String>();
-    headers.put("testKey", "testValue");
-    response = new HttpResponse(responseLine, body, headers);
+    response = new HttpResponse();
+    response.addHeader("testKey", "testValue");
+    testMap = new HashMap<String, String>();
+    testMap.put("key01", "value01");
+    testMap.put("key02", "value02");
   }
 
-  public void testResponseCode() {
-    assertEquals(responseLine, response.responseLine());
+  public void testDefaultResponseLine() {
+    assertEquals(200, response.responseCode());
   }
 
-  public void testBody() {
-    assertEquals(body, response.body());
+  public void testGetHeaders() {
+    assertEquals("testValue", response.headers().get("testKey"));
   }
 
-  public void testHeaders() {
-    assertTrue(response.headers().contains("testKey: testValue"));
+  public void testGetValue() {
+    assertEquals("testValue", response.getValueForHeader("testKey"));
+  }
+
+  public void testAddHashMapToHeaders() {
+    response.addHeaders(testMap);
+    assertEquals("value02", response.getValueForHeader("key02"));
   }
 }
