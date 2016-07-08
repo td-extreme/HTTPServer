@@ -3,20 +3,22 @@ package com.td.HttpServer;
 import java.io.IOException;
 
 public class HandlerGetFileContents implements Ihandler {
-  IFileIO fileIO;
-  ResponseHeadersForContent responseHeaders;
+  private IFileIO fileIO;
+  private ResponseHeadersForContent responseHeaders;
+  private String path;
 
-  public HandlerGetFileContents(IFileIO fileIO, ResponseHeadersForContent responseHeaders) {
+  public HandlerGetFileContents(String path, IFileIO fileIO, ResponseHeadersForContent responseHeaders) {
+    this.path = path;
     this.responseHeaders = responseHeaders;
     this.fileIO = fileIO;
   }
 
-  public HttpResponse generateResponse(HttpRequest request) {
+  public HttpResponse generateResponse() {
     HttpResponse rtnResponse = new HttpResponse();
     try {
-      byte[] body = fileIO.getContent(request.path());
+      byte[] body = fileIO.getContent(path);
       rtnResponse.setBody(body);
-      rtnResponse.addHeaders(responseHeaders.getHeaders(body, request.path()));
+      rtnResponse.addHeaders(responseHeaders.getHeaders(body, path));
     }
     catch (IOException e) {
       e.printStackTrace();

@@ -17,9 +17,14 @@ public class HttpServerRunner {
     HttpResponse response;
 
     while (true) {
-      request = httpReaderWriter.getHttpRequest();
-      handler = handlerRouter.selectHandler(request);
-      response = handler.generateResponse(request);
+      try {
+        request = httpReaderWriter.getHttpRequest();
+        handler = handlerRouter.selectHandler(request);
+      }
+      catch (InvalidHttpRequestException e) {
+        handler = handlerRouter.selectHandlerBadRequest();
+      }
+      response = handler.generateResponse();
       httpReaderWriter.sendHttpResponse(response);
    }
   }

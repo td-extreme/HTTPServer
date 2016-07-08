@@ -27,6 +27,7 @@ class TestSocketInvalid implements IMessageIO {
   public boolean receivedBadConnection() {
     return (receivedMessage.contains("400"));
   }
+
   public void closeClientConnection() { }
   public void openClientConnection() { }
   public void sendBytes(byte[] bytes) { }
@@ -41,16 +42,9 @@ public class HttpReaderWriterTest extends junit.framework.TestCase{
     httpValidator = new HttpVerifier();
   }
 
-  public void testGetValidHttpRequest() throws IOException {
+  public void testGetValidHttpRequest() throws IOException, InvalidHttpRequestException {
     httpReaderWriter = new HttpReaderWriter(new TestSocketValid(), new HttpRequestBuilder(httpValidator), new HttpResponseFormatter());
     HttpRequest request = httpReaderWriter.getHttpRequest();
     assertEquals("GET / HTTP/1.1", request.requestLine());
-  }
-
-  public void testGetInvalidHttpRequest() throws IOException {
-    TestSocketInvalid testSocket = new TestSocketInvalid();
-    httpReaderWriter = new HttpReaderWriter(testSocket,new HttpRequestBuilder(httpValidator), new HttpResponseFormatter());
-    HttpRequest request = httpReaderWriter.getHttpRequest();
-    assertTrue(testSocket.receivedBadConnection());
   }
 }

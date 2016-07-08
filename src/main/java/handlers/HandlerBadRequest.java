@@ -1,11 +1,11 @@
 package com.td.HttpServer;
 
-public class HandlerFileNotFound implements Ihandler {
+public class HandlerBadRequest implements Ihandler {
 
   public HttpResponse generateResponse() {
     HttpResponse rtnResponse = new HttpResponse();
-    rtnResponse.setResponseCode(404);
-    rtnResponse.setBody("File not Found");
+    rtnResponse.setResponseCode(400);
+    rtnResponse.setBody("Bad Request");
     return rtnResponse;
   }
 }

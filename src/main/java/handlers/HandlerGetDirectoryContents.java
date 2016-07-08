@@ -3,19 +3,21 @@ package com.td.HttpServer;
 import java.io.IOException;
 
 public class HandlerGetDirectoryContents implements Ihandler {
-  IFileIO fileIO;
-  DirListHtml dirListHtml;
+  private IFileIO fileIO;
+  private DirListHtml dirListHtml;
+  private String path;
 
-  public HandlerGetDirectoryContents(IFileIO fileIO, DirListHtml dirListHtml) {
+  public HandlerGetDirectoryContents(String path, IFileIO fileIO, DirListHtml dirListHtml) {
+    this.path = path;
     this.fileIO = fileIO;
     this.dirListHtml = dirListHtml;
   }
 
-  public HttpResponse generateResponse(HttpRequest request) {
+  public HttpResponse generateResponse() {
     HttpResponse rtnResponse = new HttpResponse();
     try {
-      String[] fileList = fileIO.getFiles(request.path());
-      byte[] body = dirListHtml.buildHtmlPage(request.path(), fileList);
+      String[] fileList = fileIO.getFiles(path);
+      byte[] body = dirListHtml.buildHtmlPage(path, fileList);
       rtnResponse.setBody(body);
     }
     catch (IOException e) {

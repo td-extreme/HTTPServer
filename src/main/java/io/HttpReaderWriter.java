@@ -7,27 +7,16 @@ public class HttpReaderWriter {
   IRequestBuilder builder;
   HttpResponseFormatter httpResponseFormatter;
 
-  // TODO after creating a HttpResponseBuilder class change badRequest from a string to a HttpResponse object
-  private final String badRequest = "HTTP/1.1 400 Bad Request";
-
   public HttpReaderWriter(IMessageIO messageIO, IRequestBuilder builder, HttpResponseFormatter httpResponseFormatter) {
     this.socketIO = messageIO;
     this.builder = builder;
     this.httpResponseFormatter = httpResponseFormatter;
   }
 
-  public HttpRequest getHttpRequest() throws IOException {
+  public HttpRequest getHttpRequest() throws IOException, InvalidHttpRequestException {
     socketIO.openClientConnection();
-    while(true) {
-      String message = getMessage();
-      try {
-        return builder.createRequest(message);
-      }
-      catch (InvalidHttpRequestException e) {
-        //TODO change this so that it creates a HttpResposne and sends that to output.
-        sendMessage(badRequest);
-      }
-    }
+    String message = getMessage();
+    return builder.createRequest(message);
   }
 
   public void sendHttpResponse(HttpResponse response)throws IOException {
