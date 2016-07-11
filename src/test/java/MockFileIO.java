@@ -1,18 +1,29 @@
 package com.td.Mocks;
 import com.td.HttpServer.IFileIO;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.ArrayList;
 
 public class MockFileIO implements IFileIO {
   private boolean isFileReturnsTrue;
   private boolean isDirectoryReturnsTrue;
-  private String[] dirContents;
+  private ArrayList<String> dirContents;
+
+  public MockFileIO() {
+    dirContents = new ArrayList<String>();
+  }
 
   public String workingDirectory() {
     return "./";
   }
 
   public boolean exists(String path) {
-    return true;
+    for (String file : dirContents) {
+      if (file.equals(path)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public boolean isFile(String path) {
@@ -27,7 +38,7 @@ public class MockFileIO implements IFileIO {
     if (directory.equals("/throwIOException")) {
       throw new IOException();
     }
-    return dirContents;
+    return dirContents.toArray(new String[dirContents.size()]);
   }
 
   public byte[] getContent(String fileName) throws IOException {
@@ -37,11 +48,16 @@ public class MockFileIO implements IFileIO {
     return new byte[0];
   }
 
-  public void writeContent(String filename, String body) { }
-  public void writeContent(String filename, byte[] body) { }
+  public void writeContent(String filename, String body) {
+    addToDirectoryContents(filename);
+  }
 
-  public void setDirectoryContents(String[] contents) {
-    this.dirContents = contents;
+  public void writeContent(String filename, byte[] body) {
+    addToDirectoryContents(filename);
+  }
+
+  public void addToDirectoryContents(String path) {
+    dirContents.add(path);
   }
 
   public void setIsFileTrue() {

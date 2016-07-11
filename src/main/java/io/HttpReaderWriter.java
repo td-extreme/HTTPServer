@@ -15,8 +15,7 @@ public class HttpReaderWriter {
 
   public HttpRequest getHttpRequest() throws IOException, InvalidHttpRequestException {
     socketIO.openClientConnection();
-    String message = getMessage();
-    return builder.createRequest(message);
+    return builder.createRequest(socketIO);
   }
 
   public void sendHttpResponse(HttpResponse response)throws IOException {

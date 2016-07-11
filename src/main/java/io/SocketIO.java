@@ -3,6 +3,7 @@ package com.td.HttpServer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
@@ -27,6 +28,13 @@ public class SocketIO implements IMessageIO {
       line = reader.readLine();
     }
     return request.toString();
+  }
+
+  public byte[] getBytes(int length) throws IOException {
+    InputStream stream = clientSocket.getInputStream();
+    byte[] data = new byte[length];
+    stream.read(data);
+    return data;
   }
 
   public void sendMessage(String message) throws IOException {

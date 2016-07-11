@@ -21,6 +21,8 @@ public class HandlerRouter {
   public Ihandler selectHandler(HttpRequest request) {
     if (request.method().equals("GET")) {
       return selectGetHandler(request.path());
+    } else if (request.method().equals("POST")) {
+      return selectPostHandler(request);
     }
     return new HandlerFileNotFound();
   }
@@ -33,5 +35,9 @@ public class HandlerRouter {
     } else {
       return new HandlerFileNotFound();
     }
+  }
+
+  private Ihandler selectPostHandler(HttpRequest request) {
+    return new HandlerPostFileContents(request.path(), request.body(), fileIO);
   }
 }

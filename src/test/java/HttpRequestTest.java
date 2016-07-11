@@ -1,12 +1,16 @@
 import com.td.HttpServer.*;
-
+import java.util.HashMap;
 public class HttpRequestTest extends junit.framework.TestCase {
 
   HttpRequest request;
-  HttpRequestBuilder requestBuilder;
+  String requestLine;
+  HashMap<String, String> headers;
+
   protected void setUp() {
-    String message = "GET / HTTP/1.1";
-    request = new HttpRequest(message);
+    requestLine = "GET / HTTP/1.1";
+    headers = new HashMap<String, String>();
+    headers.put("Content-Length", "30");
+    request = new HttpRequest(requestLine, headers);
   }
 
   public void testMethodIsSetToGet() {
@@ -23,5 +27,19 @@ public class HttpRequestTest extends junit.framework.TestCase {
 
   public void testRequestLine() {
     assertEquals("GET / HTTP/1.1", request.requestLine());
+  }
+
+  public void testGetValueForHeader() {
+    assertEquals("30", request.getValueForHeader("Content-Length"));
+  }
+
+  public void testContentLength() {
+    assertEquals(30, request.contentLength());
+  }
+
+  public void testContentLengthIsZeroWhenNoContentLengthHeaderPresent() {
+    headers = new HashMap<String, String>();
+    request = new HttpRequest(requestLine, headers);
+    assertEquals(0, request.contentLength());
   }
 }
