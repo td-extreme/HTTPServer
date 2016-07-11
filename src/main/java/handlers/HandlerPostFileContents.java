@@ -37,7 +37,6 @@ public class HandlerPostFileContents implements Ihandler {
     do {
       rtnFile = createDuplicateFile(path, duplicateFileIndex);
       ++duplicateFileIndex;
-      System.out.println(rtnFile);
     } while (fileIO.exists(rtnFile));
     return rtnFile;
   }
