@@ -38,8 +38,8 @@ public class HandlerRouter {
   }
 
   private Ihandler selectPostHandler(HttpRequest request) {
-    if (request.body().length == 0) {
-      return new HandlerUnprocessableEntity("POST Method must supply a Body");
+    if (request.body().length == 0 || request.path().equals("/")) {
+      return new HandlerUnprocessableEntity("POST Method must supply a Body and a Path");
     } else {
     return new HandlerPostFileContents(request.path(), request.body(), fileIO);
     }
