@@ -47,5 +47,6 @@ public class HttpResponseFormatter {
     responseLines.put(201, "HTTP/1.1 201 Created");
     responseLines.put(400, "HTTP/1.1 400 Bad Request");
     responseLines.put(404, "HTTP/1.1 404 Not Found");
+    responseLines.put(422, "HTTP/1.1 422 Unprocessable Entity");
   }
 }

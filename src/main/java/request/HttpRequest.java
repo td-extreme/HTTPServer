@@ -14,6 +14,7 @@ public class HttpRequest implements IHttpRequest {
   public HttpRequest(String requestLine, HashMap<String, String> headers) {
     this.requestLine = requestLine;
     this.headers = headers;
+    this.body = "".getBytes();
   }
 
   public String requestLine() {
