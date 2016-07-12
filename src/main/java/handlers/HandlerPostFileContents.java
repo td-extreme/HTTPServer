@@ -29,16 +29,13 @@ public class HandlerPostFileContents implements Ihandler {
   }
 
   private String getFileToWrite(String path) throws IOException {
-    if (!fileIO.exists(path)) {
-      return path;
-    }
     int duplicateFileIndex = 1;
-    String rtnFile;
-    do {
-      rtnFile = generateDuplicateFileName(path, duplicateFileIndex);
+    String fileName = path;
+    while(fileIO.exists(fileName)) {
+      fileName = generateDuplicateFileName(path, duplicateFileIndex);
       ++duplicateFileIndex;
-    } while (fileIO.exists(rtnFile));
-    return rtnFile;
+    }
+    return fileName;
   }
 
   private String generateDuplicateFileName(String path, int duplicateFileIndex) {
