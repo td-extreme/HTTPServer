@@ -10,16 +10,11 @@ public class HttpRequestBuilder implements IRequestBuilder {
     this.requestVerifier = requestVerifier;
   }
 
-  public HttpRequest createRequest(IMessageIO messageIO) throws IOException, InvalidHttpRequestException {
-    String rawRequest = messageIO.getMessage();
+  public HttpRequest createRequest(String rawRequest) throws IOException, InvalidHttpRequestException {
     HttpRequest rtnRequest;
     String requestLine = parseRequestLine(rawRequest);
     HashMap<String, String> headers = parseHeaders(rawRequest);
     rtnRequest = new HttpRequest(requestLine, headers);
-    if (rtnRequest.contentLength() > 0) {
-      byte[] body = messageIO.getBytes(rtnRequest.contentLength());
-      rtnRequest.setBody(body);
-    }
     return rtnRequest;
   }
 
