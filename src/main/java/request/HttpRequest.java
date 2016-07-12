@@ -29,17 +29,9 @@ public class HttpRequest implements IHttpRequest {
     return requestLine().split(" ")[2];
   }
 
-  private String getValueForHeader(String key) {
-    return headers.get(key);
-  }
-
   public int contentLength() {
-    String length = getValueForHeader("Content-Length");
-    int rtnLength = 0;
-    if (length != null) {
-      rtnLength = Integer.parseInt(length);
-    }
-    return rtnLength;
+    String length = headers.getOrDefault("Content-Length", "0");
+    return Integer.parseInt(length);
   }
 
   public void setBody(byte[] body) {
