@@ -29,14 +29,14 @@ dispayResults() {
 anotherCheck() {
   gradle run & 
   KILL_PID=$!
-  sleep 15
+  sleep 45
   curl localhost:8080
   kill $KILL_PID 
 }
 
 testGetDirectoryContents() {
   curl localhost:8080 > ${TESTPATH}/testGet.txt 2>/dev/null
-  echo -n " <!DOCTYPE html><html><body><a href=\"/file01.txt\">file01.txt</a><br><a href=\"/testGet.txt\">testGet.txt</a><br></body></html>" >> ${TESTPATH}/expected.txt
+  echo -n "<!DOCTYPE html><html><body><a href=\"/file01.txt\">file01.txt</a><br><a href=\"/testGet.txt\">testGet.txt</a><br></body></html>" >> ${TESTPATH}/expected.txt
   printf "\n\n${WHITE}Black Box Test > testGetDirectoryContents"
   if cmp -s ${TESTPATH}/expected.txt ${TESTPATH}/testGet.txt ; then
     printf "${GREEN} PASSED ${WHITE}\n"
@@ -66,7 +66,7 @@ testGetDirectoryContents() {
 }
 
 setUp
-sleep 15
+sleep 45
 testGetDirectoryContents
 tearDown
 dispayResults
