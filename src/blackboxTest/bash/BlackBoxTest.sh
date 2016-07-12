@@ -35,6 +35,13 @@ testGetDirectoryContents() {
   else
     EXIT_CODE=1
     printf "${RED} FAILED ${WHITE}\n"
+    printf "\n\n ---- "
+    pwd
+    ls
+    ls ${TESTPATH} 
+    printf "\n\n ----"
+    diff ${TESTPATH}/expected.txt ${TESTPATH}/testGet.txt
+    printf "\n"
   fi
 }
 
