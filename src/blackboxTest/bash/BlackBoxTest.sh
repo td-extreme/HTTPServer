@@ -11,6 +11,8 @@ setUp() {
   ./gradlew run -P args="-d ${TESTPATH}" &
   SERVER_PID=$!
   printf "\n\n:Blackbox Tests:\n"
+  printf "There is a 30 second wait to ensure the HttpServer is running before any tests execute.\n\n"
+  sleep 30
 }
 
 tearDown() {
@@ -26,14 +28,6 @@ dispayResults() {
   fi
 }
 
-anotherCheck() {
-  gradle run & 
-  KILL_PID=$!
-  sleep 45
-  curl localhost:8080
-  kill $KILL_PID 
-}
-
 testGetDirectoryContents() {
   curl localhost:8080 > ${TESTPATH}/testGet.txt 2>/dev/null
   echo -n "<!DOCTYPE html><html><body><a href=\"/file01.txt\">file01.txt</a><br><a href=\"/testGet.txt\">testGet.txt</a><br></body></html>" >> ${TESTPATH}/expected.txt
@@ -44,31 +38,19 @@ testGetDirectoryContents() {
     EXIT_CODE=1
     printf "${RED} FAILED ${WHITE}\n"
     printf "\n\n--------------\n"
-    printf "\n pwd : "
-    pwd
-    printf "\n ls : "
-    ls
-    printf "\n ls temp : "
-    ls ${TESTPATH} 
-    printf "\n\n ----\n diff expected.txt testGet.txt \n"
     diff ${TESTPATH}/expected.txt ${TESTPATH}/testGet.txt
-    printf "\n"
-    printf "\n more expected.txt\n"
+    printf "\n __ \n"
     more ${TESTPATH}/expected.txt 
-    printf "\n more testGet.txt \n"
+    printf "\n -- \n"
     more ${TESTPATH}/testGet.txt
-    printf "\n SERVER_PID "
-    printf $SERVER_PID
-    printf "\n curl localhost:8080 \n"
-    curl localhost:8080 
     printf "\n\n--------------\n"
   fi
 }
 
+# Main 
+
 setUp
-sleep 45
 testGetDirectoryContents
 tearDown
 dispayResults
-anotherCheck
 exit $EXIT_CODE
