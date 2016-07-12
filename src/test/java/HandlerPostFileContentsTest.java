@@ -14,8 +14,8 @@ public class HandlerPostFileContentsTest extends junit.framework.TestCase {
     mockFileIO = new MockFileIO();
     body = "this".getBytes();
     path = "testFile.txt";
-    path1 = "testFile(1).txt";
-    path2 = "testFile(2).txt";
+    path1 = "testFile-1.txt";
+    path2 = "testFile-2.txt";
     handler = new HandlerPostFileContents(path, body, mockFileIO);
   }
 

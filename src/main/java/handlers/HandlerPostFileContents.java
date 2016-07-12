@@ -35,13 +35,13 @@ public class HandlerPostFileContents implements Ihandler {
     int duplicateFileIndex = 1;
     String rtnFile;
     do {
-      rtnFile = createDuplicateFile(path, duplicateFileIndex);
+      rtnFile = generateDuplicateFileName(path, duplicateFileIndex);
       ++duplicateFileIndex;
     } while (fileIO.exists(rtnFile));
     return rtnFile;
   }
 
-  private String createDuplicateFile(String path, int duplicateFileIndex) {
+  private String generateDuplicateFileName(String path, int duplicateFileIndex) {
     int extentionPosition = path.lastIndexOf('.');
     String fileName;
     String fileExtention;
@@ -52,6 +52,6 @@ public class HandlerPostFileContents implements Ihandler {
       fileName = path.substring(0, extentionPosition);
       fileExtention = path.substring(extentionPosition);
     }
-    return fileName + "(" + duplicateFileIndex + ")" + fileExtention;
+    return fileName + "-" + duplicateFileIndex + fileExtention;
   }
 }
