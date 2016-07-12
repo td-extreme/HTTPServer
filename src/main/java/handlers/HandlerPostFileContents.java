@@ -42,15 +42,15 @@ public class HandlerPostFileContents implements Ihandler {
   }
 
   private String createDuplicateFile(String path, int duplicateFileIndex) {
-    int extensionPosition = path.lastIndexOf('.');
+    int extentionPosition = path.lastIndexOf('.');
     String fileName;
     String fileExtention;
-    if (extensionPosition == -1) {
+    if (extentionPosition == -1) {
       fileName = path;
       fileExtention = "";
     } else {
-      fileName = path.substring(0, extensionPosition);
-      fileExtention = path.substring(extensionPosition);
+      fileName = path.substring(0, extentionPosition);
+      fileExtention = path.substring(extentionPosition);
     }
     return fileName + "(" + duplicateFileIndex + ")" + fileExtention;
   }
