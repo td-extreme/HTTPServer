@@ -7,10 +7,6 @@ public class HttpRequest implements IHttpRequest {
   HashMap<String, String> headers;
   byte[] body;
 
-  public HttpRequest(String requestLine) {
-    this.requestLine = requestLine;
-  }
-
   public HttpRequest(String requestLine, HashMap<String, String> headers) {
     this.requestLine = requestLine;
     this.headers = headers;
