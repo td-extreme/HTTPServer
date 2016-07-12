@@ -7,7 +7,6 @@ WHITE='\033[0m'
 
 setUp() {
   mkdir ${TESTPATH}
-  rm ${TESTPATH}/*
   touch ${TESTPATH}/file01.txt
   ./gradlew run -P args="-d ${TESTPATH}" &
   SERVER_PID=$!
@@ -27,9 +26,17 @@ dispayResults() {
   fi
 }
 
+anotherCheck() {
+  gradle run & 
+  KILL_PID=$!
+  sleep 15
+  curl localhost:8080
+  kill $KILL_PID 
+}
+
 testGetDirectoryContents() {
   curl localhost:8080 > ${TESTPATH}/testGet.txt 2>/dev/null
-  echo -n "<!DOCTYPE html><html><body><a href=\"/file01.txt\">file01.txt</a><br><a href=\"/testGet.txt\">testGet.txt</a><br></body></html>" >> ${TESTPATH}/expected.txt
+  echo -n " <!DOCTYPE html><html><body><a href=\"/file01.txt\">file01.txt</a><br><a href=\"/testGet.txt\">testGet.txt</a><br></body></html>" >> ${TESTPATH}/expected.txt
   printf "\n\n${WHITE}Black Box Test > testGetDirectoryContents"
   if cmp -s ${TESTPATH}/expected.txt ${TESTPATH}/testGet.txt ; then
     printf "${GREEN} PASSED ${WHITE}\n"
@@ -46,10 +53,10 @@ testGetDirectoryContents() {
     printf "\n\n ----\n diff expected.txt testGet.txt \n"
     diff ${TESTPATH}/expected.txt ${TESTPATH}/testGet.txt
     printf "\n"
-    printf "\n more expected.txt"
-    more expected.txt
+    printf "\n more expected.txt\n"
+    more ${TESTPATH}/expected.txt 
     printf "\n more testGet.txt \n"
-    more testGet.txt
+    more ${TESTPATH}/testGet.txt
     printf "\n SERVER_PID "
     printf $SERVER_PID
     printf "\n curl localhost:8080 \n"
@@ -59,8 +66,9 @@ testGetDirectoryContents() {
 }
 
 setUp
-sleep 5
+sleep 15
 testGetDirectoryContents
 tearDown
 dispayResults
+anotherCheck
 exit $EXIT_CODE
