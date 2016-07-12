@@ -29,7 +29,7 @@ public class HttpRequest implements IHttpRequest {
     return requestLine().split(" ")[2];
   }
 
-  public String getValueForHeader(String key) {
+  private String getValueForHeader(String key) {
     return headers.get(key);
   }
 

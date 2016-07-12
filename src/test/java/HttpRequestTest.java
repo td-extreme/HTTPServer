@@ -29,10 +29,6 @@ public class HttpRequestTest extends junit.framework.TestCase {
     assertEquals("GET / HTTP/1.1", request.requestLine());
   }
 
-  public void testGetValueForHeader() {
-    assertEquals("30", request.getValueForHeader("Content-Length"));
-  }
-
   public void testContentLength() {
     assertEquals(30, request.contentLength());
   }
