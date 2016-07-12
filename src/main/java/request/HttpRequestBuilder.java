@@ -31,10 +31,9 @@ public class HttpRequestBuilder implements IRequestBuilder {
     HashMap<String, String> headers = new HashMap<String, String>();
     String headerLines[] = rawHeaders.split("\n");
     for (String line : headerLines ) {
-      if (line.contains(":") && line.contains(" ")) {
-        String key = line.split(":", 2)[0];
-        String value = line.split("\\s+", 2)[1];
-        headers.put(key, value);
+      String lineSplit[] = line.split(": ", 2);
+      if (lineSplit.length == 2) {
+        headers.put(lineSplit[0], lineSplit[1]);
       }
     }
     return headers;
