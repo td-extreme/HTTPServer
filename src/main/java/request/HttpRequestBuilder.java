@@ -10,15 +10,15 @@ public class HttpRequestBuilder implements IRequestBuilder {
     this.requestVerifier = requestVerifier;
   }
 
-  public HttpRequest createRequest(String rawRequest) throws IOException, InvalidHttpRequestException {
-    HttpRequest rtnRequest;
+  public HttpRequest createRequest(String rawRequest) throws InvalidHttpRequestException {
+    HttpRequest request;
     String requestLine = parseRequestLine(rawRequest);
     HashMap<String, String> headers = parseHeaders(rawRequest);
-    rtnRequest = new HttpRequest(requestLine, headers);
-    return rtnRequest;
+    request = new HttpRequest(requestLine, headers);
+    return request;
   }
 
-  public String parseRequestLine(String rawRequest) throws InvalidHttpRequestException {
+  private String parseRequestLine(String rawRequest) throws InvalidHttpRequestException {
     String requestLine = rawRequest.split("\r?\n")[0];
     if (!requestVerifier.isValid(requestLine)) {
       throw new InvalidHttpRequestException();
@@ -26,17 +26,17 @@ public class HttpRequestBuilder implements IRequestBuilder {
     return requestLine;
   }
 
-  public HashMap<String, String> parseHeaders(String rawRequest) throws InvalidHttpRequestException  {
+  private HashMap<String, String> parseHeaders(String rawRequest) throws InvalidHttpRequestException  {
     String rawHeaders = rawRequest.split("\n", 2)[1];
-    HashMap<String, String> rtnMap = new HashMap<String, String>();
+    HashMap<String, String> headers = new HashMap<String, String>();
     String headerLines[] = rawHeaders.split("\n");
     for (String line : headerLines ) {
       if (line.contains(":") && line.contains(" ")) {
         String key = line.split(":", 2)[0];
         String value = line.split("\\s+", 2)[1];
-        rtnMap.put(key, value);
+        headers.put(key, value);
       }
     }
-    return rtnMap;
+    return headers;
   }
 }
