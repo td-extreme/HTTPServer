@@ -43,9 +43,8 @@ testResults() {
 }
 
 testGetDirectoryContents() {
-  touch ${TESTPATH}/file01.txt
   curl localhost:8080 > ${TESTPATH}/dirActual.txt 2>/dev/null
-  echo -n "<!DOCTYPE html><html><body><a href=\"/dirActual.txt\">dirActual.txt</a><br><a href=\"/file01.txt\">file01.txt</a><br></body></html>" >> ${TESTPATH}/dirExpected.txt
+  echo -n "<!DOCTYPE html><html><body><a href=\"/dirActual.txt\">dirActual.txt</a><br></body></html>" >> ${TESTPATH}/dirExpected.txt
   testResults testGetDirectoryContents dirExpected.txt dirActual.txt
  }
 
