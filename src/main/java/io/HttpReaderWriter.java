@@ -15,8 +15,12 @@ public class HttpReaderWriter {
 
   public HttpRequest getHttpRequest() throws IOException, InvalidHttpRequestException {
     socketIO.openClientConnection();
-    String message = getMessage();
-    return builder.createRequest(message);
+    HttpRequest rtnRequest = builder.createRequest(getMessage());
+    if (rtnRequest.contentLength() > 0) {
+      byte[] body = socketIO.getBytes(rtnRequest.contentLength());
+      rtnRequest.setBody(body);
+    }
+    return rtnRequest;
   }
 
   public void sendHttpResponse(HttpResponse response)throws IOException {

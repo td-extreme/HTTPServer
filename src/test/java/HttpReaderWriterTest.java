@@ -9,6 +9,9 @@ class TestSocketValid implements IMessageIO {
   public void sendBytes(byte[] bytes) { }
   public void closeClientConnection() { }
   public void openClientConnection() { }
+  public byte[] getBytes(int length) {
+    return new byte[0];
+  }
 }
 
 class TestSocketInvalid implements IMessageIO {
@@ -31,6 +34,10 @@ class TestSocketInvalid implements IMessageIO {
   public void closeClientConnection() { }
   public void openClientConnection() { }
   public void sendBytes(byte[] bytes) { }
+  public byte[] getBytes(int length) {
+    return new byte[0];
+  }
+
 }
 
 public class HttpReaderWriterTest extends junit.framework.TestCase{

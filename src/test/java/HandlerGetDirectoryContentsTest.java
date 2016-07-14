@@ -15,8 +15,7 @@ public class HandlerGetDirectoryContentsTest extends junit.framework.TestCase {
     mockFileIO = new MockFileIO();
     mockFileIO.setIsFileFalse();
     mockFileIO.setIsDirectoryTrue();
-    String[] contents = { "file01", "file02", "file03" };
-    mockFileIO.setDirectoryContents(contents);
+    mockFileIO.addToDirectoryContents("file01");
   }
 
   public void testResponseBodyContainsLinks() {

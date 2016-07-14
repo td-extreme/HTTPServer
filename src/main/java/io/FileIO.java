@@ -45,6 +45,15 @@ public class FileIO implements IFileIO {
       return Files.readAllBytes(path);
   }
 
+  public void writeContent(String fileName, String body) throws IOException {
+    writeContent(fileName, body.getBytes());
+  }
+
+  public void writeContent(String fileName, byte[] body) throws IOException {
+    Path path = Paths.get(getPath(fileName));
+    Files.write(path, body);
+  }
+
   private String getPath(String fileName) {
     return workingDirectory + fileName;
   }

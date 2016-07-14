@@ -21,6 +21,8 @@ public class HandlerRouter {
   public Ihandler selectHandler(HttpRequest request) {
     if (request.method().equals("GET")) {
       return selectGetHandler(request.path());
+    } else if (request.method().equals("POST")) {
+      return selectPostHandler(request);
     }
     return new HandlerFileNotFound();
   }
@@ -32,6 +34,14 @@ public class HandlerRouter {
       return new HandlerGetDirectoryContents(path, fileIO, dirListHtml);
     } else {
       return new HandlerFileNotFound();
+    }
+  }
+
+  private Ihandler selectPostHandler(HttpRequest request) {
+    if (request.body().length == 0 || request.path().equals("/")) {
+      return new HandlerUnprocessableEntity("POST Method must supply a Body and a Path");
+    } else {
+    return new HandlerPostFileContents(request.path(), request.body(), fileIO);
     }
   }
 }
