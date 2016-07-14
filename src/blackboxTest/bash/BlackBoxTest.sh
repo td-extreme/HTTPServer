@@ -10,8 +10,8 @@ setUp() {
   ./gradlew run -P args="-d ${TESTPATH}" &
   SERVER_PID=$!
   printf "\n\n:Blackbox Tests:\n"
-  printf "There is a 30 second wait to ensure the HttpServer is running before any tests execute.\n\n"
-  sleep 30
+  printf "There is a 15 second wait to ensure the HttpServer is running before any tests execute.\n\n"
+  sleep 15
 }
 
 tearDown() {
