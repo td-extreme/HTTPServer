@@ -8,7 +8,7 @@ If you have gradle installed on your machine:
 
 To run just unit tests :  gradle test
 
-To run unit tests and end to end (blackbox test) : ./test.sh
+To run unit tests and end to end (blackbox test) : ./runAllTests.sh
 
 To run the program: gradle run
 
