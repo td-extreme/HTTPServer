@@ -1,6 +1,6 @@
 package com.td.HttpServer;
 import java.io.IOException;
-
+import java.net.ServerSocket;
 public class HttpServer{
 
   private static ArgumentParser arguments;
@@ -8,7 +8,8 @@ public class HttpServer{
   public static void main(String[] args) throws IOException {
     arguments = new ArgumentParser(args);
     HttpRequestBuilder builder = new HttpRequestBuilder(new HttpVerifier());
-    SocketIO socket = new SocketIO(arguments.getPortNumber());
+    ServerSocket serverSocket = new ServerSocket(arguments.getPortNumber());
+    SocketIO socket = new SocketIO(serverSocket);
     HttpResponseFormatter httpResponseFormatter = new HttpResponseFormatter();
     HttpReaderWriter httpReaderWriter = new HttpReaderWriter(socket, builder, httpResponseFormatter);
     FileIO fileIO = new FileIO(arguments.getDirectory());

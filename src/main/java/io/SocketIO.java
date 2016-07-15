@@ -13,8 +13,8 @@ public class SocketIO implements IMessageIO {
   ServerSocket server;
   Socket clientSocket;
 
-  public SocketIO(int portNumber) throws IOException {
-    server = new ServerSocket(portNumber);
+  public SocketIO(ServerSocket server) throws IOException {
+    this.server = server;
   }
 
   public String getMessage() throws IOException {
