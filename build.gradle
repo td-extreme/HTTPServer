@@ -13,6 +13,17 @@ run {
   }
 }
 
+sourceSets {
+  integrationTest {
+    java {
+      compileClasspath += main.output + test.output
+      runtimeClasspath += main.output + test.output
+      srcDir file('src/integrationTest/java')
+    }
+    resources.srcDir file('src/integrationTest/resources')
+  }
+}
+
 jar {
   baseName = 'HttpServer'
   version = '0.1.1'
@@ -21,8 +32,14 @@ jar {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+configurations {
+  integrationTestCompile.extendsFrom testCompile
+  integrationTestRuntime.extendsFrom testRuntime
+}
+
 dependencies {
   testCompile "junit:junit:4.11"
+  integrationTestCompile "junit:junit:4.11"
 }
 
 test {
@@ -30,6 +47,20 @@ test {
     events 'passed'
   }
 }
+
+task integrationTest(type: Test) {
+  testClassesDir = sourceSets.integrationTest.output.classesDir
+  classpath = sourceSets.integrationTest.runtimeClasspath
+  outputs.upToDateWhen { false }
+}
+
+integrationTest {
+  testLogging {
+    events 'passed'
+  }
+}
+check.dependsOn integrationTest
+integrationTest.mustRunAfter test
 
 task wrapper(type: Wrapper) {
   gradleVersion = '2.3'

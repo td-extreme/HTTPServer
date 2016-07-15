@@ -6,7 +6,9 @@ An HTTP Server written in Java.
 
 If you have gradle installed on your machine:
 
-To run tests :  gradle test
+To run just unit tests :  gradle test
+
+To run unit tests and end to end (blackbox test) : ./runAllTests.sh
 
 To run the program: gradle run
 
