@@ -7,16 +7,24 @@ public class HttpServer{
 
   public static void main(String[] args) throws IOException {
     arguments = new ArgumentParser(args);
-    HttpRequestBuilder builder = new HttpRequestBuilder(new HttpVerifier());
     ServerSocket serverSocket = new ServerSocket(arguments.getPortNumber());
-    SocketIO socket = new SocketIO(serverSocket);
+    HttpVerifier httpVerifier = new HttpVerifier();
+    HttpRequestParser httpRequestParser = new HttpRequestParser(httpVerifier);
     HttpResponseFormatter httpResponseFormatter = new HttpResponseFormatter();
-    HttpReaderWriter httpReaderWriter = new HttpReaderWriter(socket, builder, httpResponseFormatter);
     FileIO fileIO = new FileIO(arguments.getDirectory());
     HandlerRouter handlerRouter = new HandlerRouter(fileIO);
-    HttpServerRunner httpServerRunner = new HttpServerRunner(httpReaderWriter, handlerRouter);
-    System.out.println("HTTP Server running on localhost port " + arguments.getPortNumber() +"!");
+    HttpRequestReader httpRequestReader = new HttpRequestReader();
+    HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder(httpRequestReader, httpRequestParser);
+    HttpResponseWriter httpResponseWriter = new HttpResponseWriter(httpResponseFormatter);
+    HttpServerRunner httpServerRunner = new HttpServerRunner(handlerRouter, httpRequestBuilder, httpResponseWriter);
+    System.out.println("HTTP Server running on localhost port " + serverSocket.getLocalPort() +"!");
     System.out.println("Using directory : " + fileIO.workingDirectory());
-    httpServerRunner.runServer();
+
+    while (true) {
+      SocketIO client = new SocketIO(serverSocket);
+      client.openClientConnection();
+      httpServerRunner.run(client);
+      client.closeClientConnection();
+    }
   }
 }

@@ -13,7 +13,7 @@ public class SocketIO implements IMessageIO {
   ServerSocket server;
   Socket clientSocket;
 
-  public SocketIO(ServerSocket server) throws IOException {
+  public SocketIO(ServerSocket server) {
     this.server = server;
   }
 
