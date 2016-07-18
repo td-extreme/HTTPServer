@@ -1,41 +1,27 @@
 package com.td.HttpServer;
 
-import java.util.*;
+import java.util.HashMap;
 import java.io.IOException;
 
 public class HttpRequestBuilder implements IRequestBuilder {
+  IRequestReader reader;
+  IRequestParser parser;
 
-  private IValidator requestVerifier;
-  public HttpRequestBuilder(IValidator requestVerifier) {
-    this.requestVerifier = requestVerifier;
+  public HttpRequestBuilder(IRequestReader reader, IRequestParser parser ) {
+    this.reader = reader;
+    this.parser = parser;
   }
 
-  public HttpRequest createRequest(String rawRequest) throws InvalidHttpRequestException {
+  public HttpRequest createRequest(IMessageIO client) throws InvalidHttpRequestException, IOException {
     HttpRequest request;
-    String requestLine = parseRequestLine(rawRequest);
-    HashMap<String, String> headers = parseHeaders(rawRequest);
+    String rawRequest = reader.getMessage(client);
+    String requestLine = parser.parseRequestLine(rawRequest);
+    HashMap<String, String> headers = parser.parseHeaders(rawRequest);
     request = new HttpRequest(requestLine, headers);
+    if (request.contentLength() > 0) {
+      byte[] body = reader.getBytes(client, request.contentLength());
+      request.setBody(body);
+    }
     return request;
   }
-
-  private String parseRequestLine(String rawRequest) throws InvalidHttpRequestException {
-    String requestLine = rawRequest.split("\r?\n")[0];
-    if (!requestVerifier.isValid(requestLine)) {
-      throw new InvalidHttpRequestException();
-    }
-    return requestLine;
-  }
-
-  private HashMap<String, String> parseHeaders(String rawRequest) throws InvalidHttpRequestException  {
-    String rawHeaders = rawRequest.split("\n", 2)[1];
-    HashMap<String, String> headers = new HashMap<String, String>();
-    String headerLines[] = rawHeaders.split("\n");
-    for (String line : headerLines ) {
-      String lineSplit[] = line.split(": ", 2);
-      if (lineSplit.length == 2) {
-        headers.put(lineSplit[0], lineSplit[1]);
-      }
-    }
-    return headers;
-  }
-}
+ }

@@ -3,29 +3,33 @@ import java.io.IOException;
 
 public class HttpServerRunner {
 
-  HttpReaderWriter httpReaderWriter;
   HandlerRouter handlerRouter;
-
-  public HttpServerRunner(HttpReaderWriter httpReaderWriter, HandlerRouter handlerRouter) {
-    this.httpReaderWriter = httpReaderWriter;
+  IRequestBuilder httpRequestBuilder;
+  HttpResponseWriter httpResponseWriter;
+    public HttpServerRunner(HandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, HttpResponseWriter httpResponseWriter) {
     this.handlerRouter = handlerRouter; 
+    this.httpRequestBuilder = httpRequestBuilder;
+    this.httpResponseWriter = httpResponseWriter;
   }
 
-  public void runServer() throws IOException {
-    HttpRequest request;
+  public void run(IMessageIO client) {
+   HttpRequest request;
     Ihandler handler;
     HttpResponse response;
-
-    while (true) {
-      try {
-        request = httpReaderWriter.getHttpRequest();
-        handler = handlerRouter.selectHandler(request);
-      }
-      catch (InvalidHttpRequestException e) {
-        handler = handlerRouter.selectHandlerBadRequest();
-      }
-      response = handler.generateResponse();
-      httpReaderWriter.sendHttpResponse(response);
-   }
+    try {
+      request = httpRequestBuilder.createRequest(client);
+      handler = handlerRouter.selectHandler(request);
+    }
+    catch (InvalidHttpRequestException e) {
+      handler = handlerRouter.selectHandlerBadRequest();
+    }
+    catch (IOException e) {
+      return;
+    }
+    response = handler.generateResponse();
+    try {
+      httpResponseWriter.sendHttpResponse(client, response);
+    }
+    catch (IOException e) { }
   }
 }
