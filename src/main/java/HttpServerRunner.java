@@ -4,9 +4,9 @@ import java.io.IOException;
 public class HttpServerRunner {
 
   HandlerRouter handlerRouter;
-  HttpRequestBuilder httpRequestBuilder;
+  IRequestBuilder httpRequestBuilder;
   HttpResponseWriter httpResponseWriter;
-    public HttpServerRunner(HandlerRouter handlerRouter, HttpRequestBuilder httpRequestBuilder, HttpResponseWriter httpResponseWriter) {
+    public HttpServerRunner(HandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, HttpResponseWriter httpResponseWriter) {
     this.handlerRouter = handlerRouter; 
     this.httpRequestBuilder = httpRequestBuilder;
     this.httpResponseWriter = httpResponseWriter;
@@ -16,7 +16,6 @@ public class HttpServerRunner {
    HttpRequest request;
     Ihandler handler;
     HttpResponse response;
-
     try {
       request = httpRequestBuilder.createRequest(client);
       handler = handlerRouter.selectHandler(request);
@@ -27,9 +26,7 @@ public class HttpServerRunner {
     catch (IOException e) {
       return;
     }
-
     response = handler.generateResponse();
-
     try {
       httpResponseWriter.sendHttpResponse(client, response);
     }
