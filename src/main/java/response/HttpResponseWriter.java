@@ -18,7 +18,7 @@ public class HttpResponseWriter {
     }
     catch (IOException e) {
       e.printStackTrace();
-      throw new BadConnectionException();
+      throw new BadConnectionException(e);
     }
   }
 

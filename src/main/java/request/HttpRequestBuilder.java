@@ -17,7 +17,7 @@ public class HttpRequestBuilder implements IRequestBuilder {
     }
     catch (IOException e) {
       e.printStackTrace();
-      throw new BadConnectionException();
+      throw new BadConnectionException(e);
     }
     HttpRequest request = parser.parseRequest(rawRequest);
     addBody(client, request);
@@ -32,7 +32,7 @@ public class HttpRequestBuilder implements IRequestBuilder {
       }
       catch (IOException e) {
         e.printStackTrace();
-        throw new BadConnectionException();
+        throw new BadConnectionException(e);
       }
       request.setBody(body);
     }
