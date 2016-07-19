@@ -21,6 +21,7 @@ public class HttpServerRunner {
       handler = handlerRouter.selectHandler(request);
     }
     catch (InvalidHttpRequestException e) {
+      e.printStackTrace();
       handler = handlerRouter.selectHandlerBadRequest();
     }
     catch (BadConnectionException e) {
