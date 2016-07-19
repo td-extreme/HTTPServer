@@ -3,9 +3,10 @@ import java.util.*;
 
 public class HttpRequestParser implements IRequestParser {
 
-  private IValidator requestVerifier;
-  public HttpRequestParser(IValidator requestVerifier) {
-    this.requestVerifier = requestVerifier;
+  private HttpVerifier requestVerifier;
+
+  public HttpRequestParser() {
+    this.requestVerifier = new HttpVerifier();
   }
 
   public HttpRequest parseRequest(String rawRequest) throws InvalidHttpRequestException {

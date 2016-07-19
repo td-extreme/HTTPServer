@@ -13,7 +13,7 @@ public class HttpRequestBuilderTest extends junit.framework.TestCase {
   HttpRequestBuilder builder;
 
   protected void setUp() {
-    parser = new HttpRequestParser(new HttpVerifier());
+    parser = new HttpRequestParser();
   }
 
   public void testThatRequestLineGetsSet() throws InvalidHttpRequestException, IOException {

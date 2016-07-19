@@ -8,8 +8,7 @@ public class HttpServer{
   public static void main(String[] args) throws IOException {
     arguments = new ArgumentParser(args);
     ServerSocket serverSocket = new ServerSocket(arguments.getPortNumber());
-    HttpVerifier httpVerifier = new HttpVerifier();
-    HttpRequestParser httpRequestParser = new HttpRequestParser(httpVerifier);
+    HttpRequestParser httpRequestParser = new HttpRequestParser();
     FileIO fileIO = new FileIO(arguments.getDirectory());
     HandlerRouter handlerRouter = new HandlerRouter(fileIO);
     HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder(httpRequestParser);

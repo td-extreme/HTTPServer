@@ -6,14 +6,12 @@ import java.util.HashMap;
 
 public class HttpRequestParserTest extends junit.framework.TestCase {
 
-  private HttpVerifier verifier;
   private HttpRequestParser parser;
   String rawRequest;
   HttpRequest request;
 
   protected void setUp() throws InvalidHttpRequestException {
-    verifier = new HttpVerifier();
-    parser = new HttpRequestParser(verifier);
+    parser = new HttpRequestParser();
     rawRequest = "GET / HTTP/1.1\nHeader: value\nHeader2: value2\n\n";
     request = parser.parseRequest(rawRequest);
   }
