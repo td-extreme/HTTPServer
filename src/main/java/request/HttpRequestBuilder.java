@@ -4,22 +4,17 @@ import java.util.HashMap;
 import java.io.IOException;
 
 public class HttpRequestBuilder implements IRequestBuilder {
-  IRequestReader reader;
   IRequestParser parser;
 
-  public HttpRequestBuilder(IRequestReader reader, IRequestParser parser ) {
-    this.reader = reader;
+  public HttpRequestBuilder(IRequestParser parser ) {
     this.parser = parser;
   }
 
-  public HttpRequest createRequest(IMessageIO client) throws InvalidHttpRequestException, IOException {
-    HttpRequest request;
-    String rawRequest = reader.getMessage(client);
-    String requestLine = parser.parseRequestLine(rawRequest);
-    HashMap<String, String> headers = parser.parseHeaders(rawRequest);
-    request = new HttpRequest(requestLine, headers);
+  public HttpRequest getNextRequest(IClientSocketIO client) throws InvalidHttpRequestException, IOException {
+    String rawRequest = client.getRawRequestString();
+    HttpRequest request = parser.parseRequest(rawRequest);
     if (request.contentLength() > 0) {
-      byte[] body = reader.getBytes(client, request.contentLength());
+      byte[] body = client.getBytes(request.contentLength());
       request.setBody(body);
     }
     return request;

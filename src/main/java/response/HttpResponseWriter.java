@@ -11,7 +11,7 @@ public class HttpResponseWriter {
     buildResponseLineMap();
   }
 
-  public void sendHttpResponse(IMessageIO client, HttpResponse response)throws IOException {
+  public void sendHttpResponse(IClientSocketIO client, HttpResponse response)throws IOException {
     byte[] responseBytes = responseAsBytes(response);
     client.sendBytes(responseBytes);
   }

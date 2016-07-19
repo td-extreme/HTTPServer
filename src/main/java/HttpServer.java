@@ -12,15 +12,14 @@ public class HttpServer{
     HttpRequestParser httpRequestParser = new HttpRequestParser(httpVerifier);
     FileIO fileIO = new FileIO(arguments.getDirectory());
     HandlerRouter handlerRouter = new HandlerRouter(fileIO);
-    HttpRequestReader httpRequestReader = new HttpRequestReader();
-    HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder(httpRequestReader, httpRequestParser);
+    HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder(httpRequestParser);
     HttpResponseWriter httpResponseWriter = new HttpResponseWriter();
     HttpServerRunner httpServerRunner = new HttpServerRunner(handlerRouter, httpRequestBuilder, httpResponseWriter);
     System.out.println("HTTP Server running on localhost port " + serverSocket.getLocalPort() +"!");
     System.out.println("Using directory : " + fileIO.workingDirectory());
 
     while (true) {
-      SocketIO client = new SocketIO(serverSocket);
+      ClientSocketIO client = new ClientSocketIO(serverSocket);
       client.openClientConnection();
       httpServerRunner.run(client);
       client.closeClientConnection();

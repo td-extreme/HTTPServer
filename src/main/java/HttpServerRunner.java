@@ -12,12 +12,12 @@ public class HttpServerRunner {
     this.httpResponseWriter = httpResponseWriter;
   }
 
-  public void run(IMessageIO client) {
+  public void run(ClientSocketIO client) {
    HttpRequest request;
     Ihandler handler;
     HttpResponse response;
     try {
-      request = httpRequestBuilder.createRequest(client);
+      request = httpRequestBuilder.getNextRequest(client);
       handler = handlerRouter.selectHandler(request);
     }
     catch (InvalidHttpRequestException e) {

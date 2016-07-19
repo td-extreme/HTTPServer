@@ -1,15 +1,15 @@
-import com.td.Mocks.MockSocketIO;
+import com.td.Mocks.MockClientSocketIO;
 import com.td.HttpServer.*;
 import java.util.*;
 import java.io.IOException;
 
 public class HttpResponseWriterTest extends junit.framework.TestCase {
-  private MockSocketIO mockSocketIO;
+  private MockClientSocketIO mockSocketIO;
   private HttpResponse response;
   private HttpResponseWriter writer;
 
   protected void setUp() {
-    mockSocketIO = new MockSocketIO();
+    mockSocketIO = new MockClientSocketIO();
     writer = new HttpResponseWriter();
     response = new HttpResponse();
   }

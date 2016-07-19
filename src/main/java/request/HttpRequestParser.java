@@ -8,7 +8,11 @@ public class HttpRequestParser implements IRequestParser {
     this.requestVerifier = requestVerifier;
   }
 
-  public String parseRequestLine(String rawRequest) throws InvalidHttpRequestException {
+  public HttpRequest parseRequest(String rawRequest) throws InvalidHttpRequestException {
+    return new HttpRequest(parseRequestLine(rawRequest), parseHeaders(rawRequest));
+  }
+
+  private String parseRequestLine(String rawRequest) throws InvalidHttpRequestException {
     String requestLine = rawRequest.split("\r?\n")[0];
     if (!requestVerifier.isValid(requestLine)) {
       throw new InvalidHttpRequestException();
@@ -16,7 +20,7 @@ public class HttpRequestParser implements IRequestParser {
     return requestLine;
   }
 
-  public HashMap<String, String> parseHeaders(String rawRequest) throws InvalidHttpRequestException  {
+  private HashMap<String, String> parseHeaders(String rawRequest) {
     String rawHeaders = rawRequest.split("\n", 2)[1];
     HashMap<String, String> headers = new HashMap<String, String>();
     String headerLines[] = rawHeaders.split("\n");
