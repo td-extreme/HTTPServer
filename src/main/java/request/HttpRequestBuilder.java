@@ -10,7 +10,7 @@ public class HttpRequestBuilder implements IRequestBuilder {
     this.parser = parser;
   }
 
-  public HttpRequest getNextRequest(IClientSocketIO client) throws InvalidHttpRequestException, BadConnectionException {
+  public HttpRequest getNextRequest(IClientSocketInput client) throws InvalidHttpRequestException, BadConnectionException {
     String rawRequest;
     try {
       rawRequest = client.getRawRequestString();
@@ -24,7 +24,7 @@ public class HttpRequestBuilder implements IRequestBuilder {
     return request;
   }
 
-  private void addBody(IClientSocketIO client, HttpRequest request) throws BadConnectionException {
+  private void addBody(IClientSocketInput client, HttpRequest request) throws BadConnectionException {
     byte[] body;
     if (request.contentLength() > 0) {
       try {

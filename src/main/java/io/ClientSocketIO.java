@@ -8,7 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 
-public class ClientSocketIO implements IClientSocketIO {
+public class ClientSocketIO implements IClientSocketOpenClose, IClientSocketInput, IClientSocketOutput {
 
   ServerSocket server;
   Socket clientSocket;
