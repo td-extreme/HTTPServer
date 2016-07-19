@@ -1,22 +1,26 @@
+import com.td.Mocks.MockSocketIO;
 import com.td.HttpServer.*;
 import java.util.*;
+import java.io.IOException;
 
-public class HttpResponseFormatterTest extends junit.framework.TestCase {
-
+public class HttpResponseWriterTest extends junit.framework.TestCase {
+  private MockSocketIO mockSocketIO;
   private HttpResponse response;
-  private HttpResponseFormatter formatter;
+  private HttpResponseWriter writer;
 
   protected void setUp() {
-    formatter = new HttpResponseFormatter();
+    mockSocketIO = new MockSocketIO();
+    writer = new HttpResponseWriter();
     response = new HttpResponse();
   }
 
-  public void testGenerateResponseForSendingOutToSocket() {
+  public void testGeneratedResponseSentOutToSocket() throws IOException {
     response.setBody("This is the response body");
     response.addHeader("Test/Header", "test value");
     response.addHeader("Test/Header2", "test value2");
     String responseShouldBe = "HTTP/1.1 200 OK\r\nTest/Header: test value\r\nTest/Header2: test value2\r\n\r\nThis is the response body";
-    String responseGenerated = new String(formatter.responseAsBytes(response));
+    writer.sendHttpResponse(mockSocketIO, response);
+    String responseGenerated = new String(mockSocketIO.getReceivedBytes());
     assertEquals(responseGenerated, responseShouldBe);
   }
 }
