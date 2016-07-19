@@ -23,13 +23,19 @@ public class HttpServerRunner {
     catch (InvalidHttpRequestException e) {
       handler = handlerRouter.selectHandlerBadRequest();
     }
-    catch (IOException e) {
+    catch (BadConnectionException e) {
+      e.printStackTrace();
+      client.closeClientConnection();
       return;
     }
     response = handler.generateResponse();
     try {
       httpResponseWriter.sendHttpResponse(client, response);
     }
-    catch (IOException e) { }
+    catch (BadConnectionException e) {
+      e.printStackTrace();
+      client.closeClientConnection();
+      return;
+  }
   }
 }

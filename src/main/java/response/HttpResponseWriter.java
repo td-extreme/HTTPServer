@@ -11,9 +11,15 @@ public class HttpResponseWriter {
     buildResponseLineMap();
   }
 
-  public void sendHttpResponse(IClientSocketIO client, HttpResponse response)throws IOException {
+  public void sendHttpResponse(IClientSocketIO client, HttpResponse response)throws BadConnectionException {
     byte[] responseBytes = responseAsBytes(response);
-    client.sendBytes(responseBytes);
+    try {
+      client.sendBytes(responseBytes);
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+      throw new BadConnectionException();
+    }
   }
 
   private byte[] responseAsBytes(HttpResponse response) {

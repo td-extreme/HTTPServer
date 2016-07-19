@@ -14,7 +14,7 @@ public class HttpResponseWriterTest extends junit.framework.TestCase {
     response = new HttpResponse();
   }
 
-  public void testGeneratedResponseSentOutToSocket() throws IOException {
+  public void testGeneratedResponseSentOutToSocket() throws BadConnectionException {
     response.setBody("This is the response body");
     response.addHeader("Test/Header", "test value");
     response.addHeader("Test/Header2", "test value2");

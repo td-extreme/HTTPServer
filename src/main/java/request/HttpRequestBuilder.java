@@ -10,13 +10,19 @@ public class HttpRequestBuilder implements IRequestBuilder {
     this.parser = parser;
   }
 
-  public HttpRequest getNextRequest(IClientSocketIO client) throws InvalidHttpRequestException, IOException {
-    String rawRequest = client.getRawRequestString();
-    HttpRequest request = parser.parseRequest(rawRequest);
-    if (request.contentLength() > 0) {
-      byte[] body = client.getBytes(request.contentLength());
-      request.setBody(body);
+  public HttpRequest getNextRequest(IClientSocketIO client) throws InvalidHttpRequestException, BadConnectionException {
+    try {
+      String rawRequest = client.getRawRequestString();
+      HttpRequest request = parser.parseRequest(rawRequest);
+      if (request.contentLength() > 0) {
+        byte[] body = client.getBytes(request.contentLength());
+        request.setBody(body);
+      }
+      return request;
     }
-    return request;
+    catch (IOException e) {
+      e.printStackTrace();
+      throw new BadConnectionException();
+    }
   }
- }
+}
