@@ -5,9 +5,16 @@ public class HttpServer{
 
   private static ArgumentParser arguments;
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
     arguments = new ArgumentParser(args);
-    ServerSocket serverSocket = new ServerSocket(arguments.getPortNumber());
+    ServerSocket serverSocket;
+    try {
+      serverSocket = new ServerSocket(arguments.getPortNumber());
+    }
+    catch (IOException e) {
+      System.out.println("\nPort number " + arguments.getPortNumber() + " can not be opened. It may be in use by another application.\n");
+      return;
+    }
     HttpRequestParser httpRequestParser = new HttpRequestParser();
     FileIO fileIO = new FileIO(arguments.getDirectory());
     HandlerRouter handlerRouter = new HandlerRouter(fileIO);
@@ -19,7 +26,13 @@ public class HttpServer{
 
     while (true) {
       ClientSocketIO client = new ClientSocketIO(serverSocket);
-      client.openClientConnection();
+      try {
+        client.openClientConnection();
+      }
+      catch (BadConnectionException e) {
+        e.printStackTrace();
+        continue;
+      }
       httpServerRunner.run(client);
       client.closeClientConnection();
     }

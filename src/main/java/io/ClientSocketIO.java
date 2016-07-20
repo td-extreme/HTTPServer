@@ -41,8 +41,13 @@ public class ClientSocketIO implements IClientSocketOpenClose, IClientSocketInpu
     clientSocket.getOutputStream().write(rawString.getBytes("UTF-8"));
   }
 
-  public void openClientConnection() throws IOException {
+  public void openClientConnection() throws BadConnectionException {
+    try {
     clientSocket = server.accept();
+    }
+    catch (IOException e) {
+      throw new BadConnectionException(e);
+    }
   }
 
   public void closeClientConnection() {
