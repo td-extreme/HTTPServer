@@ -5,18 +5,36 @@ public class HttpServer{
 
   private static ArgumentParser arguments;
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
     arguments = new ArgumentParser(args);
-    HttpRequestBuilder builder = new HttpRequestBuilder(new HttpVerifier());
-    ServerSocket serverSocket = new ServerSocket(arguments.getPortNumber());
-    SocketIO socket = new SocketIO(serverSocket);
-    HttpResponseFormatter httpResponseFormatter = new HttpResponseFormatter();
-    HttpReaderWriter httpReaderWriter = new HttpReaderWriter(socket, builder, httpResponseFormatter);
+    ServerSocket serverSocket;
+    try {
+      serverSocket = new ServerSocket(arguments.getPortNumber());
+    }
+    catch (IOException e) {
+      System.out.println("\nPort number " + arguments.getPortNumber() + " can not be opened. It may be in use by another application.\n");
+      return;
+    }
+    HttpRequestParser httpRequestParser = new HttpRequestParser();
     FileIO fileIO = new FileIO(arguments.getDirectory());
     HandlerRouter handlerRouter = new HandlerRouter(fileIO);
-    HttpServerRunner httpServerRunner = new HttpServerRunner(httpReaderWriter, handlerRouter);
-    System.out.println("HTTP Server running on localhost port " + arguments.getPortNumber() +"!");
+    HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder(httpRequestParser);
+    HttpResponseWriter httpResponseWriter = new HttpResponseWriter();
+    HttpServerRunner httpServerRunner = new HttpServerRunner(handlerRouter, httpRequestBuilder, httpResponseWriter);
+    System.out.println("HTTP Server running on localhost port " + serverSocket.getLocalPort() +"!");
     System.out.println("Using directory : " + fileIO.workingDirectory());
-    httpServerRunner.runServer();
+
+    while (true) {
+      ClientSocketIO client = new ClientSocketIO(serverSocket);
+      try {
+        client.openClientConnection();
+      }
+      catch (BadConnectionException e) {
+        e.printStackTrace();
+        continue;
+      }
+      httpServerRunner.run(client);
+      client.closeClientConnection();
+    }
   }
 }

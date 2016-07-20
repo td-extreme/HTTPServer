@@ -2,30 +2,43 @@ package com.td.HttpServer;
 import java.io.IOException;
 
 public class HttpServerRunner {
+  private HandlerRouter handlerRouter;
+  private IRequestBuilder httpRequestBuilder;
+  private HttpResponseWriter httpResponseWriter;
 
-  HttpReaderWriter httpReaderWriter;
-  HandlerRouter handlerRouter;
-
-  public HttpServerRunner(HttpReaderWriter httpReaderWriter, HandlerRouter handlerRouter) {
-    this.httpReaderWriter = httpReaderWriter;
+  public HttpServerRunner(HandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, HttpResponseWriter httpResponseWriter) {
     this.handlerRouter = handlerRouter; 
+    this.httpRequestBuilder = httpRequestBuilder;
+    this.httpResponseWriter = httpResponseWriter;
   }
 
-  public void runServer() throws IOException {
+  public void run(ClientSocketIO client) {
+    try {
+      Ihandler handler = getHandler(client);
+      sendResponse(client, handler);
+    }
+    catch (BadConnectionException e) {
+      e.printStackTrace();
+      client.closeClientConnection();
+    }
+  }
+
+  private Ihandler getHandler(ClientSocketIO client) throws BadConnectionException {
     HttpRequest request;
     Ihandler handler;
-    HttpResponse response;
+    try {
+      request = httpRequestBuilder.getNextRequest(client);
+      handler = handlerRouter.selectHandler(request);
+    }
+    catch (InvalidHttpRequestException e) {
+      e.printStackTrace();
+      handler = handlerRouter.selectHandlerBadRequest();
+    }
+    return handler;
+  }
 
-    while (true) {
-      try {
-        request = httpReaderWriter.getHttpRequest();
-        handler = handlerRouter.selectHandler(request);
-      }
-      catch (InvalidHttpRequestException e) {
-        handler = handlerRouter.selectHandlerBadRequest();
-      }
-      response = handler.generateResponse();
-      httpReaderWriter.sendHttpResponse(response);
-   }
+  private void sendResponse(ClientSocketIO client, Ihandler handler) throws BadConnectionException {
+    HttpResponse response = handler.generateResponse();
+    httpResponseWriter.sendHttpResponse(client, response);
   }
 }
