@@ -1,44 +1,33 @@
 package com.td.HttpServer;
 import java.io.IOException;
+import java.net.ServerSocket;
 
 public class HttpServerRunner {
+  private ServerSocket serverSocket;
   private HandlerRouter handlerRouter;
   private IRequestBuilder httpRequestBuilder;
   private HttpResponseWriter httpResponseWriter;
 
-  public HttpServerRunner(HandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, HttpResponseWriter httpResponseWriter) {
+  public HttpServerRunner(ServerSocket serverSocket, HandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, HttpResponseWriter httpResponseWriter) {
+    this.serverSocket = serverSocket;
     this.handlerRouter = handlerRouter; 
     this.httpRequestBuilder = httpRequestBuilder;
     this.httpResponseWriter = httpResponseWriter;
   }
 
-  public void run(ClientSocketIO client) {
-    try {
-      Ihandler handler = getHandler(client);
-      sendResponse(client, handler);
+  public void run() {
+    while (true) {
+      ClientSocketIO client = new ClientSocketIO(serverSocket);
+      try {
+        client.openClientConnection();
+      }
+      catch (BadConnectionException e) {
+        e.printStackTrace();
+        continue;
+      }
+      HttpServerThread httpServerThread = new HttpServerThread(client, handlerRouter, httpRequestBuilder, httpResponseWriter);
+      Thread thread = new Thread(httpServerThread);
+      thread.start();
     }
-    catch (BadConnectionException e) {
-      e.printStackTrace();
-      client.closeClientConnection();
-    }
-  }
-
-  private Ihandler getHandler(ClientSocketIO client) throws BadConnectionException {
-    HttpRequest request;
-    Ihandler handler;
-    try {
-      request = httpRequestBuilder.getNextRequest(client);
-      handler = handlerRouter.selectHandler(request);
-    }
-    catch (InvalidHttpRequestException e) {
-      e.printStackTrace();
-      handler = handlerRouter.selectHandlerBadRequest();
-    }
-    return handler;
-  }
-
-  private void sendResponse(ClientSocketIO client, Ihandler handler) throws BadConnectionException {
-    HttpResponse response = handler.generateResponse();
-    httpResponseWriter.sendHttpResponse(client, response);
   }
 }
