@@ -6,6 +6,7 @@ public class HttpServerThread implements Runnable {
   IRequestBuilder httpRequestBuilder;
   HttpResponseWriter httpResponseWriter;
 
+  
   public HttpServerThread(ClientSocketIO client, HandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, HttpResponseWriter httpResponseWriter) {
     this.client = client;
     this.handlerRouter = handlerRouter;
