@@ -7,8 +7,8 @@ import java.util.HashMap;
 public class HttpRequestParserTest extends junit.framework.TestCase {
 
   private HttpRequestParser parser;
-  String rawRequest;
-  HttpRequest request;
+  private String rawRequest;
+  private HttpRequest request;
 
   protected void setUp() throws InvalidHttpRequestException {
     parser = new HttpRequestParser();

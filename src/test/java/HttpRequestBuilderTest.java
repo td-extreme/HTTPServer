@@ -9,9 +9,9 @@ import java.io.IOException;
 
 public class HttpRequestBuilderTest extends junit.framework.TestCase {
 
-  HttpRequestParser parser;
-  MockClientSocketInput mockSocketIO;
-  HttpRequestBuilder builder;
+  private HttpRequestParser parser;
+  private MockClientSocketInput mockSocketIO;
+  private HttpRequestBuilder builder;
 
   protected void setUp() {
     parser = new HttpRequestParser();

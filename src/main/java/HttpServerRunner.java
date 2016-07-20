@@ -2,9 +2,9 @@ package com.td.HttpServer;
 import java.io.IOException;
 
 public class HttpServerRunner {
-  HandlerRouter handlerRouter;
-  IRequestBuilder httpRequestBuilder;
-  HttpResponseWriter httpResponseWriter;
+  private HandlerRouter handlerRouter;
+  private IRequestBuilder httpRequestBuilder;
+  private HttpResponseWriter httpResponseWriter;
 
   public HttpServerRunner(HandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, HttpResponseWriter httpResponseWriter) {
     this.handlerRouter = handlerRouter; 
@@ -23,7 +23,7 @@ public class HttpServerRunner {
     }
   }
 
-  public Ihandler getHandler(ClientSocketIO client) throws BadConnectionException {
+  private Ihandler getHandler(ClientSocketIO client) throws BadConnectionException {
     HttpRequest request;
     Ihandler handler;
     try {
@@ -37,7 +37,7 @@ public class HttpServerRunner {
     return handler;
   }
 
-  public void sendResponse(ClientSocketIO client, Ihandler handler) throws BadConnectionException {
+  private void sendResponse(ClientSocketIO client, Ihandler handler) throws BadConnectionException {
     HttpResponse response = handler.generateResponse();
     httpResponseWriter.sendHttpResponse(client, response);
   }

@@ -10,8 +10,8 @@ import java.util.Date;
 
 public class ClientSocketIO implements IClientSocketOpenClose, IClientSocketInput, IClientSocketOutput {
 
-  ServerSocket server;
-  Socket clientSocket;
+  private ServerSocket server;
+  private Socket clientSocket;
 
   public ClientSocketIO(ServerSocket server) {
     this.server = server;
