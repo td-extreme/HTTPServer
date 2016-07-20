@@ -2,7 +2,7 @@ package com.td.HttpServer;
 
 import java.util.*;
 
-public class HandlerRouter {
+public class HandlerRouter implements IHandlerRouter {
 
   private IFileIO fileIO;
   private ResponseHeadersForContent responseHeadersForContent;
