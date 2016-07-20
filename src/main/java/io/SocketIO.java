@@ -8,16 +8,16 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 
-public class ClientSocketIO implements IClientSocketOpenClose, IClientSocketInput, IClientSocketOutput {
+public class SocketIO implements IMessageIO {
 
-  private ServerSocket server;
-  private Socket clientSocket;
+  ServerSocket server;
+  Socket clientSocket;
 
-  public ClientSocketIO(ServerSocket server) {
-    this.server = server;
+  public SocketIO(int portNumber) throws IOException {
+    server = new ServerSocket(portNumber);
   }
 
-  public String getRawRequestString() throws IOException {
+  public String getMessage() throws IOException {
     StringBuilder request = new StringBuilder();
     InputStreamReader isr = new InputStreamReader(clientSocket.getInputStream());
     BufferedReader reader = new BufferedReader(isr);
@@ -37,29 +37,19 @@ public class ClientSocketIO implements IClientSocketOpenClose, IClientSocketInpu
     return data;
   }
 
-  public void sendString(String rawString) throws IOException {
-    clientSocket.getOutputStream().write(rawString.getBytes("UTF-8"));
+  public void sendMessage(String message) throws IOException {
+    clientSocket.getOutputStream().write(message.getBytes("UTF-8"));
   }
 
-  public void openClientConnection() throws BadConnectionException {
-    try {
+  public void openClientConnection() throws IOException {
     clientSocket = server.accept();
-    }
-    catch (IOException e) {
-      throw new BadConnectionException(e);
-    }
   }
 
-  public void closeClientConnection() {
-    try {
+  public void closeClientConnection() throws IOException {
     clientSocket.close();
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 
-  public void sendBytes(byte[] bytes) throws IOException {
-    clientSocket.getOutputStream().write(bytes);
+  public void sendBytes(byte[] message) throws IOException {
+    clientSocket.getOutputStream().write(message);
   }
 }
