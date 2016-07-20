@@ -1,18 +1,28 @@
 package com.td.HttpServer;
-
 import java.util.*;
 import java.io.*;
 
-public class HttpResponseFormatter {
+public class HttpResponseWriter {
 
   private final byte[] NEWLINE = "\r\n".getBytes();
   private HashMap<Integer, String> responseLines;
 
-  public HttpResponseFormatter() {
+  public HttpResponseWriter() {
     buildResponseLineMap();
   }
 
-  public byte[] responseAsBytes(HttpResponse response) {
+  public void sendHttpResponse(IClientSocketOutput client, HttpResponse response)throws BadConnectionException {
+    byte[] responseBytes = responseAsBytes(response);
+    try {
+      client.sendBytes(responseBytes);
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+      throw new BadConnectionException(e);
+    }
+  }
+
+  private byte[] responseAsBytes(HttpResponse response) {
     ByteArrayOutputStream rtnStream = new ByteArrayOutputStream();
     writeToByteArrayOS(rtnStream, responseLine(response.responseCode()));
     writeToByteArrayOS(rtnStream, NEWLINE);
@@ -37,7 +47,7 @@ public class HttpResponseFormatter {
 
   private String headers(HashMap<String, String> headers) {
     StringBuilder builder = new StringBuilder();
-    headers.forEach((key, value)-> builder.append(key + ": " + value + "\r\n")); 
+    headers.forEach((key, value)-> builder.append(key + ": " + value + "\r\n"));
     return builder.toString();
   }
 
