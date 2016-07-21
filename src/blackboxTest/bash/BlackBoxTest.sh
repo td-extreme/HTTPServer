@@ -34,7 +34,7 @@ if [ $? -eq 1 ]; then
 fi
 }
 # Main 
-
+bash --version
 setUp
 ./TestGetRequest.sh ${TESTPATH}
 updateExitCode
