@@ -23,13 +23,15 @@ public class MockClientSocket implements IClientSocketIO {
   }
 
   public void closeClientConnection() {
+    sleep();
+    System.out.println("Closing connectoin at : " + System.currentTimeMillis());
     closedTime = System.currentTimeMillis();
   }
 
   public void openClientConnection() throws BadConnectionException {}
 
   public IClientSocketInput clientSocketInput() {
-    return new MockClientSocketInput("GET / HTTP/1.1", new byte[0]);
+    return new MockClientSocketInput("GET / HTTP/1.1\r\n\r\n", new byte[0]);
   }
 
   public IClientSocketOutput clientSocketOutput() {

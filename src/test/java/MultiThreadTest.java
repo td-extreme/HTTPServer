@@ -25,13 +25,14 @@ public class MultiThreadTest extends junit.framework.TestCase {
     MockClientSocket clientLongDelay = new MockClientSocket(1000);
     MockClientSocket clientNoDelay = new MockClientSocket(0);
 
-    HttpServerThread serverThreadNoDealy = new HttpServerThread(clientNoDelay, handlerRouter, httpRequestBuilder, httpResponseWriter);
-    HttpServerThread serverThreadLongDelay = new HttpServerThread(clientLongDelay, handlerRouter, httpRequestBuilder, httpResponseWriter);
-    Thread threadNoDealy = new Thread(serverThreadNoDealy);
-    Thread threadLongDelay = new Thread(serverThreadNoDealy);
-    threadLongDelay.start();
-    threadNoDealy.start();
+    HttpConnectionToProcess connectionNoDealy = new HttpConnectionToProcess(clientNoDelay, handlerRouter, httpRequestBuilder, httpResponseWriter);
+    HttpConnectionToProcess connectionLongDelay = new HttpConnectionToProcess(clientLongDelay, handlerRouter, httpRequestBuilder, httpResponseWriter);
+    ConnectionProcessRunnerMultiThread connectionProcessRunnerMutliThread = new ConnectionProcessRunnerMultiThread();
+    connectionProcessRunnerMutliThread.execute(connectionLongDelay);
+    connectionProcessRunnerMutliThread.execute(connectionNoDealy);
     Thread.sleep(1500);
-    assert(clientNoDelay.getClosedTime() > clientLongDelay.getClosedTime());
+    System.out.println("no delay end time  : " + clientNoDelay.getClosedTime());
+    System.out.println("long delay end time: " + clientLongDelay.getClosedTime());
+    assert(clientNoDelay.getClosedTime() < clientLongDelay.getClosedTime());
   }
 }

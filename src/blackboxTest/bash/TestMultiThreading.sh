@@ -39,7 +39,7 @@ cleanUp() {
 # Main
 
 runThreads
-sleep 12
+sleep 15
 checkThatEndTimeForRequestWithOutDelayIsEarlierThanRequestWithOutDelay
 cleanUp
 exit $EXIT_CODE

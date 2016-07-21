@@ -1,20 +1,19 @@
 package com.td.HttpServer;
 
-public class HttpServerThread implements Runnable {
+public class HttpConnectionToProcess {
   IClientSocketIO client;
   IHandlerRouter handlerRouter;
   IRequestBuilder httpRequestBuilder;
   IResponseWriter httpResponseWriter;
 
-  
-  public HttpServerThread(IClientSocketIO client, IHandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, IResponseWriter httpResponseWriter) {
+  public HttpConnectionToProcess(IClientSocketIO client, IHandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, IResponseWriter httpResponseWriter) {
     this.client = client;
     this.handlerRouter = handlerRouter;
     this.httpRequestBuilder = httpRequestBuilder;
     this.httpResponseWriter = httpResponseWriter;
   }
 
-  public void run() {
+  public void execute() {
     try {
       Ihandler handler = getHandler();
       sendResponse(handler);

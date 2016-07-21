@@ -4,12 +4,14 @@ import java.net.ServerSocket;
 
 public class HttpServerRunner {
   private ServerSocket serverSocket;
-  private HandlerRouter handlerRouter;
+  private IConnectionProcessRunner httpConnectionProcessRunner;
+  private IHandlerRouter handlerRouter;
   private IRequestBuilder httpRequestBuilder;
-  private HttpResponseWriter httpResponseWriter;
+  private IResponseWriter httpResponseWriter;
 
-  public HttpServerRunner(ServerSocket serverSocket, HandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, HttpResponseWriter httpResponseWriter) {
+  public HttpServerRunner(ServerSocket serverSocket, IConnectionProcessRunner httpConnectionProcessRunner, IHandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, IResponseWriter httpResponseWriter) {
     this.serverSocket = serverSocket;
+    this.httpConnectionProcessRunner = httpConnectionProcessRunner;
     this.handlerRouter = handlerRouter; 
     this.httpRequestBuilder = httpRequestBuilder;
     this.httpResponseWriter = httpResponseWriter;
@@ -25,9 +27,8 @@ public class HttpServerRunner {
         e.printStackTrace();
         continue;
       }
-      HttpServerThread httpServerThread = new HttpServerThread(client, handlerRouter, httpRequestBuilder, httpResponseWriter);
-      Thread thread = new Thread(httpServerThread);
-      thread.start();
+      HttpConnectionToProcess httpConnectionToProcess = new HttpConnectionToProcess(client, handlerRouter, httpRequestBuilder, httpResponseWriter);
+      httpConnectionProcessRunner.execute(httpConnectionToProcess);
     }
   }
 }
