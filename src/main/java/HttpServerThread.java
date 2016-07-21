@@ -31,7 +31,7 @@ public class HttpServerThread implements Runnable {
     HttpRequest request;
     Ihandler handler;
     try {
-      request = httpRequestBuilder.getNextRequest(client);
+      request = httpRequestBuilder.getNextRequest(client.clientSocketInput());
       handler = handlerRouter.selectHandler(request);
     }
     catch (InvalidHttpRequestException e) {
@@ -43,6 +43,6 @@ public class HttpServerThread implements Runnable {
 
   private void sendResponse(Ihandler handler) throws BadConnectionException {
     HttpResponse response = handler.generateResponse();
-    httpResponseWriter.sendHttpResponse(client, response);
+    httpResponseWriter.sendHttpResponse(client.clientSocketOutput(), response);
   }
 }
