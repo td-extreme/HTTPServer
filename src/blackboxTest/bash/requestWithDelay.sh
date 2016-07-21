@@ -2,7 +2,7 @@
 
 TESTPATH=$1
 
-./getRootPathWithDelay.sh | telnet
+./getRootPathWithDelay.sh | nc localhost 8080
 echo delayed thread end time
 date +%s
 date +%s > ${TESTPATH}/endTimeRequestWithDelay.txt
