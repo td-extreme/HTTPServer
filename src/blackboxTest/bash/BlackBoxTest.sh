@@ -6,10 +6,11 @@ GREEN='\033[0;32m'
 WHITE='\033[0m'
 
 setUp() {
-  mkdir ${TESTPATH}
-  ./gradlew run -P args="-d ${TESTPATH}" &
+  ./gradlew run -P args="-d ./src/blackboxTest/bash/${TESTPATH}" &
   SERVER_PID=$!
   printf "\n\n:Blackbox Tests:\n"
+  cd ./src/blackboxTest/bash
+  mkdir ${TESTPATH}
   printf "There is a 15 second wait to ensure the HttpServer is running before any tests execute.\n\n"
   sleep 15
 }
@@ -27,39 +28,18 @@ dispayResults() {
   fi
 }
 
-testResults() {
-  printf "\n\n${WHITE}Black Box Test > $1"
-  if cmp -s ${TESTPATH}/$2 ${TESTPATH}/$3 ; then
-    printf "${GREEN} PASSED ${WHITE}\n"
-  else
-    EXIT_CODE=1
-    printf "${RED} FAILED ${WHITE}\n"
-    printf "\n\n--------------\n"
-    diff ${TESTPATH}/$2 ${TESTPATH}/$3
-    printf "\n\n--------------\n"
-  fi
-  rm ${TESTPATH}/$2
-  rm ${TESTPATH}/$3
+updateExitCode() {
+if [ $? -eq 1 ]; then
+  EXIT_CODE=1
+fi
 }
-
-testGetDirectoryContents() {
-  curl localhost:8080 > ${TESTPATH}/dirActual.txt 2>/dev/null
-  echo -n "<!DOCTYPE html><html><body><a href=\"/dirActual.txt\">dirActual.txt</a><br></body></html>" >> ${TESTPATH}/dirExpected.txt
-  testResults testGetDirectoryContents dirExpected.txt dirActual.txt
- }
-
-testGetFileContents() {
-  echo -n "This is a test" > ${TESTPATH}/fileContentsExpected.txt
-  curl localhost:8080/fileContentsExpected.txt > ${TESTPATH}/fileContentsActual.txt 2>/dev/null
-
-  testResults testGetFileContents fileContentsExpected.txt fileContentsActual.txt
-}
-
 # Main 
 
 setUp
-testGetDirectoryContents
-testGetFileContents
+./TestGetRequest.sh ${TESTPATH}
+updateExitCode
+./TestMultiThreading.sh ${TESTPATH}
+updateExitCode
 tearDown
 dispayResults
 exit $EXIT_CODE
