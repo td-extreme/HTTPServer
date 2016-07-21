@@ -29,16 +29,16 @@ dispayResults() {
 }
 
 updateExitCode() {
-if [ $? -ne 0 ]; then
-  EXIT_CODE=$?
+if [ $1 -ne 0 ]; then
+  EXIT_CODE=$1
 fi
 }
 # Main 
 setUp
 ./TestGetRequest.sh ${TESTPATH}
-updateExitCode
+updateExitCode $?
 ./TestMultiThreading.sh ${TESTPATH}
-updateExitCode
+updateExitCode $?
 tearDown
 dispayResults
 exit $EXIT_CODE
