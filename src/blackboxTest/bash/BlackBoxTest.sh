@@ -29,8 +29,8 @@ dispayResults() {
 }
 
 updateExitCode() {
-if [ $? -eq 1 ]; then
-  EXIT_CODE=1
+if [ $? -ne 0 ]; then
+  EXIT_CODE=$?
 fi
 }
 # Main 
