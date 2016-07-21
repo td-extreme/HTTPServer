@@ -31,8 +31,6 @@ public class MultiThreadTest extends junit.framework.TestCase {
     connectionProcessRunnerMutliThread.execute(connectionLongDelay);
     connectionProcessRunnerMutliThread.execute(connectionNoDealy);
     Thread.sleep(1500);
-    System.out.println("no delay end time  : " + clientNoDelay.getClosedTime());
-    System.out.println("long delay end time: " + clientLongDelay.getClosedTime());
     assert(clientNoDelay.getClosedTime() < clientLongDelay.getClosedTime());
   }
 }

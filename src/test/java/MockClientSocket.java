@@ -24,7 +24,6 @@ public class MockClientSocket implements IClientSocketIO {
 
   public void closeClientConnection() {
     sleep();
-    System.out.println("Closing connectoin at : " + System.currentTimeMillis());
     closedTime = System.currentTimeMillis();
   }
 

@@ -34,7 +34,6 @@ if [ $? -ne 0 ]; then
 fi
 }
 # Main 
-bash --version
 setUp
 ./TestGetRequest.sh ${TESTPATH}
 updateExitCode

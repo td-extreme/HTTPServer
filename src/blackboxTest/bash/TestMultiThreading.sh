@@ -7,8 +7,8 @@ WHITE='\033[0m'
 
 
 runThreads() {
-  ./requestWithDelay.sh ${TESTPATH} &
-  ./requestWithOutDelay.sh ${TESTPATH} &
+  ./requestWithDelay.sh ${TESTPATH} > /dev/null 2>/dev/null &
+  ./requestWithOutDelay.sh ${TESTPATH} > /dev/null 2>/dev/null &
 }
 
 checkThatEndTimeForRequestWithOutDelayIsEarlierThanRequestWithOutDelay() {

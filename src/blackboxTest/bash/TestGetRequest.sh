@@ -7,7 +7,7 @@ WHITE='\033[0m'
 
 
 
-testResults() {
+printTestResults() {
   printf "\n\n${WHITE}Black Box Test > $1"
   if cmp -s ${TESTPATH}/$2 ${TESTPATH}/$3 ; then
     printf "${GREEN} PASSED ${WHITE}\n"
@@ -25,14 +25,14 @@ testResults() {
 testGetDirectoryContents() {
   curl localhost:8080 > ${TESTPATH}/dirActual.txt 2>/dev/null
   echo -n "<!DOCTYPE html><html><body><a href=\"/dirActual.txt\">dirActual.txt</a><br></body></html>" >> ${TESTPATH}/dirExpected.txt
-  testResults testGetDirectoryContents dirExpected.txt dirActual.txt
+  printTestResults testGetDirectoryContents dirExpected.txt dirActual.txt
  }
 
 testGetFileContents() {
   echo -n "This is a test" > ${TESTPATH}/fileContentsExpected.txt
   curl localhost:8080/fileContentsExpected.txt > ${TESTPATH}/fileContentsActual.txt 2>/dev/null
 
-  testResults testGetFileContents fileContentsExpected.txt fileContentsActual.txt
+  printTestResults testGetFileContents fileContentsExpected.txt fileContentsActual.txt
 }
 
 # Main
