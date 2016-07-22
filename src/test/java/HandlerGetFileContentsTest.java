@@ -45,25 +45,4 @@ public class HandlerGetFileContentsTest extends junit.framework.TestCase {
     response = handler.generateResponse();
     assertEquals(response.headers().get("Content-Type"), "text/plain");
   }
-
-  public void testContentTypeIsImageJpegForJpg() {
-    String path = "/something.jpg";
-    handler = new HandlerGetFileContents(path, mockFileIO, contentTypeForFileExtension);
-    response = handler.generateResponse();
-    assertEquals(response.headers().get("Content-Type"), "image/jpeg");
-  }
-
-  public void testContentTypeIsImageGifForGif() {
-    String path = "/something.gif";
-    handler = new HandlerGetFileContents(path, mockFileIO, contentTypeForFileExtension);
-    response = handler.generateResponse();
-    assertEquals(response.headers().get("Content-Type"), "image/gif");
-  }
-
-  public void testContentTypeIsPdfForPdf() {
-    String path = "/something.pdf";
-    handler = new HandlerGetFileContents(path, mockFileIO, contentTypeForFileExtension);
-    response = handler.generateResponse();
-    assertEquals(response.headers().get("Content-Type"), "application/pdf");
-  }
 }
