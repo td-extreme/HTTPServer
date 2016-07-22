@@ -1,7 +1,8 @@
 package com.td.HttpServer;
-import java.io.IOException;
 
-public interface IClientSocketOpenClose {
+public interface IClientSocketIO {
   public void closeClientConnection();
   public void openClientConnection() throws BadConnectionException;
+  public IClientSocketOutput clientSocketOutput();
+  public IClientSocketInput clientSocketInput();
 }

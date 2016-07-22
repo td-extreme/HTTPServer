@@ -20,21 +20,10 @@ public class HttpServer{
     HandlerRouter handlerRouter = new HandlerRouter(fileIO);
     HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder(httpRequestParser);
     HttpResponseWriter httpResponseWriter = new HttpResponseWriter();
-    HttpServerRunner httpServerRunner = new HttpServerRunner(handlerRouter, httpRequestBuilder, httpResponseWriter);
+    ConnectionProcessRunnerMultiThread connectionProcessRunner = new ConnectionProcessRunnerMultiThread();
+    HttpServerRunner httpServerRunner = new HttpServerRunner(serverSocket, connectionProcessRunner, handlerRouter, httpRequestBuilder, httpResponseWriter);
     System.out.println("HTTP Server running on localhost port " + serverSocket.getLocalPort() +"!");
     System.out.println("Using directory : " + fileIO.workingDirectory());
-
-    while (true) {
-      ClientSocketIO client = new ClientSocketIO(serverSocket);
-      try {
-        client.openClientConnection();
-      }
-      catch (BadConnectionException e) {
-        e.printStackTrace();
-        continue;
-      }
-      httpServerRunner.run(client);
-      client.closeClientConnection();
-    }
-  }
+    httpServerRunner.run();
+ }
 }

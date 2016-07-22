@@ -2,7 +2,7 @@ package com.td.HttpServer;
 import java.util.*;
 import java.io.*;
 
-public class HttpResponseWriter {
+public class HttpResponseWriter implements IResponseWriter {
 
   private final byte[] NEWLINE = "\r\n".getBytes();
   private HashMap<Integer, String> responseLines;
@@ -11,7 +11,7 @@ public class HttpResponseWriter {
     buildResponseLineMap();
   }
 
-  public void sendHttpResponse(IClientSocketOutput client, HttpResponse response)throws BadConnectionException {
+  public void sendHttpResponse(IClientSocketOutput client, HttpResponse response) throws BadConnectionException {
     byte[] responseBytes = responseAsBytes(response);
     try {
       client.sendBytes(responseBytes);

@@ -1,44 +1,34 @@
 package com.td.HttpServer;
 import java.io.IOException;
+import java.net.ServerSocket;
 
 public class HttpServerRunner {
-  private HandlerRouter handlerRouter;
+  private ServerSocket serverSocket;
+  private IConnectionProcessRunner httpConnectionProcessRunner;
+  private IHandlerRouter handlerRouter;
   private IRequestBuilder httpRequestBuilder;
-  private HttpResponseWriter httpResponseWriter;
+  private IResponseWriter httpResponseWriter;
 
-  public HttpServerRunner(HandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, HttpResponseWriter httpResponseWriter) {
+  public HttpServerRunner(ServerSocket serverSocket, IConnectionProcessRunner httpConnectionProcessRunner, IHandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, IResponseWriter httpResponseWriter) {
+    this.serverSocket = serverSocket;
+    this.httpConnectionProcessRunner = httpConnectionProcessRunner;
     this.handlerRouter = handlerRouter; 
     this.httpRequestBuilder = httpRequestBuilder;
     this.httpResponseWriter = httpResponseWriter;
   }
 
-  public void run(ClientSocketIO client) {
-    try {
-      Ihandler handler = getHandler(client);
-      sendResponse(client, handler);
+  public void run() {
+    while (true) {
+      ClientSocketIO client = new ClientSocketIO(serverSocket);
+      try {
+        client.openClientConnection();
+      }
+      catch (BadConnectionException e) {
+        e.printStackTrace();
+        continue;
+      }
+      HttpConnectionToProcess httpConnectionToProcess = new HttpConnectionToProcess(client, handlerRouter, httpRequestBuilder, httpResponseWriter);
+      httpConnectionProcessRunner.execute(httpConnectionToProcess);
     }
-    catch (BadConnectionException e) {
-      e.printStackTrace();
-      client.closeClientConnection();
-    }
-  }
-
-  private Ihandler getHandler(ClientSocketIO client) throws BadConnectionException {
-    HttpRequest request;
-    Ihandler handler;
-    try {
-      request = httpRequestBuilder.getNextRequest(client);
-      handler = handlerRouter.selectHandler(request);
-    }
-    catch (InvalidHttpRequestException e) {
-      e.printStackTrace();
-      handler = handlerRouter.selectHandlerBadRequest();
-    }
-    return handler;
-  }
-
-  private void sendResponse(ClientSocketIO client, Ihandler handler) throws BadConnectionException {
-    HttpResponse response = handler.generateResponse();
-    httpResponseWriter.sendHttpResponse(client, response);
   }
 }
