@@ -10,8 +10,7 @@ public class HandlerUnprocessableEntity implements Ihandler {
   public HttpResponse generateResponse() {
     HttpResponse rtnResponse = new HttpResponse();
     rtnResponse.setResponseCode(422);
-    rtnResponse.addHeader("Content-Type", "text/plain");
-    rtnResponse.setBody(message);
+    rtnResponse.setBody(message, ContentType.text);
     return rtnResponse;
   }
 }

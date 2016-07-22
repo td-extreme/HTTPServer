@@ -23,12 +23,14 @@ public class HttpResponse {
     return responseCode;
   }
 
-  public void setBody(byte[] body) {
+  public void setBody(byte[] body, String contentType) {
     this.body = body;
+    addHeader("Content-Length", contentLength(this.body));
+    addHeader("Content-Type", contentType);
   }
 
-  public void setBody(String body) {
-    this.body = body.getBytes();
+  public void setBody(String body, String contentType) {
+    setBody(body.getBytes(), contentType);
   }
 
   public byte[] body() {
@@ -49,5 +51,9 @@ public class HttpResponse {
 
   public String getValueForHeader(String key) {
     return headers.get(key);
+  }
+
+  private String contentLength(byte[] body) {
+    return Integer.toString(body.length);
   }
 }
