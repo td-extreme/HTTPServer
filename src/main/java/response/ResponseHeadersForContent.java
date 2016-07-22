@@ -13,7 +13,6 @@ public class ResponseHeadersForContent {
   public HashMap<String, String> getHeaders (byte[] body, String path) {
     HashMap<String, String> rtnHeaders = new HashMap<String, String>();
     rtnHeaders.put("Content-Type", contentType(path));
-    rtnHeaders.put("Content-Length", contentLength(body));
     return rtnHeaders;
   }
 
@@ -26,10 +25,6 @@ public class ResponseHeadersForContent {
     contentTypeMap.put(".jpeg", "image/jpeg");
     contentTypeMap.put(".gif", "image/gif");
     contentTypeMap.put(".pdf", "application/pdf");
-  }
-
-  private String contentLength(byte[] body) {
-    return Integer.toString(body.length);
   }
 
   private String contentType(String fileName) {

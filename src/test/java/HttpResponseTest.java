@@ -15,19 +15,24 @@ public class HttpResponseTest extends junit.framework.TestCase {
   }
 
   public void testDefaultResponseLine() {
-    assertEquals(200, response.responseCode());
+    assertEquals(response.responseCode(), 200);
   }
 
   public void testGetHeaders() {
-    assertEquals("testValue", response.headers().get("testKey"));
+    assertEquals(response.headers().get("testKey"), "testValue");
   }
 
   public void testGetValue() {
-    assertEquals("testValue", response.getValueForHeader("testKey"));
+    assertEquals(response.getValueForHeader("testKey"), "testValue");
   }
 
   public void testAddHashMapToHeaders() {
     response.addHeaders(testMap);
-    assertEquals("value02", response.getValueForHeader("key02"));
+    assertEquals(response.getValueForHeader("key02"), "value02");
+  }
+
+  public void testContentLengthGetsSet() {
+    response.setBody("12345");
+    assertEquals(response.getValueForHeader("Content-Length"), "5");
   }
 }

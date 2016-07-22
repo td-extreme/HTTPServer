@@ -18,9 +18,9 @@ public class HttpResponseWriterTest extends junit.framework.TestCase {
     response.setBody("This is the response body");
     response.addHeader("Test/Header", "test value");
     response.addHeader("Test/Header2", "test value2");
-    String responseShouldBe = "HTTP/1.1 200 OK\r\nTest/Header: test value\r\nTest/Header2: test value2\r\n\r\nThis is the response body";
+    String responseShouldBe = "HTTP/1.1 200 OK\r\nTest/Header: test value\r\nTest/Header2: test value2\r\nContent-Length: 25\r\n\r\nThis is the response body";
     writer.sendHttpResponse(mockSocketIO, response);
     String responseGenerated = new String(mockSocketIO.getReceivedBytes());
-    assertEquals(responseGenerated, responseShouldBe);
+    assertEquals(responseShouldBe, responseGenerated);
   }
 }

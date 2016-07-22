@@ -25,10 +25,11 @@ public class HttpResponse {
 
   public void setBody(byte[] body) {
     this.body = body;
+    addHeader("Content-Length", contentLength(this.body));
   }
 
   public void setBody(String body) {
-    this.body = body.getBytes();
+    setBody(body.getBytes());
   }
 
   public byte[] body() {
@@ -49,5 +50,9 @@ public class HttpResponse {
 
   public String getValueForHeader(String key) {
     return headers.get(key);
+  }
+
+  private String contentLength(byte[] body) {
+    return Integer.toString(body.length);
   }
 }

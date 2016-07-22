@@ -31,7 +31,5 @@ public class HandlerGetDirectoryContents implements Ihandler {
 
   public void addHeaders(HttpResponse response, byte[] body) {
     response.addHeader("Content-Type", "text/html");
-    String contentLength = Integer.toString(body.length);
-    response.addHeader("Content-Length", contentLength);
   }
 }
