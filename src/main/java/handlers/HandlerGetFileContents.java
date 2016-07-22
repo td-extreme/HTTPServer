@@ -2,7 +2,7 @@ package com.td.HttpServer;
 
 import java.io.IOException;
 
-public class HandlerGetFileContents implements Ihandler {
+public class HandlerGetFileContents implements IHandler {
   private ContentTypeForFileExtension contentTypeForFileExtension;
   private IFileIO fileIO;
   private String path;

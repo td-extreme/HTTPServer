@@ -2,7 +2,7 @@ package com.td.HttpServer;
 
 import java.io.IOException;
 
-public class HandlerGetDirectoryContents implements Ihandler {
+public class HandlerGetDirectoryContents implements IHandler {
   private IFileIO fileIO;
   private DirListHtml dirListHtml;
   private String path;

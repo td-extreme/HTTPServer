@@ -1,5 +1,5 @@
 package com.td.HttpServer;
 
-public interface Ihandler {
+public interface IHandler {
   public HttpResponse generateResponse();
 }

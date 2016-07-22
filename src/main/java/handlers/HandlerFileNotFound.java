@@ -1,6 +1,6 @@
 package com.td.HttpServer;
 
-public class HandlerFileNotFound implements Ihandler {
+public class HandlerFileNotFound implements IHandler {
 
   public HttpResponse generateResponse() {
     HttpResponse rtnResponse = new HttpResponse();

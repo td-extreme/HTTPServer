@@ -12,11 +12,11 @@ public class HandlerRouter implements IHandlerRouter {
     this.fileIO = fileIO;
   }
 
-  public Ihandler selectHandlerBadRequest() {
+  public IHandler selectHandlerBadRequest() {
     return new HandlerBadRequest();
   }
 
-  public Ihandler selectHandler(HttpRequest request) {
+  public IHandler selectHandler(HttpRequest request) {
     if (request.method().equals("GET")) {
       return selectGetHandler(request.path());
     } else if (request.method().equals("POST")) {
@@ -25,7 +25,7 @@ public class HandlerRouter implements IHandlerRouter {
     return new HandlerFileNotFound();
   }
 
-  private Ihandler selectGetHandler(String path) {
+  private IHandler selectGetHandler(String path) {
     if (fileIO.isFile(path)) {
       return new HandlerGetFileContents(path, fileIO);
     } else if (fileIO.isDirectory(path)) {
@@ -35,7 +35,7 @@ public class HandlerRouter implements IHandlerRouter {
     }
   }
 
-  private Ihandler selectPostHandler(HttpRequest request) {
+  private IHandler selectPostHandler(HttpRequest request) {
     if (request.body().length == 0 || request.path().equals("/")) {
       return new HandlerUnprocessableEntity("POST Method must supply a Body and a Path");
     } else {
