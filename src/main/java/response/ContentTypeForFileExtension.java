@@ -10,18 +10,18 @@ public class ContentTypeForFileExtension {
     buildContentTypeMap();
   }
   public String getContentType(String fileName) {
-    return contentTypeMap.getOrDefault(getFileExtension(fileName), "application/force-download");
+    return contentTypeMap.getOrDefault(getFileExtension(fileName), ContentType.download);
   }
 
   private void buildContentTypeMap() {
     contentTypeMap = new HashMap<String, String>();
-    contentTypeMap.put(".htm", "text/html");
-    contentTypeMap.put(".html", "text/html");
-    contentTypeMap.put(".txt", "text/plain");
-    contentTypeMap.put(".jpg", "image/jpeg");
-    contentTypeMap.put(".jpeg", "image/jpeg");
-    contentTypeMap.put(".gif", "image/gif");
-    contentTypeMap.put(".pdf", "application/pdf");
+    contentTypeMap.put(".htm", ContentType.html);
+    contentTypeMap.put(".html", ContentType.html);
+    contentTypeMap.put(".txt", ContentType.text);
+    contentTypeMap.put(".jpg", ContentType.jpg);
+    contentTypeMap.put(".jpeg", ContentType.jpg);
+    contentTypeMap.put(".gif", ContentType.gif);
+    contentTypeMap.put(".pdf", ContentType.pdf);
   }
 
   private String getFileExtension(String fileName) {

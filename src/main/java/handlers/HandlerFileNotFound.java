@@ -5,7 +5,7 @@ public class HandlerFileNotFound implements Ihandler {
   public HttpResponse generateResponse() {
     HttpResponse rtnResponse = new HttpResponse();
     rtnResponse.setResponseCode(404);
-    rtnResponse.setBody("File not Found", "text/plain");
+    rtnResponse.setBody("File not Found", ContentType.text);
     return rtnResponse;
   }
 }

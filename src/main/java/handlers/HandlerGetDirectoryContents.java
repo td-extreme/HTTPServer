@@ -18,11 +18,11 @@ public class HandlerGetDirectoryContents implements Ihandler {
     try {
       String[] fileList = fileIO.getFiles(path);
       byte[] body = dirListHtml.buildHtmlPage(path, fileList);
-      rtnResponse.setBody(body, "text/html");
+      rtnResponse.setBody(body, ContentType.html);
     }
     catch (IOException e) {
       e.printStackTrace();
-      rtnResponse.setBody("IOException", "text/plain");
+      rtnResponse.setBody("IOException", ContentType.text);
       rtnResponse.setResponseCode(404);
     }
     return rtnResponse;

@@ -21,7 +21,7 @@ public class HandlerGetFileContents implements Ihandler {
     }
     catch (IOException e) {
       e.printStackTrace();
-      rtnResponse.setBody("IOException", "text/plain");
+      rtnResponse.setBody("IOException", ContentType.text);
       rtnResponse.setResponseCode(404);
     }
     return rtnResponse;
