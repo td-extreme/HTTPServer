@@ -12,6 +12,7 @@ public class HttpResponseTest extends junit.framework.TestCase {
     testMap = new HashMap<String, String>();
     testMap.put("key01", "value01");
     testMap.put("key02", "value02");
+    response.setBody("12345", "text/plain");
   }
 
   public void testDefaultResponseLine() {
@@ -32,7 +33,10 @@ public class HttpResponseTest extends junit.framework.TestCase {
   }
 
   public void testContentLengthGetsSet() {
-    response.setBody("12345");
     assertEquals(response.getValueForHeader("Content-Length"), "5");
+  }
+
+  public void testContentTypeGetsSet() {
+    assertEquals(response.getValueForHeader("Content-Type"), "text/plain");
   }
 }

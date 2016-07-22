@@ -23,13 +23,14 @@ public class HttpResponse {
     return responseCode;
   }
 
-  public void setBody(byte[] body) {
+  public void setBody(byte[] body, String contentType) {
     this.body = body;
     addHeader("Content-Length", contentLength(this.body));
+    addHeader("Content-Type", contentType);
   }
 
-  public void setBody(String body) {
-    setBody(body.getBytes());
+  public void setBody(String body, String contentType) {
+    setBody(body.getBytes(), contentType);
   }
 
   public byte[] body() {

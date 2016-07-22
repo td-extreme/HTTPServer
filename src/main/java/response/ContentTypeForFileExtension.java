@@ -1,19 +1,16 @@
 package com.td.HttpServer;
 
-import java.util.*;
+import java.util.HashMap;
 
-public class ResponseHeadersForContent {
+public class ContentTypeForFileExtension {
 
   private HashMap<String, String> contentTypeMap;
 
-  public ResponseHeadersForContent() {
+  public ContentTypeForFileExtension() {
     buildContentTypeMap();
   }
-
-  public HashMap<String, String> getHeaders (byte[] body, String path) {
-    HashMap<String, String> rtnHeaders = new HashMap<String, String>();
-    rtnHeaders.put("Content-Type", contentType(path));
-    return rtnHeaders;
+  public String getContentType(String fileName) {
+    return contentTypeMap.getOrDefault(getFileExtension(fileName), "application/force-download");
   }
 
   private void buildContentTypeMap() {
@@ -25,10 +22,6 @@ public class ResponseHeadersForContent {
     contentTypeMap.put(".jpeg", "image/jpeg");
     contentTypeMap.put(".gif", "image/gif");
     contentTypeMap.put(".pdf", "application/pdf");
-  }
-
-  private String contentType(String fileName) {
-    return contentTypeMap.getOrDefault(getFileExtension(fileName), "application/force-download");
   }
 
   private String getFileExtension(String fileName) {

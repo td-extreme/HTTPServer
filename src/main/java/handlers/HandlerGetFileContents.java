@@ -4,12 +4,12 @@ import java.io.IOException;
 
 public class HandlerGetFileContents implements Ihandler {
   private IFileIO fileIO;
-  private ResponseHeadersForContent responseHeaders;
+  private ContentTypeForFileExtension contentType;
   private String path;
 
-  public HandlerGetFileContents(String path, IFileIO fileIO, ResponseHeadersForContent responseHeaders) {
+  public HandlerGetFileContents(String path, IFileIO fileIO, ContentTypeForFileExtension contentType) {
     this.path = path;
-    this.responseHeaders = responseHeaders;
+    this.contentType = contentType;
     this.fileIO = fileIO;
   }
 
@@ -17,12 +17,11 @@ public class HandlerGetFileContents implements Ihandler {
     HttpResponse rtnResponse = new HttpResponse();
     try {
       byte[] body = fileIO.getContent(path);
-      rtnResponse.setBody(body);
-      rtnResponse.addHeaders(responseHeaders.getHeaders(body, path));
+      rtnResponse.setBody(body, contentType.getContentType(path));
     }
     catch (IOException e) {
       e.printStackTrace();
-      rtnResponse.setBody("IOException");
+      rtnResponse.setBody("IOException", "text/plain");
       rtnResponse.setResponseCode(404);
     }
     return rtnResponse;

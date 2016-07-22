@@ -22,7 +22,7 @@ public class HandlerPostFileContents implements Ihandler {
     }
     catch (IOException e) {
       e.printStackTrace();
-      rtnResponse.setBody("IOException");
+      rtnResponse.setBody("IOException", "text/plain");
       rtnResponse.setResponseCode(404);
     }
     return rtnResponse;

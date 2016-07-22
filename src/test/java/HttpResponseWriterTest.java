@@ -15,10 +15,10 @@ public class HttpResponseWriterTest extends junit.framework.TestCase {
   }
 
   public void testGeneratedResponseSentOutToSocket() throws BadConnectionException {
-    response.setBody("This is the response body");
+    response.setBody("This is the response body", "text/plain");
     response.addHeader("Test/Header", "test value");
     response.addHeader("Test/Header2", "test value2");
-    String responseShouldBe = "HTTP/1.1 200 OK\r\nTest/Header: test value\r\nTest/Header2: test value2\r\nContent-Length: 25\r\n\r\nThis is the response body";
+    String responseShouldBe = "HTTP/1.1 200 OK\r\nTest/Header: test value\r\nTest/Header2: test value2\r\nContent-Length: 25\r\nContent-Type: text/plain\r\n\r\nThis is the response body";
     writer.sendHttpResponse(mockSocketIO, response);
     String responseGenerated = new String(mockSocketIO.getReceivedBytes());
     assertEquals(responseShouldBe, responseGenerated);

@@ -5,7 +5,7 @@ public class HandlerBadRequest implements Ihandler {
   public HttpResponse generateResponse() {
     HttpResponse rtnResponse = new HttpResponse();
     rtnResponse.setResponseCode(400);
-    rtnResponse.setBody("Bad Request");
+    rtnResponse.setBody("Bad Request", "test/plain");
     return rtnResponse;
   }
 }
