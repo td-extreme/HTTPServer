@@ -3,13 +3,13 @@ package com.td.HttpServer;
 import java.io.IOException;
 
 public class HandlerGetFileContents implements Ihandler {
+  private ContentTypeForFileExtension contentTypeForFileExtension;
   private IFileIO fileIO;
-  private ContentTypeForFileExtension contentType;
   private String path;
 
-  public HandlerGetFileContents(String path, IFileIO fileIO, ContentTypeForFileExtension contentType) {
+  public HandlerGetFileContents(String path, IFileIO fileIO) {
+    this.contentTypeForFileExtension = new ContentTypeForFileExtension();
     this.path = path;
-    this.contentType = contentType;
     this.fileIO = fileIO;
   }
 
@@ -17,7 +17,7 @@ public class HandlerGetFileContents implements Ihandler {
     HttpResponse rtnResponse = new HttpResponse();
     try {
       byte[] body = fileIO.getContent(path);
-      rtnResponse.setBody(body, contentType.getContentType(path));
+      rtnResponse.setBody(body, contentTypeForFileExtension.getContentType(path));
     }
     catch (IOException e) {
       e.printStackTrace();

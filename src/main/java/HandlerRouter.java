@@ -5,11 +5,9 @@ import java.util.*;
 public class HandlerRouter implements IHandlerRouter {
 
   private IFileIO fileIO;
-  private ContentTypeForFileExtension contentTypeForFileExtension;
   private DirListHtml dirListHtml;
 
   public HandlerRouter(IFileIO fileIO) {
-    this.contentTypeForFileExtension = new ContentTypeForFileExtension();
     this.dirListHtml = new DirListHtml();
     this.fileIO = fileIO;
   }
@@ -29,7 +27,7 @@ public class HandlerRouter implements IHandlerRouter {
 
   private Ihandler selectGetHandler(String path) {
     if (fileIO.isFile(path)) {
-      return new HandlerGetFileContents(path, fileIO, contentTypeForFileExtension);
+      return new HandlerGetFileContents(path, fileIO);
     } else if (fileIO.isDirectory(path)) {
       return new HandlerGetDirectoryContents(path, fileIO, dirListHtml);
     } else {
