@@ -15,7 +15,7 @@ public class HttpConnectionToProcess {
 
   public void execute() {
     try {
-      Ihandler handler = getHandler();
+      IHandler handler = getHandler();
       sendResponse(handler);
     }
     catch (BadConnectionException e) {
@@ -26,9 +26,9 @@ public class HttpConnectionToProcess {
     }
   }
 
-  private Ihandler getHandler() throws BadConnectionException {
+  private IHandler getHandler() throws BadConnectionException {
     HttpRequest request;
-    Ihandler handler;
+    IHandler handler;
     try {
       request = httpRequestBuilder.getNextRequest(client.clientSocketInput());
       handler = handlerRouter.selectHandler(request);
@@ -40,7 +40,7 @@ public class HttpConnectionToProcess {
     return handler;
   }
 
-  private void sendResponse(Ihandler handler) throws BadConnectionException {
+  private void sendResponse(IHandler handler) throws BadConnectionException {
     HttpResponse response = handler.generateResponse();
     httpResponseWriter.sendHttpResponse(client.clientSocketOutput(), response);
   }

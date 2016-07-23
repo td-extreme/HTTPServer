@@ -1,6 +1,7 @@
 package com.td.HttpServer;
 import java.io.IOException;
-public class HandlerPostFileContents implements Ihandler {
+
+public class HandlerPostFileContents implements IHandler {
 
   private String path;
   private byte[] body;

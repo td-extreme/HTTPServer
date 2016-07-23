@@ -1,6 +1,6 @@
 package com.td.HttpServer;
 
-public class HandlerBadRequest implements Ihandler {
+public class HandlerBadRequest implements IHandler {
 
   public HttpResponse generateResponse() {
     HttpResponse rtnResponse = new HttpResponse();
