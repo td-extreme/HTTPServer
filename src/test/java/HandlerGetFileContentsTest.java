@@ -16,31 +16,32 @@ public class HandlerGetFileContentsTest extends junit.framework.TestCase {
     mockFileIO.setIsDirectoryFalse();
   }
 
+  private HttpResponse getResponse(String path) {
+    handler = new HandlerGetFileContents(path, mockFileIO);
+    return new HttpResponseBuilder().generateResponse(handler);
+  }
+
   public void testGenerateOkResponseDefaultPath() {
     String path = "/";
-    handler = new HandlerGetFileContents(path, mockFileIO);
-    response = handler.generateResponse();
+    response = getResponse(path);
     assertEquals(response.responseCode(), 200);
   }
 
   public void testGenerateOkResponseValidFile() {
     String path = "/something.txt";
-    handler = new HandlerGetFileContents(path, mockFileIO);
-    response = handler.generateResponse();
+    response = getResponse(path);
     assertEquals(response.responseCode(), 200);
   }
 
   public void testGenerateNotFoundResponseforInvalidFile() {
     String path = "/throwIOException";
-    handler = new HandlerGetFileContents(path, mockFileIO);
-    response = handler.generateResponse();
+    response = getResponse(path);
     assertEquals(response.responseCode(), 404);
   }
 
   public void testContentTypeIsTextHtmlForTxtFile() {
     String path = "/something.txt";
-    handler = new HandlerGetFileContents(path, mockFileIO);
-    response = handler.generateResponse();
+    response = getResponse(path);
     assertEquals(response.headers().get("Content-Type"), "text/plain");
   }
 }

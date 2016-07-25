@@ -11,11 +11,13 @@ public class HttpResponseWriterTest extends junit.framework.TestCase {
   protected void setUp() {
     mockSocketIO = new MockClientSocketOutput();
     writer = new HttpResponseWriter();
-    response = new HttpResponse();
+    HashMap<String, String> headers = new HashMap<String, String>();
+    headers.put("Content-Type", "text/plain");
+    byte[] body = "This is the response body".getBytes();
+    response = new HttpResponse(200, headers, body);
   }
 
   public void testGeneratedResponseSentOutToSocket() throws BadConnectionException {
-    response.setBody("This is the response body", "text/plain");
     String responseShouldBe = "HTTP/1.1 200 OK\r\nContent-Length: 25\r\nContent-Type: text/plain\r\n\r\nThis is the response body";
     writer.sendHttpResponse(mockSocketIO, response);
     String responseGenerated = new String(mockSocketIO.getReceivedBytes());

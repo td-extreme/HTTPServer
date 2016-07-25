@@ -4,19 +4,22 @@ public class HttpConnectionToProcess {
   IClientSocketIO client;
   IHandlerRouter handlerRouter;
   IRequestBuilder httpRequestBuilder;
+  IResponseBuilder httpResponseBuilder;
   IResponseWriter httpResponseWriter;
 
-  public HttpConnectionToProcess(IClientSocketIO client, IHandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, IResponseWriter httpResponseWriter) {
+  public HttpConnectionToProcess(IClientSocketIO client, IHandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, IResponseBuilder httpResponseBuilder, IResponseWriter httpResponseWriter) {
     this.client = client;
     this.handlerRouter = handlerRouter;
     this.httpRequestBuilder = httpRequestBuilder;
+    this.httpResponseBuilder = httpResponseBuilder;
     this.httpResponseWriter = httpResponseWriter;
   }
 
   public void execute() {
     try {
       IHandler handler = getHandler();
-      sendResponse(handler);
+      HttpResponse response = httpResponseBuilder.generateResponse(handler);
+      sendResponse(response);
     }
     catch (BadConnectionException e) {
       e.printStackTrace();
@@ -40,8 +43,7 @@ public class HttpConnectionToProcess {
     return handler;
   }
 
-  private void sendResponse(IHandler handler) throws BadConnectionException {
-    HttpResponse response = handler.generateResponse();
+  private void sendResponse(HttpResponse response) throws BadConnectionException {
     httpResponseWriter.sendHttpResponse(client.clientSocketOutput(), response);
   }
 }
