@@ -11,7 +11,7 @@ public class HttpResponseWriter implements IResponseWriter {
     buildResponseLineMap();
   }
 
-  public void sendHttpResponse(IClientSocketOutput client, HttpResponse response) throws BadConnectionException {
+  public void sendHttpResponse(IClientSocketOutput client, ICallable response) throws BadConnectionException {
     byte[] responseBytes = responseAsBytes(response);
     try {
       client.sendBytes(responseBytes);
