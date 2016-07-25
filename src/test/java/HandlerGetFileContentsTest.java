@@ -9,7 +9,7 @@ public class HandlerGetFileContentsTest extends junit.framework.TestCase {
   HttpRequest request;
   HttpResponse response;
   MockFileIO mockFileIO;
-
+  int responseCode;
   protected void setUp() {
     mockFileIO = new MockFileIO();
     mockFileIO.setIsFileTrue();
@@ -20,27 +20,31 @@ public class HandlerGetFileContentsTest extends junit.framework.TestCase {
     String path = "/";
     handler = new HandlerGetFileContents(path, mockFileIO);
     response = handler.generateResponse();
-    assertEquals(response.responseCode(), 200);
+    responseCode = (int)response.call()[0];
+    assertEquals(responseCode, 200);
   }
 
   public void testGenerateOkResponseValidFile() {
     String path = "/something.txt";
     handler = new HandlerGetFileContents(path, mockFileIO);
     response = handler.generateResponse();
-    assertEquals(response.responseCode(), 200);
+    responseCode = (int)response.call()[0];
+    assertEquals(responseCode, 200);
   }
 
   public void testGenerateNotFoundResponseforInvalidFile() {
     String path = "/throwIOException";
     handler = new HandlerGetFileContents(path, mockFileIO);
     response = handler.generateResponse();
-    assertEquals(response.responseCode(), 404);
+    responseCode = (int)response.call()[0];
+    assertEquals(responseCode, 404);
   }
 
   public void testContentTypeIsTextHtmlForTxtFile() {
     String path = "/something.txt";
     handler = new HandlerGetFileContents(path, mockFileIO);
     response = handler.generateResponse();
-    assertEquals(response.headers().get("Content-Type"), "text/plain");
+    HashMap<String, String> headers = (HashMap<String, String>)response.call()[1];
+    assertEquals(headers.get("Content-Type"), "text/plain");
   }
 }
