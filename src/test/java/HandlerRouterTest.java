@@ -5,12 +5,14 @@ import java.util.HashMap;
 public class HandlerRouterTest extends junit.framework.TestCase {
 
   MockFileIO mockFileIO;
+  DefaultHandlerRouter defaultHandlerRouter;
   HandlerRouter handlerRouter;
   HttpRequest request;
 
   protected void setUp() {
     mockFileIO = new MockFileIO();
-    handlerRouter = new HandlerRouter(mockFileIO);
+    defaultHandlerRouter = new DefaultHandlerRouter(mockFileIO);
+    handlerRouter = new HandlerRouter(defaultHandlerRouter);
   }
 
   public void testRouteForGetFile() {
