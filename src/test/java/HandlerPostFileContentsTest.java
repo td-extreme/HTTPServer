@@ -20,25 +20,25 @@ public class HandlerPostFileContentsTest extends junit.framework.TestCase {
   }
 
   public void testHandlerWritesToFileThatDoesNotExsists() {
-    handler.generateResponse();
+    handler.call();
     assert(mockFileIO.exists(path));
   }
 
   public void testHandlerWritesToNewFileIfPathExists() {
     mockFileIO.addToDirectoryContents(path);
-    handler.generateResponse();
+    handler.call();
     assert(mockFileIO.exists(path1));
   }
 
   public void testHandlerWritesToNewFile2IfPathExists() {
     mockFileIO.addToDirectoryContents(path);
     mockFileIO.addToDirectoryContents(path1);
-    handler.generateResponse();
+    handler.call();
     assert(mockFileIO.exists(path2));
   }
 
   public void testLocationHeader() {
-    HttpResponse response = handler.generateResponse();
+    HttpResponse response = new HttpResponseBuilder().generateResponse(handler);
     assertEquals(response.getValueForHeader("Location"), path);
   }
 }

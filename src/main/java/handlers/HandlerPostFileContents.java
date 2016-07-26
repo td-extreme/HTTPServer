@@ -1,4 +1,6 @@
 package com.td.HttpServer;
+
+import java.util.HashMap;
 import java.io.IOException;
 
 public class HandlerPostFileContents implements IHandler {
@@ -13,20 +15,24 @@ public class HandlerPostFileContents implements IHandler {
     this.fileIO = fileIO;
   }
 
-  public HttpResponse generateResponse() {
-    HttpResponse rtnResponse = new HttpResponse();
+  public Object[] call() {
+    HashMap<String, String> headers = new HashMap<String, String>();
+    Object[] returnArray = new Object[3];
     try {
       String file = getFileToWrite(path);
       fileIO.writeContent(file, body);
-      rtnResponse.setResponseCode(201);
-      rtnResponse.addHeader("Location", path);
-    }
-    catch (IOException e) {
+      headers.put("Content-Type", ContentType.text);
+      headers.put("Location", path);
+      returnArray[0] = 201;
+      returnArray[2] = new byte[0];
+    } catch (IOException e) {
       e.printStackTrace();
-      rtnResponse.setBody("IOException", ContentType.text);
-      rtnResponse.setResponseCode(404);
+      returnArray[0] = 404;
+      returnArray[2] = "IOException".getBytes();
+      headers.put("Content-Tyep", ContentType.text);
     }
-    return rtnResponse;
+    returnArray[1] = headers;
+    return returnArray;
   }
 
   private String getFileToWrite(String path) throws IOException {

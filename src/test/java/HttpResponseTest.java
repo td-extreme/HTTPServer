@@ -7,12 +7,9 @@ public class HttpResponseTest extends junit.framework.TestCase {
   private HashMap<String, String> testMap;
 
   protected void setUp() {
-    response = new HttpResponse();
-    response.addHeader("testKey", "testValue");
     testMap = new HashMap<String, String>();
-    testMap.put("key01", "value01");
-    testMap.put("key02", "value02");
-    response.setBody("12345", "text/plain");
+    testMap.put("Content-Type", "text/plain");
+    response = new HttpResponse(200, testMap, "12345".getBytes());
   }
 
   public void testDefaultResponseLine() {
@@ -20,23 +17,14 @@ public class HttpResponseTest extends junit.framework.TestCase {
   }
 
   public void testGetHeaders() {
-    assertEquals(response.headers().get("testKey"), "testValue");
+    assertEquals(response.headers().get("Content-Type"), "text/plain");
   }
 
   public void testGetValue() {
-    assertEquals(response.getValueForHeader("testKey"), "testValue");
-  }
-
-  public void testAddHashMapToHeaders() {
-    response.addHeaders(testMap);
-    assertEquals(response.getValueForHeader("key02"), "value02");
+    assertEquals(response.getValueForHeader("Content-Type"), "text/plain");
   }
 
   public void testContentLengthGetsSet() {
     assertEquals(response.getValueForHeader("Content-Length"), "5");
-  }
-
-  public void testContentTypeGetsSet() {
-    assertEquals(response.getValueForHeader("Content-Type"), "text/plain");
   }
 }

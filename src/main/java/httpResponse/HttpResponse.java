@@ -1,18 +1,19 @@
 package com.td.HttpServer;
 
-import java.util.*;
+import java.util.HashMap;
 import java.io.*;
 
 public class HttpResponse {
 
   private int responseCode;
-  private byte[] body;
   private HashMap<String, String> headers;
+  private byte[] body;
 
-  public HttpResponse() {
-    this.responseCode = 200;
-    this.body = "".getBytes();
-    this.headers = new HashMap<String, String>();
+  public HttpResponse(int responseCode, HashMap<String, String> headers, byte[] body) {
+    this.responseCode = responseCode;
+    this.headers = headers;
+    this.body = body;
+    addHeader("Content-Length", contentLength(this.body));
   }
 
   public void setResponseCode(int code) {
@@ -21,16 +22,6 @@ public class HttpResponse {
 
   public int responseCode() {
     return responseCode;
-  }
-
-  public void setBody(byte[] body, String contentType) {
-    this.body = body;
-    addHeader("Content-Length", contentLength(this.body));
-    addHeader("Content-Type", contentType);
-  }
-
-  public void setBody(String body, String contentType) {
-    setBody(body.getBytes(), contentType);
   }
 
   public byte[] body() {

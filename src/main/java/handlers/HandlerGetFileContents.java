@@ -1,5 +1,6 @@
 package com.td.HttpServer;
 
+import java.util.HashMap;
 import java.io.IOException;
 
 public class HandlerGetFileContents implements IHandler {
@@ -13,17 +14,21 @@ public class HandlerGetFileContents implements IHandler {
     this.fileIO = fileIO;
   }
 
-  public HttpResponse generateResponse() {
-    HttpResponse rtnResponse = new HttpResponse();
+  public Object[] call() {
+    Object[] returnArray = new Object[3];
+    HashMap<String, String> headers = new HashMap<String, String>();
     try {
-      byte[] body = fileIO.getContent(path);
-      rtnResponse.setBody(body, contentTypeForFileExtension.getContentType(path));
+      returnArray[0] = 200;
+      returnArray[2] = fileIO.getContent(path);
+      headers.put("Content-Type", contentTypeForFileExtension.getContentType(path));
     }
     catch (IOException e) {
       e.printStackTrace();
-      rtnResponse.setBody("IOException", ContentType.text);
-      rtnResponse.setResponseCode(404);
+      returnArray[0] = 404;
+      returnArray[2] = "IOException".getBytes();
+      headers.put("Content-Type", ContentType.text);
     }
-    return rtnResponse;
+    returnArray[1] = headers;
+    return returnArray;
   }
 }

@@ -7,13 +7,15 @@ public class HttpServerRunner {
   private IConnectionProcessRunner httpConnectionProcessRunner;
   private IHandlerRouter handlerRouter;
   private IRequestBuilder httpRequestBuilder;
+  private IResponseBuilder httpResponseBuilder;
   private IResponseWriter httpResponseWriter;
 
-  public HttpServerRunner(ServerSocket serverSocket, IConnectionProcessRunner httpConnectionProcessRunner, IHandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, IResponseWriter httpResponseWriter) {
+  public HttpServerRunner(ServerSocket serverSocket, IConnectionProcessRunner httpConnectionProcessRunner, IHandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder,IResponseBuilder httpResponseBuilder, IResponseWriter httpResponseWriter) {
     this.serverSocket = serverSocket;
     this.httpConnectionProcessRunner = httpConnectionProcessRunner;
-    this.handlerRouter = handlerRouter; 
+    this.handlerRouter = handlerRouter;
     this.httpRequestBuilder = httpRequestBuilder;
+    this.httpResponseBuilder = httpResponseBuilder;
     this.httpResponseWriter = httpResponseWriter;
   }
 
@@ -27,7 +29,7 @@ public class HttpServerRunner {
         e.printStackTrace();
         continue;
       }
-      HttpConnectionToProcess httpConnectionToProcess = new HttpConnectionToProcess(client, handlerRouter, httpRequestBuilder, httpResponseWriter);
+      HttpConnectionToProcess httpConnectionToProcess = new HttpConnectionToProcess(client, handlerRouter, httpRequestBuilder, httpResponseBuilder, httpResponseWriter);
       httpConnectionProcessRunner.execute(httpConnectionToProcess);
     }
   }

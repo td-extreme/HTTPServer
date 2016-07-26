@@ -1,5 +1,5 @@
 package com.td.HttpServer;
-
+import java.util.HashMap;
 import java.io.IOException;
 
 public class HandlerGetDirectoryContents implements IHandler {
@@ -13,18 +13,20 @@ public class HandlerGetDirectoryContents implements IHandler {
     this.dirListHtml = dirListHtml;
   }
 
-  public HttpResponse generateResponse() {
-    HttpResponse rtnResponse = new HttpResponse();
+  public Object[] call() {
+    Object[] returnArray = new Object[3];
+    HashMap<String, String> headers = new HashMap<String, String>();
     try {
       String[] fileList = fileIO.getFiles(path);
-      byte[] body = dirListHtml.buildHtmlPage(path, fileList);
-      rtnResponse.setBody(body, ContentType.html);
+      returnArray[0] = 200;
+      returnArray[2] = dirListHtml.buildHtmlPage(path, fileList);
+      headers.put("Content-Type", ContentType.html);
+    } catch (IOException e) {
+      returnArray[0] = 404;
+      returnArray[2] = "IOExceptoin".getBytes();
+      headers.put("Content-Type", ContentType.text);
     }
-    catch (IOException e) {
-      e.printStackTrace();
-      rtnResponse.setBody("IOException", ContentType.text);
-      rtnResponse.setResponseCode(404);
-    }
-    return rtnResponse;
+    returnArray[1] = headers;
+    return returnArray;
   }
 }

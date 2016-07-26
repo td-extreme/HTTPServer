@@ -10,6 +10,7 @@ public class MultiThreadTest extends junit.framework.TestCase {
   HandlerRouter handlerRouter;
   HttpRequestParser httpRequestParser;
   HttpRequestBuilder httpRequestBuilder;
+  HttpResponseBuilder httpResponseBuilder;
   HttpResponseWriter httpResponseWriter;
 
   protected void setUp() {
@@ -17,6 +18,7 @@ public class MultiThreadTest extends junit.framework.TestCase {
     handlerRouter = new HandlerRouter(fileIO);
     httpRequestParser = new HttpRequestParser();
     httpRequestBuilder = new HttpRequestBuilder(httpRequestParser);
+    httpResponseBuilder = new HttpResponseBuilder();
     httpResponseWriter = new HttpResponseWriter();
 
   }
@@ -25,8 +27,8 @@ public class MultiThreadTest extends junit.framework.TestCase {
     MockClientSocket clientLongDelay = new MockClientSocket(1000);
     MockClientSocket clientNoDelay = new MockClientSocket(0);
 
-    HttpConnectionToProcess connectionNoDealy = new HttpConnectionToProcess(clientNoDelay, handlerRouter, httpRequestBuilder, httpResponseWriter);
-    HttpConnectionToProcess connectionLongDelay = new HttpConnectionToProcess(clientLongDelay, handlerRouter, httpRequestBuilder, httpResponseWriter);
+    HttpConnectionToProcess connectionNoDealy = new HttpConnectionToProcess(clientNoDelay, handlerRouter, httpRequestBuilder, httpResponseBuilder, httpResponseWriter);
+    HttpConnectionToProcess connectionLongDelay = new HttpConnectionToProcess(clientLongDelay, handlerRouter, httpRequestBuilder, httpResponseBuilder, httpResponseWriter);
     ConnectionProcessRunnerMultiThread connectionProcessRunnerMutliThread = new ConnectionProcessRunnerMultiThread();
     connectionProcessRunnerMutliThread.execute(connectionLongDelay);
     connectionProcessRunnerMutliThread.execute(connectionNoDealy);
