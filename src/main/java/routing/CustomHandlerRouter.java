@@ -21,18 +21,11 @@ public class CustomHandlerRouter implements IHandlerRouter {
   }
 
   public IHandler selectHandler(HttpRequest request) {
-    boolean found = false;
-    IHandler handler = selectHandlerBadRequest();
     for (CustomRoute route : routes) {
-       if (route.match(request.method(), request.path())) {
-       handler = route.getHandler();
-        found = true;
-        break;
+      if (route.match(request.method(), request.path())) {
+        return route.getHandler();
       }
     }
-    if (found == false) {
-      handler = defaultHandlerRouter.selectHandler(request);
-    }
-    return handler;
+    return defaultHandlerRouter.selectHandler(request);
   }
 }
