@@ -31,6 +31,13 @@ public class CustomHandlerRouterTest extends junit.framework.TestCase {
     assertEquals(mockHandler, testHandler);
   }
 
+  public void testGetCustomRouteOverRidesDefaultPath() {
+    customHandlerRouter.addRoute("GET", "/", mockHandler);
+    request = new HttpRequest("GET / HTTP/1.1", headers);
+    IHandler testHandler = customHandlerRouter.selectHandler(request);
+    assertEquals(mockHandler, testHandler);
+  }
+
   public void testGetsDefaultHandlerIfCustomRouteNotDefined() {
     mockFileIO.setIsDirectoryTrue();
     request = new HttpRequest("GET / HTTP/1.1", headers);
