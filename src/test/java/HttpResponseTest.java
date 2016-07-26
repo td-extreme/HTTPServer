@@ -5,6 +5,8 @@ public class HttpResponseTest extends junit.framework.TestCase {
 
   private HttpResponse response;
   private HashMap<String, String> testMap;
+  int responseCode;
+  HashMap<String, String> headers;
 
   protected void setUp() {
     response = new HttpResponse();
@@ -13,14 +15,18 @@ public class HttpResponseTest extends junit.framework.TestCase {
     testMap.put("key01", "value01");
     testMap.put("key02", "value02");
     response.setBody("12345", "text/plain");
-  }
+    Object[] responseArray = response.call();
+    responseCode = (int)responseArray[0];
+    headers = (HashMap<String, String>)responseArray[1];
+
+}
 
   public void testDefaultResponseLine() {
-    assertEquals(response.responseCode(), 200);
+    assertEquals(responseCode, 200);
   }
 
   public void testGetHeaders() {
-    assertEquals(response.headers().get("testKey"), "testValue");
+    assertEquals(headers.get("testKey"), "testValue");
   }
 
   public void testGetValue() {

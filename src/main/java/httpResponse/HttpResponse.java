@@ -3,11 +3,19 @@ package com.td.HttpServer;
 import java.util.*;
 import java.io.*;
 
-public class HttpResponse {
+public class HttpResponse implements ICallable {
 
   private int responseCode;
   private byte[] body;
   private HashMap<String, String> headers;
+
+  public Object[] call() {
+    Object[] returnArray = new Object[3];
+    returnArray[0] = responseCode();
+    returnArray[1] = headers();
+    returnArray[2] = body();
+    return returnArray;
+  }
 
   public HttpResponse() {
     this.responseCode = 200;
@@ -19,7 +27,7 @@ public class HttpResponse {
     this.responseCode = code;
   }
 
-  public int responseCode() {
+  private int responseCode() {
     return responseCode;
   }
 
@@ -33,7 +41,7 @@ public class HttpResponse {
     setBody(body.getBytes(), contentType);
   }
 
-  public byte[] body() {
+  private byte[] body() {
     return body;
   }
 
@@ -45,7 +53,7 @@ public class HttpResponse {
     this.headers.putAll(headers);
   }
 
-  public HashMap<String, String> headers() {
+  private HashMap<String, String> headers() {
     return headers;
   }
 

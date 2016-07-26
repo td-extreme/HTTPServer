@@ -11,7 +11,7 @@ public class HttpResponseWriter implements IResponseWriter {
     buildResponseLineMap();
   }
 
-  public void sendHttpResponse(IClientSocketOutput client, HttpResponse response) throws BadConnectionException {
+  public void sendHttpResponse(IClientSocketOutput client, ICallable response) throws BadConnectionException {
     byte[] responseBytes = responseAsBytes(response);
     try {
       client.sendBytes(responseBytes);
@@ -22,13 +22,18 @@ public class HttpResponseWriter implements IResponseWriter {
     }
   }
 
-  private byte[] responseAsBytes(HttpResponse response) {
+  private byte[] responseAsBytes(ICallable response) {
+    Object[] responseArray = response.call();
+    int responseCode = (int)responseArray[0];
+    HashMap<String, String> headers = (HashMap<String, String>)responseArray[1];
+    byte[] body = (byte[])responseArray[2];
+
     ByteArrayOutputStream rtnStream = new ByteArrayOutputStream();
-    writeToByteArrayOS(rtnStream, responseLine(response.responseCode()));
+    writeToByteArrayOS(rtnStream, responseLine(responseCode));
     writeToByteArrayOS(rtnStream, NEWLINE);
-    writeToByteArrayOS(rtnStream, headers(response.headers()));
+    writeToByteArrayOS(rtnStream, headers(headers));
     writeToByteArrayOS(rtnStream, NEWLINE);
-    writeToByteArrayOS(rtnStream, response.body());
+    writeToByteArrayOS(rtnStream, body);
     return rtnStream.toByteArray();
   }
 
