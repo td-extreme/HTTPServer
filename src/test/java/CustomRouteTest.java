@@ -4,11 +4,9 @@ import com.td.Mocks.MockHandler;
 public class CustomRouteTest extends junit.framework.TestCase {
 
   private CustomRoute testRoute;
-  private MockHandler mockHandler;
 
   protected void setUp() {
-    mockHandler = new MockHandler();
-    testRoute = new CustomRoute("GET", "/this", mockHandler);
+    testRoute = new CustomRoute("GET", "/this", new MockHandler());
   }
 
   public void testMatchMethodReturnsTrueForMatch() {
