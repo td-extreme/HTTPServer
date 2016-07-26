@@ -7,6 +7,7 @@ import com.td.Mocks.*;
 public class MultiThreadTest extends junit.framework.TestCase {
 
   MockFileIO fileIO;
+  DefaultHandlerRouter defaultHandlerRouter;
   HandlerRouter handlerRouter;
   HttpRequestParser httpRequestParser;
   HttpRequestBuilder httpRequestBuilder;
@@ -14,7 +15,8 @@ public class MultiThreadTest extends junit.framework.TestCase {
 
   protected void setUp() {
     fileIO = new MockFileIO();
-    handlerRouter = new HandlerRouter(fileIO);
+    defaultHandlerRouter = new DefaultHandlerRouter(fileIO);
+    handlerRouter = new HandlerRouter(defaultHandlerRouter);
     httpRequestParser = new HttpRequestParser();
     httpRequestBuilder = new HttpRequestBuilder(httpRequestParser);
     httpResponseWriter = new HttpResponseWriter();

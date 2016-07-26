@@ -17,11 +17,12 @@ public class HttpServer{
     }
     HttpRequestParser httpRequestParser = new HttpRequestParser();
     FileIO fileIO = new FileIO(arguments.getDirectory());
-    HandlerRouter handlerRouter = new HandlerRouter(fileIO);
+    DefaultHandlerRouter defaultHandlerRouter = new DefaultHandlerRouter(fileIO);
+    CustomHandlerRouter customHandlerRouter = new CustomHandlerRouter(defaultHandlerRouter);
     HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder(httpRequestParser);
     HttpResponseWriter httpResponseWriter = new HttpResponseWriter();
     ConnectionProcessRunnerMultiThread connectionProcessRunner = new ConnectionProcessRunnerMultiThread();
-    HttpServerRunner httpServerRunner = new HttpServerRunner(serverSocket, connectionProcessRunner, handlerRouter, httpRequestBuilder, httpResponseWriter);
+    HttpServerRunner httpServerRunner = new HttpServerRunner(serverSocket, connectionProcessRunner, customHandlerRouter, httpRequestBuilder, httpResponseWriter);
     System.out.println("HTTP Server running on localhost port " + serverSocket.getLocalPort() +"!");
     System.out.println("Using directory : " + fileIO.workingDirectory());
     httpServerRunner.run();
