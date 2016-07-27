@@ -28,18 +28,12 @@ public class HttpServer{
   }
 
   public void run() {
-    httpServerRunner.run();
     System.out.println("HTTP Server running on localhost port " + serverSocket.getLocalPort() +"!");
     System.out.println("Using directory : " + fileIO.workingDirectory());
+    httpServerRunner.run();
   }
 
   public void addRoute(String method, String path, IHandler handler) {
     customHandlerRouter.addRoute(method, path, handler);
-  }
-
-  public static void main(String[] args) {
-    ArgumentParser arguments = new ArgumentParser(args);
-    HttpServer httpServer = new HttpServer(arguments.getPortNumber(), arguments.getDirectory());
-    httpServer.run();
   }
 }

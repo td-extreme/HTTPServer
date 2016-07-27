@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = 'com.td.HttpServer.HttpServer'
+mainClassName = 'com.td.HttpServer.Main'
 
 repositories {
   mavenCentral()
@@ -28,10 +28,10 @@ jar {
   manifest {
     attributes(
       'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-      'Main-Class': 'com.td.HttpServer.HttpServer'
+      'Main-Class': 'com.td.HttpServer.Main'
       )
   }
-  baseName = 'HttpServer'
+  baseName = 'Main'
   version = '0.1.1'
 }
 
