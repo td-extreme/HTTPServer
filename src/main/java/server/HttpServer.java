@@ -8,26 +8,32 @@ public class HttpServer{
   private HttpServerRunner httpServerRunner;
   private CustomHandlerRouter customHandlerRouter;
   private FileIO fileIO;
+  private HttpRequestBuilder httpRequestBuilder;
+  private HttpResponseWriter httpResponseWriter;
+  private ConnectionProcessRunnerMultiThread connectionProcessRunner;
+  private int portNumber;
+  private String directory;
 
   public HttpServer(int portNumber, String directory) {
-    try {
-      serverSocket = new ServerSocket(portNumber);
-    }
-    catch (IOException e) {
-      System.out.println("\nPort number " + portNumber + " can not be opened. It may be in use by another application.\n");
-      return;
-    }
+    this.portNumber = portNumber;
+    this.directory = directory;
     HttpRequestParser httpRequestParser = new HttpRequestParser();
     fileIO = new FileIO(directory);
     DefaultHandlerRouter defaultHandlerRouter = new DefaultHandlerRouter(fileIO);
     customHandlerRouter = new CustomHandlerRouter(defaultHandlerRouter);
-    HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder(httpRequestParser);
-    HttpResponseWriter httpResponseWriter = new HttpResponseWriter();
-    ConnectionProcessRunnerMultiThread connectionProcessRunner = new ConnectionProcessRunnerMultiThread();
-    httpServerRunner = new HttpServerRunner(serverSocket, connectionProcessRunner, customHandlerRouter, httpRequestBuilder, httpResponseWriter);
+    httpRequestBuilder = new HttpRequestBuilder(httpRequestParser);
+    httpResponseWriter = new HttpResponseWriter();
+    connectionProcessRunner = new ConnectionProcessRunnerMultiThread();
   }
 
-  public void run() {
+  public void run() throws UnableToOpenPortException {
+    try {
+      serverSocket = new ServerSocket(portNumber);
+    }
+    catch (IOException e) {
+      throw new UnableToOpenPortException(e);
+    }
+    httpServerRunner = new HttpServerRunner(serverSocket, connectionProcessRunner, customHandlerRouter, httpRequestBuilder, httpResponseWriter);
     System.out.println("HTTP Server running on localhost port " + serverSocket.getLocalPort() +"!");
     System.out.println("Using directory : " + fileIO.workingDirectory());
     httpServerRunner.run();

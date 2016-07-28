@@ -18,7 +18,7 @@ public class DefaultHandlerRouter {
     } else if (request.method().equals("POST")) {
       return selectPostHandler(request);
     }
-    return new HandlerFileNotFound();
+    return new HandlerMethodNotAllowed();
   }
 
   private IHandler selectGetHandler(String path) {

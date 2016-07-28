@@ -9,11 +9,6 @@ public class HttpVerifierTest extends junit.framework.TestCase {
   }
 
   // Tesing invalid requests
-  public void testInvalidRequestType() {
-    String request =  "NOT / HTTP/1.1";
-    assertFalse(checker.isValid(request));
-  }
-
   public void testInvalidVersion() {
     String request =  "GET / FTP/1.1";
     assertFalse(checker.isValid(request));
