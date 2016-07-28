@@ -1,6 +1,7 @@
 package com.td.HttpServer;
 import java.util.HashMap;
-import java.io.*;
+import java.io.IOException;
+import java.io.ByteArrayOutputStream;
 import java.lang.StringBuilder;
 
 public class HttpResponseWriter implements IResponseWriter {
