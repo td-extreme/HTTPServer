@@ -52,6 +52,12 @@ public class HandlerRouterTest extends junit.framework.TestCase {
     assertEquals(getType(), "HandlerPostFileContents");
   }
 
+  public void testInvalidMethodType() {
+    buildRequest("NOT /file.txt HTTP/1.1");
+    request.setBody("This".getBytes());
+    assertEquals(getType(), "HandlerMethodNotAllowed");
+  }
+
   private void buildRequest(String requestLine) {
     request = new HttpRequest(requestLine, new HashMap<String, String>());
   }

@@ -21,8 +21,8 @@ public class HandlerGetFileContents implements IHandler {
     }
     catch (IOException e) {
       e.printStackTrace();
-      rtnResponse.setBody("IOException", ContentType.text);
-      rtnResponse.setResponseCode(404);
+      rtnResponse.setBody("Internal Server Error", ContentType.text);
+      rtnResponse.setResponseCode(500);
     }
     return rtnResponse;
   }

@@ -30,6 +30,14 @@ public class HandlerPostFileContentsTest extends junit.framework.TestCase {
     assert(mockFileIO.exists(path1));
   }
 
+  public void testGenerateInternalServerErrorResponseforIOException() {
+    String path = "/throwIOException";
+    handler = new HandlerPostFileContents(path, body, mockFileIO);
+    HttpResponse response = handler.generateResponse();
+    assertEquals(response.responseCode(), 500);
+  }
+
+
   public void testHandlerWritesToNewFile2IfPathExists() {
     mockFileIO.addToDirectoryContents(path);
     mockFileIO.addToDirectoryContents(path1);

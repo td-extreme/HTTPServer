@@ -34,7 +34,7 @@ public class HandlerGetFileContentsTest extends junit.framework.TestCase {
     String path = "/throwIOException";
     handler = new HandlerGetFileContents(path, mockFileIO);
     response = handler.generateResponse();
-    assertEquals(response.responseCode(), 404);
+    assertEquals(response.responseCode(), 500);
   }
 
   public void testContentTypeIsTextHtmlForTxtFile() {
