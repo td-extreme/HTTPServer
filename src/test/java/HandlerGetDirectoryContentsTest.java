@@ -37,7 +37,7 @@ public class HandlerGetDirectoryContentsTest extends junit.framework.TestCase {
     String path = "/throwIOException";
     handler = new HandlerGetDirectoryContents(path, mockFileIO, dirListHtml);
     response = handler.generateResponse();
-    assertEquals(404, response.responseCode());
+    assertEquals(500, response.responseCode());
   }
 
   public void testContentType() {

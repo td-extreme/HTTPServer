@@ -48,12 +48,18 @@ public class MockFileIO implements IFileIO {
     return new byte[0];
   }
 
-  public void writeContent(String filename, String body) {
-    addToDirectoryContents(filename);
+  public void writeContent(String fileName, String body) throws IOException {
+    if (fileName.equals("/throwIOException")) {
+      throw new IOException();
+    }
+    addToDirectoryContents(fileName);
   }
 
-  public void writeContent(String filename, byte[] body) {
-    addToDirectoryContents(filename);
+  public void writeContent(String fileName, byte[] body) throws IOException {
+    if (fileName.equals("/throwIOException")) {
+      throw new IOException();
+    }
+    addToDirectoryContents(fileName);
   }
 
   public void addToDirectoryContents(String path) {
