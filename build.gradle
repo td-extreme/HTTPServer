@@ -31,8 +31,8 @@ jar {
       'Main-Class': 'com.td.HttpServer.Main'
       )
   }
-  baseName = 'Main'
-  version = '0.1.1'
+  baseName = 'HttpServer'
+  version = '0.1.2'
 }
 
 sourceCompatibility = 1.8
