@@ -1,5 +1,4 @@
 package com.td.HttpServer;
-import java.util.*;
 
 public class HttpVerifier implements IValidator {
 
