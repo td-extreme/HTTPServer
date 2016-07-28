@@ -1,7 +1,7 @@
 package com.td.HttpServer;
-import java.util.*;
+import java.util.HashMap;
 import java.io.*;
-import java.lang.*;
+import java.lang.StringBuilder;
 
 public class HttpResponseWriter implements IResponseWriter {
 
@@ -48,7 +48,7 @@ public class HttpResponseWriter implements IResponseWriter {
     returnString.append(" ");
     returnString.append(responseCode);
     returnString.append(" ");
-    returnString.append(responseLines.get(responseCode));
+    returnString.append(responseLines.getOrDefault(responseCode, ""));
     return returnString.toString();
   }
 
@@ -120,15 +120,15 @@ public class HttpResponseWriter implements IResponseWriter {
 
 
     responseLines.put(500, "Internal Server Error");
-    responseLines.put(500, "Not Implemented");
-    responseLines.put(500, "Bad Gateway");
-    responseLines.put(500, "Service Unavailable");
-    responseLines.put(500, "Gateway Timeout");
-    responseLines.put(500, "HttpVersion Not Supported");
-    responseLines.put(500, "Variant Also Negotiates");
-    responseLines.put(500, "Insufficient Storage");
-    responseLines.put(500, "Loop Detected");
-    responseLines.put(500, "Not Extended");
-    responseLines.put(500, "Network Authentication Required");
+    responseLines.put(501, "Not Implemented");
+    responseLines.put(502, "Bad Gateway");
+    responseLines.put(503, "Service Unavailable");
+    responseLines.put(504, "Gateway Timeout");
+    responseLines.put(505, "HttpVersion Not Supported");
+    responseLines.put(506, "Variant Also Negotiates");
+    responseLines.put(507, "Insufficient Storage");
+    responseLines.put(508, "Loop Detected");
+    responseLines.put(510, "Not Extended");
+    responseLines.put(511, "Network Authentication Required");
   }
 }
