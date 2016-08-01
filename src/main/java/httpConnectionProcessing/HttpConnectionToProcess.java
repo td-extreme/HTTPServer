@@ -2,11 +2,11 @@ package com.td.HttpServer;
 
 public class HttpConnectionToProcess {
   IClientSocketIO client;
-  IHandlerRouter handlerRouter;
+  Router handlerRouter;
   IRequestBuilder httpRequestBuilder;
   IResponseWriter httpResponseWriter;
 
-  public HttpConnectionToProcess(IClientSocketIO client, IHandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, IResponseWriter httpResponseWriter) {
+  public HttpConnectionToProcess(IClientSocketIO client, Router handlerRouter, IRequestBuilder httpRequestBuilder, IResponseWriter httpResponseWriter) {
     this.client = client;
     this.handlerRouter = handlerRouter;
     this.httpRequestBuilder = httpRequestBuilder;

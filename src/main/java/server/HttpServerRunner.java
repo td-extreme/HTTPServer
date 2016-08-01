@@ -5,14 +5,14 @@ import java.net.ServerSocket;
 public class HttpServerRunner {
   private ServerSocket serverSocket;
   private IConnectionProcessRunner httpConnectionProcessRunner;
-  private IHandlerRouter handlerRouter;
+  private Router handlerRouter;
   private IRequestBuilder httpRequestBuilder;
   private IResponseWriter httpResponseWriter;
 
-  public HttpServerRunner(ServerSocket serverSocket, IConnectionProcessRunner httpConnectionProcessRunner, IHandlerRouter handlerRouter, IRequestBuilder httpRequestBuilder, IResponseWriter httpResponseWriter) {
+  public HttpServerRunner(ServerSocket serverSocket, IConnectionProcessRunner httpConnectionProcessRunner, Router handlerRouter, IRequestBuilder httpRequestBuilder, IResponseWriter httpResponseWriter) {
     this.serverSocket = serverSocket;
     this.httpConnectionProcessRunner = httpConnectionProcessRunner;
-    this.handlerRouter = handlerRouter; 
+    this.handlerRouter = handlerRouter;
     this.httpRequestBuilder = httpRequestBuilder;
     this.httpResponseWriter = httpResponseWriter;
   }

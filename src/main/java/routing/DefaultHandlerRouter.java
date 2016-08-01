@@ -2,7 +2,7 @@ package com.td.HttpServer;
 
 import java.util.HashMap;
 
-public class DefaultHandlerRouter {
+public class DefaultHandlerRouter implements IHandlerRouter {
 
   private IFileIO fileIO;
   private DirListHtml dirListHtml;
