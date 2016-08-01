@@ -5,19 +5,17 @@ import java.io.IOException;
 public class HandlerGetFileContents implements IHandler {
   private ContentTypeForFileExtension contentTypeForFileExtension;
   private IFileIO fileIO;
-  private String path;
 
-  public HandlerGetFileContents(String path, IFileIO fileIO) {
+  public HandlerGetFileContents(IFileIO fileIO) {
     this.contentTypeForFileExtension = new ContentTypeForFileExtension();
-    this.path = path;
     this.fileIO = fileIO;
   }
 
-  public HttpResponse generateResponse() {
+  public HttpResponse generateResponse(HttpRequest request) {
     HttpResponse rtnResponse = new HttpResponse();
     try {
-      byte[] body = fileIO.getContent(path);
-      rtnResponse.setBody(body, contentTypeForFileExtension.getContentType(path));
+      byte[] body = fileIO.getContent(request.path());
+      rtnResponse.setBody(body, contentTypeForFileExtension.getContentType(request.path()));
     }
     catch (IOException e) {
       e.printStackTrace();

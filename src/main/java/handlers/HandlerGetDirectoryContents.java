@@ -5,19 +5,17 @@ import java.io.IOException;
 public class HandlerGetDirectoryContents implements IHandler {
   private IFileIO fileIO;
   private DirListHtml dirListHtml;
-  private String path;
 
-  public HandlerGetDirectoryContents(String path, IFileIO fileIO, DirListHtml dirListHtml) {
-    this.path = path;
+  public HandlerGetDirectoryContents(IFileIO fileIO, DirListHtml dirListHtml) {
     this.fileIO = fileIO;
     this.dirListHtml = dirListHtml;
   }
 
-  public HttpResponse generateResponse() {
+  public HttpResponse generateResponse(HttpRequest request) {
     HttpResponse rtnResponse = new HttpResponse();
     try {
-      String[] fileList = fileIO.getFiles(path);
-      byte[] body = dirListHtml.buildHtmlPage(path, fileList);
+      String[] fileList = fileIO.getFiles(request.path());
+      byte[] body = dirListHtml.buildHtmlPage(request.path(), fileList);
       rtnResponse.setBody(body, ContentType.html);
     }
     catch (IOException e) {

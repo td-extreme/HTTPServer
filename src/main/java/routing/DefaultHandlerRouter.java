@@ -23,9 +23,9 @@ public class DefaultHandlerRouter {
 
   private IHandler selectGetHandler(String path) {
     if (fileIO.isFile(path)) {
-      return new HandlerGetFileContents(path, fileIO);
+      return new HandlerGetFileContents(fileIO);
     } else if (fileIO.isDirectory(path)) {
-      return new HandlerGetDirectoryContents(path, fileIO, dirListHtml);
+      return new HandlerGetDirectoryContents( fileIO, dirListHtml);
     } else {
       return new HandlerFileNotFound();
     }
@@ -35,7 +35,7 @@ public class DefaultHandlerRouter {
     if (request.body().length == 0 || request.path().equals("/")) {
       return new HandlerUnprocessableEntity("POST Method must supply a Body and a Path");
     } else {
-    return new HandlerPostFileContents(request.path(), request.body(), fileIO);
+    return new HandlerPostFileContents(fileIO);
     }
   }
 }
