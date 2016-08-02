@@ -20,8 +20,6 @@ public class HandlerPostFileContentsTest extends junit.framework.TestCase {
     path2 = "/testFile-2.txt";
     handler = new HandlerPostFileContents(mockFileIO);
     request = new HttpRequest("POST /testFile.txt HTTP/1.1", new HashMap<String, String>());
-    System.out.println("******");
-    System.out.println(request.path());
   }
 
   public void testHandlerWritesToFileThatDoesNotExsists() {
