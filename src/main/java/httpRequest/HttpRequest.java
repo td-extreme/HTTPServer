@@ -29,6 +29,10 @@ public class HttpRequest implements IHttpRequest {
     return requestLine().split(" ")[2];
   }
 
+  public HashMap<String, String> headers() {
+    return headers;
+  }
+
   public int contentLength() {
     String length = headers.getOrDefault("Content-Length", "0");
     return Integer.parseInt(length);
