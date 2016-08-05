@@ -33,7 +33,7 @@ public class DefaultHandlerRouter {
 
   private IHandler selectPostHandler(HttpRequest request) {
     if (request.body().length == 0 || request.path().equals("/")) {
-      return new HandlerUnprocessableEntity("POST Method must supply a Body and a Path");
+      return new HandlerMethodNotAllowed();
     } else {
     return new HandlerPostFileContents(fileIO);
     }

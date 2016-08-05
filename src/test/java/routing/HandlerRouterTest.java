@@ -37,13 +37,13 @@ public class HandlerRouterTest extends junit.framework.TestCase {
 
   public void testRouterForPostWithOutBody() {
     buildRequest("POST /file.txt HTTP/1.1");
-    assertEquals(getType(), "HandlerUnprocessableEntity");
+    assertEquals(getType(), "HandlerMethodNotAllowed");
   }
 
   public void testRouterForPostWithOutPath() {
     buildRequest("POST / HTTP/1.1");
     request.setBody("This".getBytes());
-    assertEquals(getType(), "HandlerUnprocessableEntity");
+    assertEquals(getType(), "HandlerMethodNotAllowed");
   }
 
   public void testRouterForPost() {
