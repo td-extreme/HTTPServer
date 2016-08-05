@@ -33,6 +33,10 @@ public class HttpRequestTest extends junit.framework.TestCase {
     assertEquals(30, request.contentLength());
   }
 
+  public void testGetHeaders() {
+    assertEquals("30", request.headers().get("Content-Length"));
+  }
+
   public void testContentLengthIsZeroWhenNoContentLengthHeaderPresent() {
     headers = new HashMap<String, String>();
     request = new HttpRequest(requestLine, headers);

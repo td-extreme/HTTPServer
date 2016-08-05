@@ -3,23 +3,19 @@ import java.io.IOException;
 
 public class HandlerPostFileContents implements IHandler {
 
-  private String path;
-  private byte[] body;
   private IFileIO fileIO;
 
-  public HandlerPostFileContents(String path, byte[] body, IFileIO fileIO) {
-    this.path = path;
-    this.body = body;
+  public HandlerPostFileContents(IFileIO fileIO) {
     this.fileIO = fileIO;
   }
 
-  public HttpResponse generateResponse() {
+  public HttpResponse generateResponse(HttpRequest request) {
     HttpResponse rtnResponse = new HttpResponse();
     try {
-      String file = getFileToWrite(path);
-      fileIO.writeContent(file, body);
+      String file = getFileToWrite(request.path());
+      fileIO.writeContent(file, request.body());
       rtnResponse.setResponseCode(201);
-      rtnResponse.addHeader("Location", path);
+      rtnResponse.addHeader("Location", request.path());
     }
     catch (IOException e) {
       e.printStackTrace();

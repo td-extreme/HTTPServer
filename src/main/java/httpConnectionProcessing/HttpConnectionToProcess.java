@@ -14,9 +14,11 @@ public class HttpConnectionToProcess {
   }
 
   public void execute() {
+    HttpRequest request;
     try {
-      IHandler handler = getHandler();
-      sendResponse(handler);
+      request = getRequest();
+      IHandler handler = getHandler(request);
+      sendResponse(handler, request);
     }
     catch (BadConnectionException e) {
       e.printStackTrace();
@@ -26,22 +28,28 @@ public class HttpConnectionToProcess {
     }
   }
 
-  private IHandler getHandler() throws BadConnectionException {
-    HttpRequest request;
-    IHandler handler;
+  private HttpRequest getRequest() throws BadConnectionException {
     try {
-      request = httpRequestBuilder.getNextRequest(client.clientSocketInput());
-      handler = handlerRouter.selectHandler(request);
+      return httpRequestBuilder.getNextRequest(client.clientSocketInput());
     }
     catch (InvalidHttpRequestException e) {
       e.printStackTrace();
+      return null;
+    }
+  }
+
+  private IHandler getHandler(HttpRequest request) throws BadConnectionException {
+    IHandler handler;
+    if (request == null) {
       handler = handlerRouter.selectHandlerBadRequest();
+    } else {
+      handler = handlerRouter.selectHandler(request);
     }
     return handler;
   }
 
-  private void sendResponse(IHandler handler) throws BadConnectionException {
-    HttpResponse response = handler.generateResponse();
+  private void sendResponse(IHandler handler, HttpRequest request) throws BadConnectionException {
+    HttpResponse response = handler.generateResponse(request);
     httpResponseWriter.sendHttpResponse(client.clientSocketOutput(), response);
   }
 }
