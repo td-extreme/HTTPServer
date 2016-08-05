@@ -4,11 +4,25 @@ import java.util.HashMap;
 public class HttpRequest implements IHttpRequest {
 
   String requestLine;
+  String method;
+  String path;
+  String version;
+  String parameters;
   HashMap<String, String> headers;
   byte[] body;
 
   public HttpRequest(String requestLine, HashMap<String, String> headers) {
     this.requestLine = requestLine;
+    this.method = requestLine.split(" ")[0];
+    String pathAndParameters[] = requestLine.split(" ")[1].split("&");
+    this.path = pathAndParameters[0];
+    if (pathAndParameters.length > 1 ) {
+      this.parameters = pathAndParameters[1];
+    } else {
+      this.parameters = "";
+    }
+
+    this.version = requestLine.split(" ")[2];
     this.headers = headers;
     this.body = new byte[0];
   }
@@ -18,15 +32,19 @@ public class HttpRequest implements IHttpRequest {
   }
 
   public String method() {
-    return requestLine().split(" ")[0];
+    return method;
   }
 
   public String path() {
-    return requestLine().split(" ")[1];
+    return path;
   }
 
   public String version() {
-    return requestLine().split(" ")[2];
+    return version;
+  }
+
+  public String parameters() {
+    return parameters;
   }
 
   public HashMap<String, String> headers() {

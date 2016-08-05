@@ -21,6 +21,20 @@ public class HttpRequestTest extends junit.framework.TestCase {
     assertEquals("/", request.path());
   }
 
+  public void testPathDoesNotIncludeParameters() {
+    request = new HttpRequest("GET /this&parameters HTTP/1.1", headers);
+    assertEquals("/this", request.path());
+  }
+
+  public void testParametersIsEmptyStringIfNoParameters() {
+    assertEquals("", request.parameters());
+  }
+
+  public void testParametersGetSet() {
+    request = new HttpRequest("GET /this&parameters HTTP/1.1", headers);
+    assertEquals("parameters", request.parameters());
+  }
+
   public void testVersionIsHTTP1point1() {
     assertEquals("HTTP/1.1", request.version());
   }
