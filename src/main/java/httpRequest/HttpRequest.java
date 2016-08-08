@@ -13,6 +13,12 @@ public class HttpRequest implements IHttpRequest {
 
   public HttpRequest(String requestLine, HashMap<String, String> headers) {
     this.requestLine = requestLine;
+    parseRequestLine(requestLine);
+    this.headers = headers;
+    this.body = new byte[0];
+  }
+
+  private void parseRequestLine(String requestLine) {
     this.method = requestLine.split(" ")[0];
     String pathAndParameters[] = requestLine.split(" ")[1].split("&");
     this.path = pathAndParameters[0];
@@ -21,10 +27,7 @@ public class HttpRequest implements IHttpRequest {
     } else {
       this.parameters = "";
     }
-
     this.version = requestLine.split(" ")[2];
-    this.headers = headers;
-    this.body = new byte[0];
   }
 
   public String requestLine() {
