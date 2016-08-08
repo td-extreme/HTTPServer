@@ -58,6 +58,25 @@ public class HandlerRouterTest extends junit.framework.TestCase {
     assertEquals(getType(), "HandlerMethodNotAllowed");
   }
 
+  public void testPutToNonExsitantResourse() {
+    buildRequest("PUT /nothere.txt HTTP/1.1");
+    request.setBody("This".getBytes());
+    assertEquals(getType(), "HandlerMethodNotAllowed");
+  }
+
+  public void testPutWithOutBody() {
+    mockFileIO.addToDirectoryContents("/file.txt");
+    buildRequest("PUT /file.txt HTTP/1.1");
+    assertEquals(getType(), "HandlerMethodNotAllowed");
+  }
+
+  public void testRouterForPut() {
+    mockFileIO.addToDirectoryContents("/file.txt");
+    buildRequest("PUT /file.txt HTTP/1.1");
+    request.setBody("this".getBytes());
+    assertEquals(getType(), "HandlerPutFileContents");
+  }
+
   private void buildRequest(String requestLine) {
     request = new HttpRequest(requestLine, new HashMap<String, String>());
   }
