@@ -30,8 +30,14 @@ public class ClientSocketIO implements IClientSocketIO {
     }
   }
 
-  public IClientSocketInput clientSocketInput() {
+  public IClientSocketInput clientSocketInput() throws BadConnectionException {
+    try {
     return new ClientSocketInput(clientSocket);
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+      throw new BadConnectionException(e);
+    }
   }
 
   public IClientSocketOutput clientSocketOutput() {
