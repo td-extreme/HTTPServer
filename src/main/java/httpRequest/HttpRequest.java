@@ -20,7 +20,7 @@ public class HttpRequest implements IHttpRequest {
 
   private void parseRequestLine(String requestLine) {
     this.method = requestLine.split(" ")[0];
-    String pathAndParameters[] = requestLine.split(" ")[1].split("&");
+    String pathAndParameters[] = requestLine.split(" ")[1].split("\\?", 2);
     this.path = pathAndParameters[0];
     if (pathAndParameters.length > 1 ) {
       this.parameters = pathAndParameters[1];
