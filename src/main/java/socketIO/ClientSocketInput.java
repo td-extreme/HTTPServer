@@ -16,7 +16,7 @@ public class ClientSocketInput implements IClientSocketInput {
   public ClientSocketInput(Socket clientSocket) throws IOException {
     this.clientSocket = clientSocket;
     this.inputStream = clientSocket.getInputStream();
-    scanner = new Scanner(inputStream, "UTF8");
+    this.scanner = new Scanner(inputStream, "UTF8");
   }
 
   public String getRawRequestString() throws IOException {
