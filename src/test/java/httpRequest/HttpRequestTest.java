@@ -35,6 +35,11 @@ public class HttpRequestTest extends junit.framework.TestCase {
     assertEquals("this", request.parameters());
   }
 
+  public void testAddsWhiteSpaceAroundEqualSignInParameters() {
+    request = new HttpRequest("GET /parameters?arg1=this HTTP/1.1", headers);
+    assertEquals("arg1 = this", request.parameters());
+  }
+
   public void testVersionIsHTTP1point1() {
     assertEquals("HTTP/1.1", request.version());
   }

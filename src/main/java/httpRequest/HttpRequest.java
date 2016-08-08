@@ -24,6 +24,7 @@ public class HttpRequest implements IHttpRequest {
     this.path = pathAndParameters[0];
     if (pathAndParameters.length > 1 ) {
       this.parameters = pathAndParameters[1];
+      this.parameters = this.parameters.replace("=", " = ");
     } else {
       this.parameters = "";
     }
