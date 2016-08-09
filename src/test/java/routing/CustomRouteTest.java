@@ -20,4 +20,9 @@ public class CustomRouteTest extends junit.framework.TestCase {
   public void testMatchMethodReturnsFalseForNonMatchPath() {
     assertFalse(testRoute.match("GET", "/that"));
   }
+
+  public void testMatchMethodForWildCardPath() {
+    testRoute = new CustomRoute("GET", "*", new MockHandler());
+    assertTrue(testRoute.match("GET", "/anyPathShouldWork"));
+  }
 }
