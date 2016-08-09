@@ -37,13 +37,13 @@ public class HandlerRouterTest extends junit.framework.TestCase {
 
   public void testRouterForPostWithOutBody() {
     buildRequest("POST /file.txt HTTP/1.1");
-    assertEquals(getType(), "HandlerUnprocessableEntity");
+    assertEquals(getType(), "HandlerMethodNotAllowed");
   }
 
   public void testRouterForPostWithOutPath() {
     buildRequest("POST / HTTP/1.1");
     request.setBody("This".getBytes());
-    assertEquals(getType(), "HandlerUnprocessableEntity");
+    assertEquals(getType(), "HandlerMethodNotAllowed");
   }
 
   public void testRouterForPost() {
@@ -56,6 +56,25 @@ public class HandlerRouterTest extends junit.framework.TestCase {
     buildRequest("NOT /file.txt HTTP/1.1");
     request.setBody("This".getBytes());
     assertEquals(getType(), "HandlerMethodNotAllowed");
+  }
+
+  public void testPutToNonExsitantResourse() {
+    buildRequest("PUT /nothere.txt HTTP/1.1");
+    request.setBody("This".getBytes());
+    assertEquals(getType(), "HandlerMethodNotAllowed");
+  }
+
+  public void testPutWithOutBody() {
+    mockFileIO.addToDirectoryContents("/file.txt");
+    buildRequest("PUT /file.txt HTTP/1.1");
+    assertEquals(getType(), "HandlerMethodNotAllowed");
+  }
+
+  public void testRouterForPut() {
+    mockFileIO.addToDirectoryContents("/file.txt");
+    buildRequest("PUT /file.txt HTTP/1.1");
+    request.setBody("this".getBytes());
+    assertEquals(getType(), "HandlerPutFileContents");
   }
 
   private void buildRequest(String requestLine) {
