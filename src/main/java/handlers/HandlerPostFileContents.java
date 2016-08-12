@@ -14,7 +14,7 @@ public class HandlerPostFileContents implements IHandler {
     try {
       String file = getFileToWrite(request.path());
       fileIO.writeContent(file, request.body());
-      rtnResponse.setResponseCode(201);
+      rtnResponse.setResponseCode(200);
       rtnResponse.addHeader("Location", request.path());
     }
     catch (IOException e) {
